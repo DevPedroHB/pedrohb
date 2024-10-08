@@ -1,4 +1,5 @@
 import { cn } from "@/functions/cn";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations } from "next-intl/server";
@@ -49,7 +50,7 @@ export default async function RootLayout({
 		>
 			<body className="min-h-screen bg-background text-foreground">
 				<NextIntlClientProvider messages={messages}>
-					{children}
+					<ThemeProvider>{children}</ThemeProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>
