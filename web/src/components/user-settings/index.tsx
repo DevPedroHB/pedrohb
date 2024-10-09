@@ -1,11 +1,11 @@
 import { Settings } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipProvider,
 	TooltipTrigger,
-} from "./ui/tooltip";
+} from "../ui/tooltip";
 
 export function UserSettings() {
 	return (

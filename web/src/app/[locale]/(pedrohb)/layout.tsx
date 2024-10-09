@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/navbar";
 import type { ReactNode } from "react";
 
 interface IPedroHBLayout {
@@ -5,5 +6,10 @@ interface IPedroHBLayout {
 }
 
 export default function PedroHBLayout({ children }: Readonly<IPedroHBLayout>) {
-	return <>{children}</>;
+	return (
+		<>
+			<Navbar />
+			{children}
+		</>
+	);
 }

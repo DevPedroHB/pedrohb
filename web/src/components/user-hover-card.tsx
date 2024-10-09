@@ -8,8 +8,8 @@ export function UserHoverCard(props: IUserHoverCard) {
 	return (
 		<HoverCard>
 			<HoverCardTrigger {...props} />
-			<HoverCardContent asChild>
-				<UserCard className="p-0 max-w-64" />
+			<HoverCardContent className="p-0 max-w-64" asChild>
+				<UserCard />
 			</HoverCardContent>
 		</HoverCard>
 	);

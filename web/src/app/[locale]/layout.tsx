@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/functions/cn";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
@@ -36,7 +37,7 @@ export default async function RootLayout({
 	children,
 	params: { locale },
 }: Readonly<IRootLayout>) {
-	const messages = await getMessages();
+	const messages = await getMessages({ locale });
 
 	return (
 		<html
@@ -50,7 +51,10 @@ export default async function RootLayout({
 		>
 			<body className="min-h-screen bg-background text-foreground">
 				<NextIntlClientProvider messages={messages}>
-					<ThemeProvider>{children}</ThemeProvider>
+					<ThemeProvider>
+						{children}
+						<Toaster richColors pauseWhenPageIsHidden />
+					</ThemeProvider>
 				</NextIntlClientProvider>
 			</body>
 		</html>

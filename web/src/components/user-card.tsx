@@ -1,6 +1,10 @@
+"use client";
+
 import { socialIcons } from "@/constants/social-icons";
 import { cn } from "@/functions/cn";
+import { useCopyToClipboard } from "@uidotdev/usehooks";
 import type { ComponentProps } from "react";
+import { toast } from "sonner";
 import { SvglIcon } from "./svgl-icon";
 import { Badge } from "./ui/badge";
 import {
@@ -17,6 +21,18 @@ import { UserSettings } from "./user-settings";
 interface IUserCard extends ComponentProps<typeof Card> {}
 
 export function UserCard({ className, ...rest }: IUserCard) {
+	const [_, copyToClipboard] = useCopyToClipboard();
+
+	async function handleCopyToClipboard(value: string) {
+		try {
+			await copyToClipboard(value);
+
+			toast.success(`Email ${value} copiado com sucesso.`);
+		} catch (error) {
+			toast.error("Não foi possível copiar o email.");
+		}
+	}
+
 	return (
 		<Card
 			className={cn("relative w-full overflow-hidden", className)}
@@ -44,7 +60,10 @@ export function UserCard({ className, ...rest }: IUserCard) {
 					comigo para colaborações ou outras oportunidades. Estou sempre
 					interessado em novos desafios.
 				</span>
-				<Badge className="mt-4 max-w-full">
+				<Badge
+					className="mt-4 max-w-full"
+					onClick={() => handleCopyToClipboard("pedroh.bergamo20@gmail.com")}
+				>
 					<span className="truncate">pedroh.bergamo20@gmail.com</span>
 				</Badge>
 			</CardContent>

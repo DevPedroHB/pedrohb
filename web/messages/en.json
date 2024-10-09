@@ -1,4 +1,48 @@
 {
+	"components": {
+		"navbar": {
+			"change-language": {
+				"label": "Languages"
+			},
+			"change-theme": {
+				"items": {
+					"dark": "Dark",
+					"light": "Light",
+					"system": "System"
+				},
+				"label": "Themes"
+			},
+			"navbar-links": {
+				"about": "About",
+				"contact": "Contact",
+				"hero": "Home",
+				"portfolio": "Portfolio",
+				"services": "Services",
+				"skills": "Skills"
+			},
+			"profile-menu": {
+				"items": {
+					"language": "Language",
+					"profile": "Profile",
+					"settings": "Settings",
+					"sign-in": "Sign in",
+					"sign-out": "Sign out",
+					"theme": "Theme"
+				},
+				"label": "My account"
+			}
+		},
+		"sign-in-dialog": {
+			"description": "Please log in to access all features. Please select one of the login options below to continue.",
+			"title": "Access your account"
+		},
+		"sign-out-dialog": {
+			"cancel-button": "Cancel",
+			"description": "Logging out of your account will end your session. You can log back in at any time.",
+			"sign-out-button": "Sign out",
+			"title": "Are you sure you want to log out?"
+		}
+	},
 	"metadata": {
 		"description": "Feel free to explore the available projects, services and links, and don't hesitate to contact me for collaborations or other opportunities. I'm always interested in new challenges and learning opportunities.",
 		"titles": {
