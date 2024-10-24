@@ -1,5 +1,5 @@
 import { ValueObject } from "@/core/entities/value-object";
-import type { ITestEntity } from "./test-entity";
+import { ITestEntity } from "./test-entity";
 
 export class TestValueObject extends ValueObject<ITestEntity> {
 	get name() {

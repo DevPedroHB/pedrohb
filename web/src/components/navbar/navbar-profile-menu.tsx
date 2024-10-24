@@ -37,7 +37,7 @@ export function NavbarProfileMenu() {
 	const [signOut, setSignOut] = useToggle(false);
 	const t = useTranslations("components.navbar.profile-menu");
 	const router = useRouter();
-	const user = true;
+	const user = false;
 
 	useHotkeys("alt+p", () => router.push("/profile/PedroHB"), {
 		enabled: !!user && dropdownMenu,

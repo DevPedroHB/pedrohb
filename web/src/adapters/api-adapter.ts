@@ -1,25 +1,98 @@
-import type { Adapter } from "next-auth/adapters";
+import type {
+	Adapter,
+	AdapterAuthenticator,
+	AdapterSession,
+	AdapterUser,
+} from "next-auth/adapters";
 
 export function ApiAdapter(): Adapter {
 	return {
-		async createAuthenticator(authenticator) {},
-		async createSession(session) {},
-		async createUser(user) {},
-		async createVerificationToken(verificationToken) {},
-		async deleteSession(sessionToken) {},
-		async deleteUser(userId) {},
-		async getAccount(providerAccountId, provider) {},
-		async getAuthenticator(credentialID) {},
-		async getSessionAndUser(sessionToken) {},
-		async getUser(id) {},
-		async getUserByAccount(providerAccountId) {},
-		async getUserByEmail(email) {},
-		async linkAccount(account) {},
-		async listAuthenticatorsByUserId(userId) {},
-		async unlinkAccount(providerAccountId) {},
-		async updateAuthenticatorCounter(credentialID, newCounter) {},
-		async updateSession(session) {},
-		async updateUser(user) {},
-		async useVerificationToken(params) {},
+		createAuthenticator(authenticator) {
+			console.log(authenticator);
+
+			return authenticator;
+		},
+		createSession(session) {
+			console.log(session);
+
+			return session;
+		},
+		createUser(user) {
+			console.log(user);
+
+			return user;
+		},
+		createVerificationToken(verificationToken) {
+			console.log(verificationToken);
+
+			return verificationToken;
+		},
+		async deleteSession(sessionToken) {
+			console.log(sessionToken);
+		},
+		async deleteUser(userId) {
+			console.log(userId);
+		},
+		getAccount(providerAccountId, provider) {
+			console.log(providerAccountId, provider);
+
+			return null;
+		},
+		getAuthenticator(credentialID) {
+			console.log(credentialID);
+
+			return null;
+		},
+		getSessionAndUser(sessionToken) {
+			console.log(sessionToken);
+
+			return null;
+		},
+		getUser(id) {
+			console.log(id);
+
+			return null;
+		},
+		getUserByAccount(providerAccountId) {
+			console.log(providerAccountId);
+
+			return null;
+		},
+		getUserByEmail(email) {
+			console.log(email);
+
+			return null;
+		},
+		async linkAccount(account) {
+			console.log(account);
+		},
+		listAuthenticatorsByUserId(userId) {
+			console.log(userId);
+
+			return [];
+		},
+		async unlinkAccount(providerAccountId) {
+			console.log(providerAccountId);
+		},
+		updateAuthenticatorCounter(credentialID, newCounter) {
+			console.log(credentialID, newCounter);
+
+			return {} as AdapterAuthenticator;
+		},
+		updateSession(session) {
+			console.log(session);
+
+			return session as AdapterSession;
+		},
+		updateUser(user) {
+			console.log(user);
+
+			return user as AdapterUser;
+		},
+		useVerificationToken(params) {
+			console.log(params);
+
+			return null;
+		},
 	};
 }

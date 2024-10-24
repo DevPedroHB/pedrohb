@@ -41,7 +41,6 @@ export abstract class ValueObject<T> {
 		for (const key of keys1) {
 			if (
 				!keys2.includes(key) ||
-				// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 				!this.isEqual((obj1 as any)[key], (obj2 as any)[key])
 			) {
 				return false;

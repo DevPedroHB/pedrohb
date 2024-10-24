@@ -1,8 +1,8 @@
 import { AggregateRoot } from "@/core/entities/aggregate-root";
-import type { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import type { DomainEvent } from "@/core/events/domain-event";
-import type { Optional } from "@/core/types/optional";
-import type { ITestEntity } from "./test-entity";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { DomainEvent } from "@/core/events/domain-event";
+import { Optional } from "@/core/types/optional";
+import { ITestEntity } from "./test-entity";
 
 export class TestAggregateRoot extends AggregateRoot<ITestEntity> {
 	get name() {

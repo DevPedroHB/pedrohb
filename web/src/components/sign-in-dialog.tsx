@@ -11,9 +11,10 @@ import {
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { signInButtons } from "@/constants/sign-in-buttons";
+import type { BuiltInProviderType } from "next-auth/providers";
+import { type LiteralUnion, signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import type { ComponentProps } from "react";
-import { toast } from "sonner";
 import { SvglIcon } from "./svgl-icon";
 import { TooltipProvider } from "./ui/tooltip";
 
@@ -25,8 +26,8 @@ interface ISingInDialog extends ComponentProps<typeof AlertDialogTrigger> {
 export function SingInDialog({ open, onOpenChange, ...rest }: ISingInDialog) {
 	const t = useTranslations("components.sign-in-dialog");
 
-	async function handleSignIn(provider: string) {
-		toast.success(`Você logou com sucesso usando ${provider}.`);
+	async function handleSignIn(provider: LiteralUnion<BuiltInProviderType>) {
+		await signIn(provider);
 	}
 
 	return (

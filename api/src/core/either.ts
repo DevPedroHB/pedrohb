@@ -3,7 +3,6 @@
  * @template E - O tipo do valor associado ao erro.
  * @template S - O tipo do valor associado a um resultado bem-sucedido (não usado nesta classe).
  */
-// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export class Error<E, S> {
 	readonly value: E;
 

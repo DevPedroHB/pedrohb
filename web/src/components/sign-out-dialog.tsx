@@ -13,8 +13,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import type * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import { LogOut, X } from "lucide-react";
+import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 
 interface ISingOutDialog extends AlertDialogPrimitive.AlertDialogTriggerProps {
 	open?: boolean;
@@ -25,7 +25,7 @@ export function SingOutDialog({ open, onOpenChange, ...rest }: ISingOutDialog) {
 	const t = useTranslations("components.sign-out-dialog");
 
 	async function handleSignOut() {
-		toast.success("Você saiu com sucesso.");
+		await signOut();
 	}
 
 	return (

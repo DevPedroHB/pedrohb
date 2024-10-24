@@ -53,7 +53,6 @@ describe("Value object", () => {
 		const vo = TestValueObject.create(props);
 
 		expect(() => {
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			(vo.props as any).name = "Jane Doe";
 		}).toThrow(TypeError);
 	});
