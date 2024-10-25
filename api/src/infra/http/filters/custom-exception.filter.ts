@@ -5,6 +5,7 @@ import {
 	HttpException,
 } from "@nestjs/common";
 import { Request, Response } from "express";
+import { ZodValidationException } from "nestjs-zod";
 
 @Catch(HttpException)
 export class CustomExceptionFilter implements ExceptionFilter {
@@ -20,8 +21,13 @@ export class CustomExceptionFilter implements ExceptionFilter {
 			statusCode: status,
 			path: request.url,
 			data: {
-				message: JSON.parse(message).message,
-				error: exception.getResponse(),
+				message:
+					JSON.parse(message).message ||
+					"Erro desconhecido contate o desenvolvedor.",
+				fieldErrors:
+					exception instanceof ZodValidationException
+						? exception.getZodError().flatten().fieldErrors
+						: undefined,
 			},
 			timestamp: new Date().toISOString(),
 		});

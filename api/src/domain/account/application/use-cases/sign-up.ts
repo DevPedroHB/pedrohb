@@ -44,7 +44,7 @@ export class SignUpUseCase {
 		});
 
 		if (userWithSameEmail) {
-			return error(new AlreadyExistsError("User"));
+			return error(new AlreadyExistsError("O usuário"));
 		}
 
 		const hashedPassword =

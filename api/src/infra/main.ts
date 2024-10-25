@@ -1,11 +1,10 @@
 import { NestInterceptor, VersioningType } from "@nestjs/common";
-import { HttpAdapterHost, NestFactory } from "@nestjs/core";
+import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { patchNestJsSwagger } from "nestjs-zod";
 import { AppModule } from "./app.module";
 import { EnvService } from "./env/env.service";
 import { CustomExceptionFilter } from "./http/filters/custom-exception.filter";
-import { PrismaExceptionFilter } from "./http/filters/prisma-exception.filter";
 import { CustomResponseInterceptor } from "./http/interceptors/custom-response.interceptor";
 
 patchNestJsSwagger();
@@ -13,12 +12,7 @@ patchNestJsSwagger();
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
 
-	const { httpAdapter } = app.get(HttpAdapterHost);
-
-	app.useGlobalFilters(
-		new CustomExceptionFilter(),
-		new PrismaExceptionFilter(httpAdapter),
-	);
+	app.useGlobalFilters(new CustomExceptionFilter());
 
 	app.useGlobalInterceptors(new CustomResponseInterceptor<NestInterceptor>());
 
