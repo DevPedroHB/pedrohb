@@ -26,7 +26,7 @@ async function bootstrap() {
 
 	const config = new DocumentBuilder()
 		.setTitle("PedroHB API")
-		.setDescription("API para o portfolio de PedroHB.")
+		.setDescription("API para o meu portfolio PedroHB.")
 		.setVersion("1.0.0")
 		.addBearerAuth(
 			{

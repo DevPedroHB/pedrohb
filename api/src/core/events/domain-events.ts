@@ -83,7 +83,7 @@ export class DomainEvents {
 		DomainEvents.markedAggregates = [];
 	}
 
-	private static async dispatch(event: DomainEvent) {
+	private static dispatch(event: DomainEvent) {
 		const eventClassName: string = event.constructor.name;
 		const isEventRegistered = eventClassName in DomainEvents.handlersMap;
 

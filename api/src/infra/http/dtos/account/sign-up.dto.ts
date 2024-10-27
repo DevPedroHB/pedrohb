@@ -59,6 +59,4 @@ const signUpBodySchema = z.object({
 		.nullish(),
 });
 
-export type SignUpBodySchema = z.infer<typeof signUpBodySchema>;
-
 export class SignUpBodyDto extends createZodDto(signUpBodySchema) {}

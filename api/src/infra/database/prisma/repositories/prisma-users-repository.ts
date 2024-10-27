@@ -1,8 +1,11 @@
-import type { TEntityFields } from "@/core/types/entity-fields";
-import type { TOrderBy } from "@/core/types/order-by";
-import type { IPagination } from "@/core/types/pagination";
-import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
-import { type IUser, User } from "@/domain/account/enterprise/entities/user";
+import { DomainEvents } from "@/core/events/domain-events";
+import { generateCacheKey } from "@/core/functions/generate-cache-key";
+import type { TFetchEntity } from "@/core/types/fetch-entity";
+import {
+	type TUserFields,
+	UsersRepository,
+} from "@/domain/account/application/repositories/users-repository";
+import { User } from "@/domain/account/enterprise/entities/user";
 import { CacheRepository } from "@/infra/cache/cache-repository";
 import { Injectable } from "@nestjs/common";
 import { PrismaUserMapper } from "../mappers/prisma-user-mapper";
@@ -27,43 +30,25 @@ export class PrismaUsersRepository implements UsersRepository {
 		}
 	}
 
-	async fetchUsers(
-		pagination: IPagination,
-		orderBy?: TOrderBy<IUser>,
-		fields?: TEntityFields<IUser>,
-	) {
-		const cacheKey = `users:${Object.entries(pagination)
-			.map(([key, value]) => `${key}:${value}`)
-			.join(",")}${
-			orderBy &&
-			`:${Object.entries(orderBy)
-				.map(([key, value]) => `${key}:${value}`)
-				.join(",")}`
-		}${
-			fields &&
-			`:${Object.entries(fields)
-				.map(([key, value]) => `${key}:${value}`)
-				.join(",")}`
-		}`;
+	async fetchUsers({ fields, orderBy, pagination }: TFetchEntity<TUserFields>) {
+		const cacheKey = generateCacheKey("users", [fields, orderBy, pagination]);
 		const cacheHit = await this.cache.get(cacheKey);
 
 		if (cacheHit) {
 			return JSON.parse(cacheHit).map(PrismaUserMapper.toDomain);
 		}
 
-		const orderArray =
-			orderBy &&
-			Object.entries(orderBy).map(([field, direction]) => ({
-				[field]: direction,
-			}));
+		const orderArray = orderBy
+			? Object.entries(orderBy).map(([field, direction]) => ({
+					[field]: direction,
+				}))
+			: undefined;
 
 		const users = await this.prisma.user.findMany({
-			where: {
-				...fields,
-			},
+			where: fields,
 			orderBy: orderArray,
-			take: pagination.perPage,
-			skip: (pagination.page - 1) * pagination.perPage,
+			take: pagination?.perPage,
+			skip: pagination ? (pagination.page - 1) * pagination.perPage : undefined,
 		});
 
 		await this.cache.set(cacheKey, JSON.stringify(users));
@@ -71,10 +56,8 @@ export class PrismaUsersRepository implements UsersRepository {
 		return users.map(PrismaUserMapper.toDomain);
 	}
 
-	async findByFields(fields: TEntityFields<IUser>) {
-		const cacheKey = `user:${Object.entries(fields)
-			.map(([key, value]) => `${key}:${value}`)
-			.join(",")}`;
+	async findByFields(fields: TUserFields) {
+		const cacheKey = generateCacheKey("user", [fields]);
 		const cacheHit = await this.cache.get(cacheKey);
 
 		if (cacheHit) {
@@ -82,9 +65,7 @@ export class PrismaUsersRepository implements UsersRepository {
 		}
 
 		const user = await this.prisma.user.findFirst({
-			where: {
-				...fields,
-			},
+			where: fields,
 		});
 
 		if (!user) {
@@ -99,33 +80,45 @@ export class PrismaUsersRepository implements UsersRepository {
 	async create(user: User) {
 		const data = PrismaUserMapper.toPrisma(user);
 
-		await this.prisma.user.create({
-			data,
-		});
+		await Promise.all([
+			this.prisma.user.create({
+				data,
+			}),
 
-		await this.invalidateCache(user);
+			this.invalidateCache(user),
+		]);
+
+		DomainEvents.dispatchEventsForAggregate(user.id);
 	}
 
 	async update(user: User) {
 		const data = PrismaUserMapper.toPrisma(user);
 
-		await this.prisma.user.update({
-			where: {
-				id: data.id,
-			},
-			data,
-		});
+		await Promise.all([
+			this.prisma.user.update({
+				where: {
+					id: data.id,
+				},
+				data,
+			}),
 
-		await this.invalidateCache(user);
+			this.invalidateCache(user),
+		]);
+
+		DomainEvents.dispatchEventsForAggregate(user.id);
 	}
 
 	async delete(user: User) {
-		await this.prisma.user.delete({
-			where: {
-				id: user.id.id,
-			},
-		});
+		await Promise.all([
+			this.prisma.user.delete({
+				where: {
+					id: user.id.id,
+				},
+			}),
 
-		await this.invalidateCache(user);
+			this.invalidateCache(user),
+		]);
+
+		DomainEvents.dispatchEventsForAggregate(user.id);
 	}
 }

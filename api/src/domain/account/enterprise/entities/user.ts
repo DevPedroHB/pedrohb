@@ -1,6 +1,7 @@
-import { Entity } from "@/core/entities/entity";
+import { AggregateRoot } from "@/core/entities/aggregate-root";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Optional } from "@/core/types/optional";
+import type { Optional } from "@/core/types/optional";
+import { UserCreatedEvent } from "../events/user-created-event";
 
 export enum Roles {
 	OWNER = "OWNER",
@@ -20,7 +21,7 @@ export interface IUser {
 	updatedAt?: Date | null;
 }
 
-export class User extends Entity<IUser> {
+export class User extends AggregateRoot<IUser> {
 	get name() {
 		return this.props.name;
 	}
@@ -69,6 +70,10 @@ export class User extends Entity<IUser> {
 			},
 			id,
 		);
+
+		if (!id) {
+			user.addDomainEvent(new UserCreatedEvent(user));
+		}
 
 		return user;
 	}

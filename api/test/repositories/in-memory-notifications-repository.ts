@@ -1,16 +1,17 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { DomainEvents } from "@/core/events/domain-events";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
-	type TUserFields,
-	UsersRepository,
-} from "@/domain/account/application/repositories/users-repository";
-import { User } from "@/domain/account/enterprise/entities/user";
+	NotificationsRepository,
+	type TNotificationFields,
+} from "@/domain/notification/application/repositories/notifications-repository";
+import { Notification } from "@/domain/notification/enterprise/entities/notification";
 
-export class InMemoryUsersRepository implements UsersRepository {
-	public items: User[] = [];
+export class InMemoryNotificationsRepository
+	implements NotificationsRepository
+{
+	public items: Notification[] = [];
 
-	private matchesFields(item: User, fields: TUserFields) {
+	private matchesFields(item: Notification, fields: TNotificationFields) {
 		return Object.entries(fields).every(([key, value]) => {
 			if (item[key] instanceof UniqueEntityID) {
 				return item[key].equals(new UniqueEntityID(String(value)));
@@ -20,7 +21,11 @@ export class InMemoryUsersRepository implements UsersRepository {
 		});
 	}
 
-	async fetchUsers({ fields, orderBy, pagination }: TFetchEntity<TUserFields>) {
+	async fetchNotifications({
+		fields,
+		orderBy,
+		pagination,
+	}: TFetchEntity<TNotificationFields>) {
 		let items = this.items;
 
 		if (fields) {
@@ -53,33 +58,37 @@ export class InMemoryUsersRepository implements UsersRepository {
 		return items;
 	}
 
-	async findByFields(fields: TUserFields) {
+	async findByFields(fields: TNotificationFields) {
 		return this.items.find((item) => this.matchesFields(item, fields)) || null;
 	}
 
-	async create(user: User) {
-		this.items.push(user);
-
-		DomainEvents.dispatchEventsForAggregate(user.id);
+	async create(notification: Notification) {
+		this.items.push(notification);
 	}
 
-	async update(user: User) {
-		const index = this.items.findIndex((item) => item.equals(user));
+	async update(notification: Notification) {
+		const index = this.items.findIndex((item) => item.equals(notification));
 
 		if (index !== -1) {
-			this.items[index] = user;
-
-			DomainEvents.dispatchEventsForAggregate(user.id);
+			this.items[index] = notification;
 		}
 	}
 
-	async delete(user: User) {
-		const index = this.items.findIndex((item) => item.equals(user));
+	async delete(notification: Notification) {
+		const index = this.items.findIndex((item) => item.equals(notification));
 
 		if (index !== -1) {
 			this.items.splice(index, 1);
+		}
+	}
 
-			DomainEvents.dispatchEventsForAggregate(user.id);
+	async updateMany(notifications: Notification[]) {
+		for (const notification of notifications) {
+			const index = this.items.findIndex((item) => item.equals(notification));
+
+			if (index !== -1) {
+				this.items[index] = notification;
+			}
 		}
 	}
 }
