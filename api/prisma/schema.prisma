@@ -99,7 +99,7 @@ model Notification {
   createdAt   DateTime  @default(now()) @map("created_at")
   recipientId String    @map("recipient_id")
 
-  recipient User @relation(fields: [recipientId], references: [id])
+  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([recipientId])
   @@map("notifications")

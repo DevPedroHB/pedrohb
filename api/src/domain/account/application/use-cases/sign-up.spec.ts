@@ -24,7 +24,7 @@ describe("Sign up", () => {
 		const result = await sut.execute({
 			name: "John Doe",
 			email: "john.doe@example.com",
-			password: "123456",
+			password: "3x4mpl3@P4ssw0rd",
 			avatarUrl: "https://example.com/avatar.jpg",
 			birthdate: new Date("1980-01-01"),
 		});
@@ -40,12 +40,13 @@ describe("Sign up", () => {
 		const result = await sut.execute({
 			name: "John Doe",
 			email: "john.doe@example.com",
-			password: "123456",
+			password: "3x4mpl3@P4ssw0rd",
 			avatarUrl: "https://example.com/avatar.jpg",
 			birthdate: new Date("1980-01-01"),
 		});
 
-		const hashedPassword = await inMemoryHasherRepository.hash("123456");
+		const hashedPassword =
+			await inMemoryHasherRepository.hash("3x4mpl3@P4ssw0rd");
 
 		expect(result.isSuccess()).toBe(true);
 		expect(inMemoryUsersRepository.items[0].password).toEqual(hashedPassword);

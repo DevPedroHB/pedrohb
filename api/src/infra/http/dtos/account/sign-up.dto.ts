@@ -46,15 +46,24 @@ const signUpBodySchema = z.object({
 		.string()
 		.url({ message: "O URL do avatar deve ser um URL válido." })
 		.nullish(),
-	birthdate: z
+	birthdate: z.coerce
 		.date({
-			invalid_type_error: "A data de nascimento deve ser uma data válida.",
+			errorMap: (issue, { defaultError }) => ({
+				message:
+					issue.code === "invalid_date"
+						? "A data de nascimento deve ser uma data válida."
+						: defaultError,
+			}),
 		})
 		.nullish(),
-	emailVerifiedAt: z
+	emailVerifiedAt: z.coerce
 		.date({
-			invalid_type_error:
-				"A data de verificação do email deve ser uma data válida.",
+			errorMap: (issue, { defaultError }) => ({
+				message:
+					issue.code === "invalid_date"
+						? "A data de verificação do email deve ser uma data válida."
+						: defaultError,
+			}),
 		})
 		.nullish(),
 });
