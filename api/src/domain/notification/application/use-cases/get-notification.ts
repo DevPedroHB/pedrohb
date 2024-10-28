@@ -31,7 +31,7 @@ export class GetNotificationUseCase {
 		});
 
 		if (!notification) {
-			return error(new ResourceNotFoundError());
+			return error(new ResourceNotFoundError("Notificação"));
 		}
 
 		if (!notification.recipientId.equals(new UniqueEntityID(recipientId))) {
