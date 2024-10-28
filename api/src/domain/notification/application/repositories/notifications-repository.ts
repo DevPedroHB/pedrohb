@@ -21,6 +21,5 @@ export abstract class NotificationsRepository {
 	): Promise<Notification | null>;
 	abstract create(notification: Notification): Promise<void>;
 	abstract update(notification: Notification): Promise<void>;
-	abstract delete(notification: Notification): Promise<void>;
 	abstract updateMany(notifications: Notification[]): Promise<void>;
 }

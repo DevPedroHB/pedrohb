@@ -74,14 +74,6 @@ export class InMemoryNotificationsRepository
 		}
 	}
 
-	async delete(notification: Notification) {
-		const index = this.items.findIndex((item) => item.equals(notification));
-
-		if (index !== -1) {
-			this.items.splice(index, 1);
-		}
-	}
-
 	async updateMany(notifications: Notification[]) {
 		for (const notification of notifications) {
 			this.update(notification);

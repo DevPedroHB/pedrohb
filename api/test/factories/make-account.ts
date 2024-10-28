@@ -1,23 +1,24 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import {
-	type INotification,
-	Notification,
-} from "@/domain/notification/enterprise/entities/notification";
+	Account,
+	type IAccount,
+} from "@/domain/account/enterprise/entities/account";
 import { faker } from "@faker-js/faker";
 import { makeUser } from "./make-user";
 
-export function makeNotification(
-	override: Partial<INotification> = {},
+export function makeAccount(
+	override: Partial<IAccount> = {},
 	id?: UniqueEntityID,
 ) {
 	const user = makeUser();
 
-	const notification = Notification.create(
+	const account = Account.create(
 		{
-			title: faker.lorem.sentence(),
-			content: faker.lorem.text(),
+			provider: faker.lorem.word(),
+			providerAccountId: faker.string.uuid(),
+			type: faker.lorem.word(),
 			createdAt: faker.date.past({ refDate: user.createdAt }),
-			recipientId: user.id,
+			userId: user.id,
 			...override,
 		},
 		id,
@@ -25,6 +26,6 @@ export function makeNotification(
 
 	return {
 		user,
-		notification,
+		account,
 	};
 }
