@@ -1,7 +1,7 @@
+import { waitFor } from "@/core/functions/wait-for";
 import { makeUser } from "test/factories/make-user";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
-import { waitFor } from "test/utils/wait-for";
 import { MockInstance } from "vitest";
 import { CreateNotificationUseCase } from "../use-cases/create-notification";
 import { OnUserCreated } from "./on-user-created";

@@ -1,9 +1,9 @@
 import { DomainEvents } from "@/core/events/domain-events";
+import { waitFor } from "@/core/functions/wait-for";
 import { AppModule } from "@/infra/app.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { waitFor } from "test/utils/wait-for";
 import { DatabaseModule } from "../database/database.module";
 import { PrismaService } from "../database/prisma/prisma.service";
 

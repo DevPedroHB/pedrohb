@@ -84,11 +84,7 @@ export class InMemoryNotificationsRepository
 
 	async updateMany(notifications: Notification[]) {
 		for (const notification of notifications) {
-			const index = this.items.findIndex((item) => item.equals(notification));
-
-			if (index !== -1) {
-				this.items[index] = notification;
-			}
+			this.update(notification);
 		}
 	}
 }
