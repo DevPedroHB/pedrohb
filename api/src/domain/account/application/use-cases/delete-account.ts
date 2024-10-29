@@ -1,35 +1,37 @@
 import { Either, error, success } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { AccountWithUser } from "../../enterprise/entities/value-objects/account-with-user";
+import { Account } from "../../enterprise/entities/account";
 import { AccountsRepository } from "../repositories/accounts-repository";
 
-interface GetUserByAccountUseCaseRequest {
+interface DeleteAccountUseCaseRequest {
 	provider: string;
 	providerAccountId: string;
 }
 
-type GetUserByAccountUseCaseResponse = Either<
+type DeleteAccountUseCaseResponse = Either<
 	ResourceNotFoundError,
 	{
-		account: AccountWithUser;
+		account: Account;
 	}
 >;
 
-export class GetUserByAccountUseCase {
+export class DeleteAccountUseCase {
 	constructor(private accountsRepository: AccountsRepository) {}
 
 	async execute({
 		provider,
 		providerAccountId,
-	}: GetUserByAccountUseCaseRequest): Promise<GetUserByAccountUseCaseResponse> {
-		const account = await this.accountsRepository.findByProviderId(
+	}: DeleteAccountUseCaseRequest): Promise<DeleteAccountUseCaseResponse> {
+		const account = await this.accountsRepository.findByFields({
 			provider,
 			providerAccountId,
-		);
+		});
 
 		if (!account) {
 			return error(new ResourceNotFoundError("Conta"));
 		}
+
+		await this.accountsRepository.delete(account);
 
 		return success({
 			account,

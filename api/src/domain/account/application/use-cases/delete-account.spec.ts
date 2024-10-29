@@ -2,22 +2,22 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { makeAccount } from "test/factories/make-account";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
-import { GetUserByAccountUseCase } from "./get-user-by-account";
+import { DeleteAccountUseCase } from "./delete-account";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
-let sut: GetUserByAccountUseCase;
+let sut: DeleteAccountUseCase;
 
-describe("Get user by account", () => {
+describe("Delete Account", () => {
 	beforeEach(() => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
-		sut = new GetUserByAccountUseCase(inMemoryAccountsRepository);
+		sut = new DeleteAccountUseCase(inMemoryAccountsRepository);
 	});
 
-	it("should be able to get user by account", async () => {
+	it("should be able to delete an existing account", async () => {
 		const { user, account } = makeAccount();
 
 		await inMemoryUsersRepository.items.push(user);
@@ -29,22 +29,18 @@ describe("Get user by account", () => {
 		});
 
 		expect(result.isSuccess()).toBe(true);
-		expect(result.value).toEqual({
-			account: expect.objectContaining({
-				_props: expect.objectContaining({
-					providerAccountId: account.providerAccountId,
-					user: expect.objectContaining({
-						id: user.id,
-					}),
-				}),
-			}),
-		});
+
+		if (result.isSuccess()) {
+			expect(result.value?.account).toEqual(account);
+		}
+
+		expect(inMemoryAccountsRepository.items).not.toContain(account);
 	});
 
-	it("should be able to return an error if user not found", async () => {
+	it("should be able to return error if account is not found", async () => {
 		const result = await sut.execute({
-			provider: "non-existing-provider",
-			providerAccountId: "non-existing-provider-account-id",
+			provider: "non-existent-provider",
+			providerAccountId: "non-existent-provider-account--id",
 		});
 
 		expect(result.isError()).toBe(true);

@@ -1,4 +1,8 @@
-import { AccountsRepository } from "@/domain/account/application/repositories/accounts-repository";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import {
+	AccountsRepository,
+	type TAccountFields,
+} from "@/domain/account/application/repositories/accounts-repository";
 import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import { Account } from "@/domain/account/enterprise/entities/account";
 import { AccountWithUser } from "@/domain/account/enterprise/entities/value-objects/account-with-user";
@@ -8,13 +12,37 @@ export class InMemoryAccountsRepository implements AccountsRepository {
 
 	constructor(private usersRepository: UsersRepository) {}
 
+	private matchesFields(item: Account, fields: TAccountFields) {
+		return Object.entries(fields).every(([key, value]) => {
+			if (item[key] instanceof UniqueEntityID) {
+				return item[key].equals(new UniqueEntityID(String(value)));
+			}
+
+			return item[key] === value;
+		});
+	}
+
+	async findByFields(fields: TAccountFields) {
+		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+	}
+
 	async create(account: Account) {
 		this.items.push(account);
 	}
 
-	async findByProviderId(providerAccountId: string) {
+	async delete(account: Account) {
+		const index = this.items.findIndex((item) => item.equals(account));
+
+		if (index !== -1) {
+			this.items.splice(index, 1);
+		}
+	}
+
+	async findByProviderId(provider: string, providerAccountId: string) {
 		const account = this.items.find(
-			(item) => item.providerAccountId === providerAccountId,
+			(item) =>
+				item.provider === provider &&
+				item.providerAccountId === providerAccountId,
 		);
 
 		if (!account) {
