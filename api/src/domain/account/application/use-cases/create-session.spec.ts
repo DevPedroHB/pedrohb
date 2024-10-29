@@ -8,7 +8,7 @@ let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
 let sut: CreateSessionUseCase;
 
-describe("Create Session", () => {
+describe("Create session", () => {
 	beforeEach(() => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemorySessionsRepository = new InMemorySessionsRepository(

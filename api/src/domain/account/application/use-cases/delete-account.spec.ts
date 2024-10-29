@@ -8,7 +8,7 @@ let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
 let sut: DeleteAccountUseCase;
 
-describe("Delete Account", () => {
+describe("Delete account", () => {
 	beforeEach(() => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(

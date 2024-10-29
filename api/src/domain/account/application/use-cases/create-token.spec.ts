@@ -5,7 +5,7 @@ import { CreateTokenUseCase } from "./create-token";
 let inMemoryTokensRepository: InMemoryTokensRepository;
 let sut: CreateTokenUseCase;
 
-describe("Create Token", () => {
+describe("Create token", () => {
 	beforeEach(() => {
 		inMemoryTokensRepository = new InMemoryTokensRepository();
 		sut = new CreateTokenUseCase(inMemoryTokensRepository);
@@ -29,7 +29,7 @@ describe("Create Token", () => {
 		}
 	});
 
-	it("should return an error if expiration date is in the past", async () => {
+	it("should be able to return an error if expiration date is in the past", async () => {
 		const result = await sut.execute({
 			identifier: "test-identifier",
 			token: "sample-token",

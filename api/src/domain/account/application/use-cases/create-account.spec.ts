@@ -7,7 +7,7 @@ let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
 let sut: CreateAccountUseCase;
 
-describe("Create Account", () => {
+describe("Create account", () => {
 	beforeEach(() => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
