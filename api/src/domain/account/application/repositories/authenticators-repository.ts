@@ -4,8 +4,9 @@ import {
 	type IAuthenticator,
 } from "../../enterprise/entities/authenticator";
 
-export type TAuthenticatorFields = Partial<IAuthenticator> & {
+export type TAuthenticatorFields = Omit<Partial<IAuthenticator>, "userId"> & {
 	id?: string;
+	userId?: string;
 };
 
 export abstract class AuthenticatorsRepository {

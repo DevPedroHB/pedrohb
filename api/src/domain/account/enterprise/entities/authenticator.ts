@@ -9,7 +9,7 @@ export interface IAuthenticator {
 	credentialDeviceType: string;
 	credentialBackedUp: boolean;
 	transports?: string | null;
-	userId: string;
+	userId: UniqueEntityID;
 }
 
 export class Authenticator extends Entity<IAuthenticator> {
