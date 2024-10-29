@@ -38,6 +38,14 @@ export class InMemorySessionsRepository implements SessionsRepository {
 		}
 	}
 
+	async delete(session: Session) {
+		const index = this.items.findIndex((item) => item.equals(session));
+
+		if (index !== -1) {
+			this.items.splice(index, 1);
+		}
+	}
+
 	async findSessionByToken(sessionToken: string) {
 		const session = this.items.find(
 			(item) => item.sessionToken === sessionToken,
