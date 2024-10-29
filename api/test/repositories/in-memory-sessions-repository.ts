@@ -30,6 +30,14 @@ export class InMemorySessionsRepository implements SessionsRepository {
 		this.items.push(session);
 	}
 
+	async update(session: Session) {
+		const index = this.items.findIndex((item) => item.equals(session));
+
+		if (index !== -1) {
+			this.items[index] = session;
+		}
+	}
+
 	async findSessionByToken(sessionToken: string) {
 		const session = this.items.find(
 			(item) => item.sessionToken === sessionToken,

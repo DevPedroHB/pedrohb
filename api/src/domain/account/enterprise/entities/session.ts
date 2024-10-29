@@ -15,8 +15,20 @@ export class Session extends Entity<ISession> {
 		return this.props.sessionToken;
 	}
 
+	set sessionToken(sessionToken: string) {
+		this.props.sessionToken = sessionToken;
+
+		this.touch();
+	}
+
 	get expiresAt() {
 		return this.props.expiresAt;
+	}
+
+	set expiresAt(expiresAt: Date) {
+		this.props.expiresAt = expiresAt;
+
+		this.touch();
 	}
 
 	get createdAt() {
@@ -29,6 +41,16 @@ export class Session extends Entity<ISession> {
 
 	get userId() {
 		return this.props.userId;
+	}
+
+	set userId(userId: UniqueEntityID) {
+		this.props.userId = userId;
+
+		this.touch();
+	}
+
+	private touch() {
+		this.props.updatedAt = new Date();
 	}
 
 	static create(props: Optional<ISession, "createdAt">, id?: UniqueEntityID) {
