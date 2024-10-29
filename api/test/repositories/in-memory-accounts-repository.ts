@@ -8,6 +8,10 @@ export class InMemoryAccountsRepository implements AccountsRepository {
 
 	constructor(private usersRepository: UsersRepository) {}
 
+	async create(account: Account) {
+		this.items.push(account);
+	}
+
 	async findByProviderId(providerAccountId: string) {
 		const account = this.items.find(
 			(item) => item.providerAccountId === providerAccountId,
