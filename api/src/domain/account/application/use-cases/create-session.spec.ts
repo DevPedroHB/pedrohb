@@ -1,14 +1,19 @@
 import { AlreadyExistsError } from "@/core/errors/already-exists-error";
 import { makeSession } from "test/factories/make-session";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateSessionUseCase } from "./create-session";
 
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
 let sut: CreateSessionUseCase;
 
 describe("Create Session", () => {
 	beforeEach(() => {
-		inMemorySessionsRepository = new InMemorySessionsRepository();
+		inMemoryUsersRepository = new InMemoryUsersRepository();
+		inMemorySessionsRepository = new InMemorySessionsRepository(
+			inMemoryUsersRepository,
+		);
 		sut = new CreateSessionUseCase(inMemorySessionsRepository);
 	});
 
@@ -35,8 +40,9 @@ describe("Create Session", () => {
 	});
 
 	it("should be able to return error if session already exists", async () => {
-		const { session } = makeSession();
+		const { user, session } = makeSession();
 
+		await inMemoryUsersRepository.items.push(user);
 		await inMemorySessionsRepository.items.push(session);
 
 		const result = await sut.execute({

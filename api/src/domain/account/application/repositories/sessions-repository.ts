@@ -1,4 +1,5 @@
 import { type ISession, Session } from "../../enterprise/entities/session";
+import { SessionWithUser } from "../../enterprise/entities/value-objects/session-with-user";
 
 export type TSessionFields = Partial<ISession> & {
 	id?: string;
@@ -7,4 +8,7 @@ export type TSessionFields = Partial<ISession> & {
 export abstract class SessionsRepository {
 	abstract findByFields(fields: TSessionFields): Promise<Session | null>;
 	abstract create(session: Session): Promise<void>;
+	abstract findSessionByToken(
+		sessionToken: string,
+	): Promise<SessionWithUser | null>;
 }
