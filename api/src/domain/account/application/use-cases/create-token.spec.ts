@@ -1,14 +1,15 @@
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
-import { InMemoryTokensRepository } from "test/repositories/in-memory-tokens-repository";
+import { InMemoryVerificationTokensRepository } from "test/repositories/in-memory-verification-tokens-repository";
 import { CreateTokenUseCase } from "./create-token";
 
-let inMemoryTokensRepository: InMemoryTokensRepository;
+let inMemoryVerificationTokensRepository: InMemoryVerificationTokensRepository;
 let sut: CreateTokenUseCase;
 
 describe("Create token", () => {
 	beforeEach(() => {
-		inMemoryTokensRepository = new InMemoryTokensRepository();
-		sut = new CreateTokenUseCase(inMemoryTokensRepository);
+		inMemoryVerificationTokensRepository =
+			new InMemoryVerificationTokensRepository();
+		sut = new CreateTokenUseCase(inMemoryVerificationTokensRepository);
 	});
 
 	it("should be able to create a token", async () => {
@@ -21,11 +22,13 @@ describe("Create token", () => {
 		expect(result.isSuccess()).toBe(true);
 
 		if (result.isSuccess()) {
-			expect(result.value.token).toBeDefined();
-			expect(result.value.token.identifier).toBe("test-identifier");
-			expect(result.value.token.token).toBe("sample-token");
-			expect(result.value.token.expiresAt).toBeInstanceOf(Date);
-			expect(inMemoryTokensRepository.items).toContainEqual(result.value.token);
+			expect(result.value.verificationToken).toBeDefined();
+			expect(result.value.verificationToken.identifier).toBe("test-identifier");
+			expect(result.value.verificationToken.token).toBe("sample-token");
+			expect(result.value.verificationToken.expiresAt).toBeInstanceOf(Date);
+			expect(inMemoryVerificationTokensRepository.items).toContainEqual(
+				result.value.verificationToken,
+			);
 		}
 	});
 

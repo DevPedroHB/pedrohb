@@ -55,7 +55,6 @@ model Account {
 }
 
 model Session {
-  id           String    @id @default(uuid())
   sessionToken String    @unique @map("session_token")
   expiresAt    DateTime  @map("expires_at")
   createdAt    DateTime  @default(now()) @map("created_at")
@@ -67,13 +66,13 @@ model Session {
   @@map("sessions")
 }
 
-model Token {
+model VerificationToken {
   identifier String
   token      String
   expiresAt  DateTime @map("expires_at")
 
   @@id([identifier, token])
-  @@map("tokens")
+  @@map("verification_tokens")
 }
 
 model Authenticator {

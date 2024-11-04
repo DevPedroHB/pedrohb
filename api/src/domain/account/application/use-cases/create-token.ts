@@ -1,8 +1,8 @@
 import { Either, error, success } from "@/core/either";
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
 import { isBefore } from "date-fns";
-import { Token } from "../../enterprise/entities/token";
-import { TokensRepository } from "../repositories/tokens-repository";
+import { VerificationToken } from "../../enterprise/entities/verification-token";
+import { VerificationTokensRepository } from "../repositories/verification-tokens-repository";
 
 interface CreateTokenUseCaseRequest {
 	identifier: string;
@@ -13,12 +13,14 @@ interface CreateTokenUseCaseRequest {
 type CreateTokenUseCaseResponse = Either<
 	InvalidCredentialsError,
 	{
-		token: Token;
+		verificationToken: VerificationToken;
 	}
 >;
 
 export class CreateTokenUseCase {
-	constructor(private tokensRepository: TokensRepository) {}
+	constructor(
+		private verificationTokensRepository: VerificationTokensRepository,
+	) {}
 
 	async execute({
 		identifier,
@@ -29,16 +31,16 @@ export class CreateTokenUseCase {
 			return error(new InvalidCredentialsError());
 		}
 
-		const tokenClass = Token.create({
+		const verificationToken = VerificationToken.create({
 			identifier,
 			token,
 			expiresAt,
 		});
 
-		await this.tokensRepository.create(tokenClass);
+		await this.verificationTokensRepository.create(verificationToken);
 
 		return success({
-			token: tokenClass,
+			verificationToken,
 		});
 	}
 }

@@ -4,13 +4,13 @@ import type { Optional } from "@/core/types/optional";
 import { addMinutes } from "date-fns";
 import { randomBytes } from "node:crypto";
 
-export interface IToken {
+export interface IVerificationToken {
 	identifier: string;
 	token: string;
 	expiresAt: Date;
 }
 
-export class Token extends Entity<IToken> {
+export class VerificationToken extends Entity<IVerificationToken> {
 	get identifier() {
 		return this.props.identifier;
 	}
@@ -23,7 +23,7 @@ export class Token extends Entity<IToken> {
 		return this.props.expiresAt;
 	}
 
-	static generateToken(length = 6) {
+	static generateVerificationToken(length = 6) {
 		const otp = randomBytes(Math.ceil(length / 2))
 			.toString("hex")
 			.slice(0, length);
@@ -32,18 +32,18 @@ export class Token extends Entity<IToken> {
 	}
 
 	static create(
-		props: Optional<IToken, "token" | "expiresAt">,
+		props: Optional<IVerificationToken, "token" | "expiresAt">,
 		id?: UniqueEntityID,
 	) {
-		const token = new Token(
+		const verificationToken = new VerificationToken(
 			{
 				...props,
-				token: props.token ?? Token.generateToken(),
+				token: props.token ?? VerificationToken.generateVerificationToken(),
 				expiresAt: props.expiresAt ?? addMinutes(new Date(), 15),
 			},
 			id,
 		);
 
-		return token;
+		return verificationToken;
 	}
 }

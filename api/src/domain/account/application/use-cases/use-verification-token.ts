@@ -2,8 +2,8 @@ import { Either, error, success } from "@/core/either";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { isBefore } from "date-fns";
-import { Token } from "../../enterprise/entities/token";
-import { TokensRepository } from "../repositories/tokens-repository";
+import { VerificationToken } from "../../enterprise/entities/verification-token";
+import { VerificationTokensRepository } from "../repositories/verification-tokens-repository";
 
 interface UseVerificationTokenUseCaseRequest {
 	identifier: string;
@@ -13,36 +13,39 @@ interface UseVerificationTokenUseCaseRequest {
 type UseVerificationTokenUseCaseResponse = Either<
 	ResourceNotFoundError | NotAllowedError,
 	{
-		token: Token;
+		verificationToken: VerificationToken;
 	}
 >;
 
 export class UseVerificationTokenUseCase {
-	constructor(private tokensRepository: TokensRepository) {}
+	constructor(
+		private verificationTokensRepository: VerificationTokensRepository,
+	) {}
 
 	async execute({
 		identifier,
 		token,
 	}: UseVerificationTokenUseCaseRequest): Promise<UseVerificationTokenUseCaseResponse> {
-		const tokenExists = await this.tokensRepository.findByFields({
-			identifier,
-			token,
-		});
+		const verificationToken =
+			await this.verificationTokensRepository.findByFields({
+				identifier,
+				token,
+			});
 
-		if (!tokenExists) {
-			return error(new ResourceNotFoundError("Token"));
+		if (!verificationToken) {
+			return error(new ResourceNotFoundError("Token de verificação"));
 		}
 
-		if (isBefore(tokenExists.expiresAt, new Date())) {
-			await this.tokensRepository.delete(tokenExists);
+		if (isBefore(verificationToken.expiresAt, new Date())) {
+			await this.verificationTokensRepository.delete(verificationToken);
 
 			return error(new NotAllowedError());
 		}
 
-		await this.tokensRepository.delete(tokenExists);
+		await this.verificationTokensRepository.delete(verificationToken);
 
 		return success({
-			token: tokenExists,
+			verificationToken,
 		});
 	}
 }
