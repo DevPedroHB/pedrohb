@@ -1,4 +1,4 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { matchesFields } from "@/core/functions/matches-fields";
 import {
 	type TVerificationTokenFields,
 	VerificationTokensRepository,
@@ -10,21 +10,8 @@ export class InMemoryVerificationTokensRepository
 {
 	public items: VerificationToken[] = [];
 
-	private matchesFields(
-		item: VerificationToken,
-		fields: TVerificationTokenFields,
-	) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async findByFields(fields: TVerificationTokenFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(verificationToken: VerificationToken) {

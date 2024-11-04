@@ -1,9 +1,8 @@
+import type { TEntityFields } from "@/core/types/entity-fields";
 import { type ISession, Session } from "../../enterprise/entities/session";
 import { SessionWithUser } from "../../enterprise/entities/value-objects/session-with-user";
 
-export type TSessionFields = Partial<ISession> & {
-	id?: string;
-};
+export type TSessionFields = TEntityFields<ISession>;
 
 export abstract class SessionsRepository {
 	abstract findByFields(fields: TSessionFields): Promise<Session | null>;

@@ -1,4 +1,4 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { matchesFields } from "@/core/functions/matches-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
 	AuthenticatorsRepository,
@@ -11,16 +11,6 @@ export class InMemoryAuthenticatorsRepository
 {
 	public items: Authenticator[] = [];
 
-	private matchesFields(item: Authenticator, fields: TAuthenticatorFields) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async fetchAuthenticators({
 		fields,
 		orderBy,
@@ -29,7 +19,7 @@ export class InMemoryAuthenticatorsRepository
 		let items = this.items;
 
 		if (fields) {
-			items = items.filter((item) => this.matchesFields(item, fields));
+			items = items.filter((item) => matchesFields(item, fields));
 		}
 
 		if (orderBy) {
@@ -59,7 +49,7 @@ export class InMemoryAuthenticatorsRepository
 	}
 
 	async findByFields(fields: TAuthenticatorFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(authenticator: Authenticator) {

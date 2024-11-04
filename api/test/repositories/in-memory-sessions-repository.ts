@@ -1,4 +1,4 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { matchesFields } from "@/core/functions/matches-fields";
 import {
 	SessionsRepository,
 	type TSessionFields,
@@ -12,18 +12,8 @@ export class InMemorySessionsRepository implements SessionsRepository {
 
 	constructor(private usersRepository: UsersRepository) {}
 
-	private matchesFields(item: Session, fields: TSessionFields) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async findByFields(fields: TSessionFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(session: Session) {

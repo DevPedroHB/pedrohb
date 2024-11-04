@@ -1,9 +1,8 @@
+import type { TEntityFields } from "@/core/types/entity-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import { type IUser, User } from "../../enterprise/entities/user";
 
-export type TUserFields = Partial<IUser> & {
-	id?: string;
-};
+export type TUserFields = TEntityFields<IUser>;
 
 export abstract class UsersRepository {
 	abstract fetchUsers(options: TFetchEntity<TUserFields>): Promise<User[]>;

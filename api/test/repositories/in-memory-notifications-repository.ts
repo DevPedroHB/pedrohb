@@ -1,4 +1,4 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { matchesFields } from "@/core/functions/matches-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
 	NotificationsRepository,
@@ -11,16 +11,6 @@ export class InMemoryNotificationsRepository
 {
 	public items: Notification[] = [];
 
-	private matchesFields(item: Notification, fields: TNotificationFields) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async fetchNotifications({
 		fields,
 		orderBy,
@@ -29,7 +19,7 @@ export class InMemoryNotificationsRepository
 		let items = this.items;
 
 		if (fields) {
-			items = items.filter((item) => this.matchesFields(item, fields));
+			items = items.filter((item) => matchesFields(item, fields));
 		}
 
 		if (orderBy) {
@@ -59,7 +49,7 @@ export class InMemoryNotificationsRepository
 	}
 
 	async findByFields(fields: TNotificationFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(notification: Notification) {

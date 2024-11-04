@@ -1,8 +1,8 @@
+import type { TEntityFields } from "@/core/types/entity-fields";
 import { Account, type IAccount } from "../../enterprise/entities/account";
 import { AccountWithUser } from "../../enterprise/entities/value-objects/account-with-user";
 
-export type TAccountFields = Omit<Partial<IAccount>, "userId"> & {
-	id?: string;
+export type TAccountFields = TEntityFields<IAccount, "userId"> & {
 	userId?: string;
 };
 

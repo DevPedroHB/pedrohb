@@ -1,4 +1,4 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { matchesFields } from "@/core/functions/matches-fields";
 import {
 	AccountsRepository,
 	type TAccountFields,
@@ -12,18 +12,8 @@ export class InMemoryAccountsRepository implements AccountsRepository {
 
 	constructor(private usersRepository: UsersRepository) {}
 
-	private matchesFields(item: Account, fields: TAccountFields) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async findByFields(fields: TAccountFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(account: Account) {

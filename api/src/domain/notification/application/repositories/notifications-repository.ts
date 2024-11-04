@@ -1,14 +1,14 @@
+import type { TEntityFields } from "@/core/types/entity-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
 	type INotification,
 	Notification,
 } from "../../enterprise/entities/notification";
 
-export type TNotificationFields = Omit<
-	Partial<INotification>,
+export type TNotificationFields = TEntityFields<
+	INotification,
 	"recipientId"
 > & {
-	id?: string;
 	recipientId?: string;
 };
 

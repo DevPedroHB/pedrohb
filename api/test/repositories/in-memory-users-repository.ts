@@ -1,5 +1,5 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { DomainEvents } from "@/core/events/domain-events";
+import { matchesFields } from "@/core/functions/matches-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
 	type TUserFields,
@@ -10,21 +10,11 @@ import { User } from "@/domain/account/enterprise/entities/user";
 export class InMemoryUsersRepository implements UsersRepository {
 	public items: User[] = [];
 
-	private matchesFields(item: User, fields: TUserFields) {
-		return Object.entries(fields).every(([key, value]) => {
-			if (item[key] instanceof UniqueEntityID) {
-				return item[key].equals(new UniqueEntityID(String(value)));
-			}
-
-			return item[key] === value;
-		});
-	}
-
 	async fetchUsers({ fields, orderBy, pagination }: TFetchEntity<TUserFields>) {
 		let items = this.items;
 
 		if (fields) {
-			items = items.filter((item) => this.matchesFields(item, fields));
+			items = items.filter((item) => matchesFields(item, fields));
 		}
 
 		if (orderBy) {
@@ -54,7 +44,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 	}
 
 	async findByFields(fields: TUserFields) {
-		return this.items.find((item) => this.matchesFields(item, fields)) || null;
+		return this.items.find((item) => matchesFields(item, fields)) || null;
 	}
 
 	async create(user: User) {

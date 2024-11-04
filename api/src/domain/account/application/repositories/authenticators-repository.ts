@@ -1,11 +1,11 @@
+import type { TEntityFields } from "@/core/types/entity-fields";
 import type { TFetchEntity } from "@/core/types/fetch-entity";
 import {
 	Authenticator,
 	type IAuthenticator,
 } from "../../enterprise/entities/authenticator";
 
-export type TAuthenticatorFields = Omit<Partial<IAuthenticator>, "userId"> & {
-	id?: string;
+export type TAuthenticatorFields = TEntityFields<IAuthenticator, "userId"> & {
 	userId?: string;
 };
 
