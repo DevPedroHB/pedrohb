@@ -8,22 +8,22 @@ export type PrismaAccountWithUser = PrismaAccount & {
 };
 
 export class PrismaAccountWithUserMapper {
-	static toDomain(account: PrismaAccountWithUser): AccountWithUser {
+	static toDomain(accountWithUser: PrismaAccountWithUser): AccountWithUser {
 		return AccountWithUser.create({
 			id: new UniqueEntityID(),
-			provider: account.provider,
-			providerAccountId: account.providerAccountId,
-			type: account.type,
-			refreshToken: account.refreshToken,
-			accessToken: account.accessToken,
-			expiresAt: account.expiresAt,
-			tokenType: account.tokenType,
-			scope: account.scope,
-			tokenId: account.tokenId,
-			sessionState: account.sessionState,
-			createdAt: account.createdAt,
-			updatedAt: account.updatedAt,
-			user: PrismaUserMapper.toDomain(account.user),
+			provider: accountWithUser.provider,
+			providerAccountId: accountWithUser.providerAccountId,
+			type: accountWithUser.type,
+			refreshToken: accountWithUser.refreshToken,
+			accessToken: accountWithUser.accessToken,
+			expiresAt: accountWithUser.expiresAt,
+			tokenType: accountWithUser.tokenType,
+			scope: accountWithUser.scope,
+			tokenId: accountWithUser.tokenId,
+			sessionState: accountWithUser.sessionState,
+			createdAt: accountWithUser.createdAt,
+			updatedAt: accountWithUser.updatedAt,
+			user: PrismaUserMapper.toDomain(accountWithUser.user),
 		});
 	}
 }

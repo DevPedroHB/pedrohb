@@ -1,12 +1,14 @@
 type CacheKeyValue = Record<string, any>;
 
 /**
- * Generates a cache key by combining a prefix with key-value pairs.
+ * Gera uma chave de cache a partir de um prefixo e um array de objetos,
+ * onde cada objeto tem chave/valor. A chave de cache   formatada como
+ * "prefixo:chave1:valor1:chave2:valor2:...". Se algum valor for null ou
+ * undefined, ele é ignorado.
  *
- * @param prefix - The prefix for the cache key.
- * @param values - An array of objects containing key-value pairs to be appended to the prefix.
- *                 If a key's value is undefined or null, it will be ignored.
- * @returns A string representing the generated cache key.
+ * @param prefix O prefixo da chave de cache.
+ * @param values Um array de objetos com chave/valor.
+ * @returns A chave de cache gerada.
  */
 export function generateCacheKey(
 	prefix: string,

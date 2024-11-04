@@ -2,7 +2,9 @@ import type { TEntityFields } from "@/core/types/entity-fields";
 import { type ISession, Session } from "../../enterprise/entities/session";
 import { SessionWithUser } from "../../enterprise/entities/value-objects/session-with-user";
 
-export type TSessionFields = TEntityFields<ISession>;
+export type TSessionFields = TEntityFields<ISession, "userId"> & {
+	userId?: string;
+};
 
 export abstract class SessionsRepository {
 	abstract findByFields(fields: TSessionFields): Promise<Session | null>;

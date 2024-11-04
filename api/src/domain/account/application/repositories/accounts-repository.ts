@@ -9,9 +9,9 @@ export type TAccountFields = TEntityFields<IAccount, "userId"> & {
 export abstract class AccountsRepository {
 	abstract findByFields(fields: TAccountFields): Promise<Account | null>;
 	abstract create(account: Account): Promise<void>;
+	abstract delete(account: Account): Promise<void>;
 	abstract findByProviderId(
 		provider: string,
 		providerAccountId: string,
 	): Promise<AccountWithUser | null>;
-	abstract delete(account: Account): Promise<void>;
 }

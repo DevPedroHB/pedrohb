@@ -87,7 +87,7 @@ model Authenticator {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  @@id([userId, credentialId])
+  @@id([credentialId, userId])
   @@map("authenticators")
 }
 
