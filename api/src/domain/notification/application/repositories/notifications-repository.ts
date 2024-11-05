@@ -7,7 +7,7 @@ import {
 
 export type TNotificationFields = TEntityFields<
 	INotification,
-	"recipientId"
+	"recipientId" | "content"
 > & {
 	recipientId?: string;
 };

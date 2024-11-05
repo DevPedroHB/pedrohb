@@ -28,7 +28,7 @@ export class CreateNotificationUseCase {
 	}: CreateNotificationUseCaseRequest): Promise<CreateNotificationUseCaseResponse> {
 		const notification = Notification.create({
 			title,
-			content,
+			content: JSON.parse(content),
 			recipientId: new UniqueEntityID(recipientId),
 		});
 

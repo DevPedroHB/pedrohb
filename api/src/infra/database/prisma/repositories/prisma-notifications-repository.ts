@@ -52,12 +52,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
 			: undefined;
 
 		const notifications = await this.prisma.notification.findMany({
-			where: fields
-				? {
-						...fields,
-						content: fields.content ? JSON.parse(fields.content) : undefined,
-					}
-				: undefined,
+			where: fields,
 			orderBy: orderArray,
 			take: pagination?.perPage,
 			skip: pagination ? (pagination.page - 1) * pagination.perPage : undefined,
@@ -77,10 +72,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
 		}
 
 		const notification = await this.prisma.notification.findFirst({
-			where: {
-				...fields,
-				content: fields.content ? JSON.parse(fields.content) : undefined,
-			},
+			where: fields,
 		});
 
 		if (!notification) {

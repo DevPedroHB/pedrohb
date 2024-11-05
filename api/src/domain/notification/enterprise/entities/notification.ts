@@ -4,7 +4,7 @@ import type { Optional } from "@/core/types/optional";
 
 export interface INotification {
 	title: string;
-	content: string;
+	content: JSON;
 	readAt?: Date | null;
 	createdAt: Date;
 	recipientId: UniqueEntityID;
