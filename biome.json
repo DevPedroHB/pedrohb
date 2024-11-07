@@ -1,42 +1,44 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"files": {
-		"ignore": ["node_modules", "dist"],
-		"ignoreUnknown": false
-	},
-	"formatter": {
-		"enabled": true,
-		"indentStyle": "tab"
-	},
-	"javascript": {
-		"formatter": {
-			"quoteStyle": "double"
-		},
-		"parser": {
-			"unsafeParameterDecoratorsEnabled": true
-		}
-	},
-	"linter": {
-		"enabled": true,
-		"rules": {
-			"complexity": {
-				"noStaticOnlyClass": "off"
-			},
-			"recommended": true,
-			"style": {
-				"useImportType": "off"
-			},
-			"suspicious": {
-				"noExplicitAny": "off"
-			}
-		}
-	},
-	"organizeImports": {
-		"enabled": true
-	},
-	"vcs": {
-		"clientKind": "git",
-		"enabled": false,
-		"useIgnoreFile": false
-	}
+    "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+    "files": {
+        "ignore": [
+            "node_modules"
+        ],
+        "ignoreUnknown": false
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "tab"
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "double"
+        },
+        "parser": {
+            "unsafeParameterDecoratorsEnabled": true
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "complexity": {
+                "noStaticOnlyClass": "off"
+            },
+            "recommended": true,
+            "style": {
+                "useImportType": "off"
+            },
+            "suspicious": {
+                "noExplicitAny": "off"
+            }
+        }
+    },
+    "organizeImports": {
+        "enabled": true
+    },
+    "vcs": {
+        "clientKind": "git",
+        "enabled": false,
+        "useIgnoreFile": false
+    }
 }

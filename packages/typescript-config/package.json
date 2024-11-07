@@ -1,0 +1,9 @@
+{
+  "license": "MIT",
+  "name": "@pedrohb/typescript-config",
+  "private": true,
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "1.0.0"
+}
