@@ -1,11 +1,12 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeSession } from "test/factories/session-factory";
+import { SessionFactory } from "test/factories/session-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { GetSessionUseCase } from "./get-session";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
+let sessionFactory: SessionFactory;
 let sut: GetSessionUseCase;
 
 describe("Get session", () => {
@@ -14,14 +15,15 @@ describe("Get session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
+		sessionFactory = new SessionFactory(
+			inMemoryUsersRepository,
+			inMemorySessionsRepository,
+		);
 		sut = new GetSessionUseCase(inMemorySessionsRepository);
 	});
 
 	it("should be able to get an existing session", async () => {
-		const { user, session } = makeSession();
-
-		await inMemoryUsersRepository.items.push(user);
-		await inMemorySessionsRepository.items.push(session);
+		const { session } = await sessionFactory.makeSession();
 
 		const result = await sut.execute({
 			sessionToken: session.sessionToken,

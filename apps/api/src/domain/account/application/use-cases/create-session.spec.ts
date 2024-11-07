@@ -1,11 +1,12 @@
 import { AlreadyExistsError } from "@/core/errors/already-exists-error";
-import { makeSession } from "test/factories/session-factory";
+import { SessionFactory } from "test/factories/session-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateSessionUseCase } from "./create-session";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
+let sessionFactory: SessionFactory;
 let sut: CreateSessionUseCase;
 
 describe("Create session", () => {
@@ -13,6 +14,10 @@ describe("Create session", () => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
+		);
+		sessionFactory = new SessionFactory(
+			inMemoryUsersRepository,
+			inMemorySessionsRepository,
 		);
 		sut = new CreateSessionUseCase(inMemorySessionsRepository);
 	});
@@ -40,15 +45,12 @@ describe("Create session", () => {
 	});
 
 	it("should be able to return error if session already exists", async () => {
-		const { user, session } = makeSession();
-
-		await inMemoryUsersRepository.items.push(user);
-		await inMemorySessionsRepository.items.push(session);
+		const { session } = await sessionFactory.makeSession();
 
 		const result = await sut.execute({
 			sessionToken: session.sessionToken,
-			expiresAt: new Date(Date.now() + 3600000),
-			userId: "user-id-123",
+			expiresAt: session.expiresAt,
+			userId: session.userId.id,
 		});
 
 		expect(result.isError()).toBe(true);

@@ -61,5 +61,6 @@
 		"test:ui": "vitest --ui",
 		"test:watch": "vitest"
 	},
+	"type": "module",
 	"version": "1.0.0"
 }

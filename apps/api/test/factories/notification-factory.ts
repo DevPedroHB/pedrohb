@@ -15,7 +15,9 @@ interface INotificationFactory {
 	notification?: TPartialFactory<INotification>;
 }
 
-export function makeNotification(override: INotificationFactory = {}) {
+export function makeNotification(
+	override: INotificationFactory = { user: {}, notification: {} },
+) {
 	const user = makeUser(override.user);
 	const content = [
 		{
@@ -34,7 +36,7 @@ export function makeNotification(override: INotificationFactory = {}) {
 			content: JSON.parse(JSON.stringify(content)),
 			createdAt: faker.date.past({ refDate: user.createdAt }),
 			recipientId: user.id,
-			...override,
+			...override.notification,
 		},
 		override.notification.id,
 	);
@@ -52,7 +54,9 @@ export class NotificationFactory {
 		private notificationsRepository: NotificationsRepository,
 	) {}
 
-	async makeNotification(data: INotificationFactory = {}) {
+	async makeNotification(
+		data: INotificationFactory = { user: {}, notification: {} },
+	) {
 		const { user, notification } = makeNotification(data);
 
 		await this.usersRepository.create(user);

@@ -1,11 +1,12 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeSession } from "test/factories/session-factory";
+import { SessionFactory } from "test/factories/session-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { UpdateSessionUseCase } from "./update-session";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
+let sessionFactory: SessionFactory;
 let sut: UpdateSessionUseCase;
 
 describe("Update Session", () => {
@@ -14,14 +15,15 @@ describe("Update Session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
+		sessionFactory = new SessionFactory(
+			inMemoryUsersRepository,
+			inMemorySessionsRepository,
+		);
 		sut = new UpdateSessionUseCase(inMemorySessionsRepository);
 	});
 
 	it("should be able to update an existing session", async () => {
-		const { user, session } = makeSession();
-
-		await inMemoryUsersRepository.items.push(user);
-		await inMemorySessionsRepository.items.push(session);
+		const { session } = await sessionFactory.makeSession();
 
 		const newExpiresAt = new Date(Date.now() + 3600 * 1000);
 		const newUserId = "new-user-id";

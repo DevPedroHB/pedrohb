@@ -1,19 +1,25 @@
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
-import { makeUser } from "test/factories/user-factory";
+import { UserFactory } from "test/factories/user-factory";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateNotificationUseCase } from "./create-notification";
 
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository;
+let userFactory: UserFactory;
 let sut: CreateNotificationUseCase;
 
 describe("Create notification", () => {
 	beforeEach(() => {
+		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryNotificationsRepository = new InMemoryNotificationsRepository();
+		userFactory = new UserFactory(inMemoryUsersRepository);
 		sut = new CreateNotificationUseCase(inMemoryNotificationsRepository);
 	});
 
 	it("should be able to create a notification", async () => {
-		const user = makeUser();
+		const user = await userFactory.makeUser();
+
 		const content = [
 			{
 				type: "p",
@@ -38,7 +44,7 @@ describe("Create notification", () => {
 	});
 
 	it("should be able to return an error if content is not valid JSON", async () => {
-		const user = makeUser();
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			title: "An example title",

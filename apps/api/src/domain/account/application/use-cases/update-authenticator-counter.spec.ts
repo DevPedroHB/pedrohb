@@ -1,23 +1,29 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeAuthenticator } from "test/factories/authenticator-factory";
+import { AuthenticatorFactory } from "test/factories/authenticator-factory";
 import { InMemoryAuthenticatorsRepository } from "test/repositories/in-memory-authenticators-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { UpdateAuthenticatorCounterUseCase } from "./update-authenticator-counter";
 
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAuthenticatorsRepository: InMemoryAuthenticatorsRepository;
+let authenticatorFactory: AuthenticatorFactory;
 let sut: UpdateAuthenticatorCounterUseCase;
 
 describe("Update authenticator counter", () => {
 	beforeEach(() => {
+		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAuthenticatorsRepository = new InMemoryAuthenticatorsRepository();
+		authenticatorFactory = new AuthenticatorFactory(
+			inMemoryUsersRepository,
+			inMemoryAuthenticatorsRepository,
+		);
 		sut = new UpdateAuthenticatorCounterUseCase(
 			inMemoryAuthenticatorsRepository,
 		);
 	});
 
 	it("should be able to update the counter of an existing authenticator", async () => {
-		const { authenticator } = makeAuthenticator();
-
-		await inMemoryAuthenticatorsRepository.items.push(authenticator);
+		const { authenticator } = await authenticatorFactory.makeAuthenticator();
 
 		const newCounter = authenticator.counter + 1;
 

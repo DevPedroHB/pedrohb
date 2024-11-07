@@ -1,14 +1,25 @@
 import { AlreadyExistsError } from "@/core/errors/already-exists-error";
-import { makeAuthenticator } from "test/factories/authenticator-factory";
+import {
+	AuthenticatorFactory,
+	makeAuthenticator,
+} from "test/factories/authenticator-factory";
 import { InMemoryAuthenticatorsRepository } from "test/repositories/in-memory-authenticators-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateAuthenticatorUseCase } from "./create-authenticator";
 
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAuthenticatorsRepository: InMemoryAuthenticatorsRepository;
+let authenticatorFactory: AuthenticatorFactory;
 let sut: CreateAuthenticatorUseCase;
 
 describe("Create authenticator", () => {
 	beforeEach(() => {
+		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAuthenticatorsRepository = new InMemoryAuthenticatorsRepository();
+		authenticatorFactory = new AuthenticatorFactory(
+			inMemoryUsersRepository,
+			inMemoryAuthenticatorsRepository,
+		);
 		sut = new CreateAuthenticatorUseCase(inMemoryAuthenticatorsRepository);
 	});
 
@@ -23,7 +34,7 @@ describe("Create authenticator", () => {
 			credentialDeviceType: authenticator.credentialDeviceType,
 			credentialBackedUp: authenticator.credentialBackedUp,
 			transports: authenticator.transports,
-			userId: authenticator.userId.toString(),
+			userId: authenticator.userId.id,
 		});
 
 		expect(result.isSuccess()).toBe(true);
@@ -37,9 +48,7 @@ describe("Create authenticator", () => {
 	});
 
 	it("should be able to return an error if authenticator already exists", async () => {
-		const { authenticator } = makeAuthenticator();
-
-		await inMemoryAuthenticatorsRepository.items.push(authenticator);
+		const { authenticator } = await authenticatorFactory.makeAuthenticator();
 
 		const result = await sut.execute({
 			credentialId: authenticator.credentialId,
@@ -49,7 +58,7 @@ describe("Create authenticator", () => {
 			credentialDeviceType: authenticator.credentialDeviceType,
 			credentialBackedUp: authenticator.credentialBackedUp,
 			transports: authenticator.transports,
-			userId: authenticator.userId.toString(),
+			userId: authenticator.userId.id,
 		});
 
 		expect(result.isError()).toBe(true);

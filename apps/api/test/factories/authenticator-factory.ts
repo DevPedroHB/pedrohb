@@ -15,7 +15,9 @@ interface IAuthenticatorFactory {
 	authenticator?: TPartialFactory<IAuthenticator>;
 }
 
-export function makeAuthenticator(override: IAuthenticatorFactory = {}) {
+export function makeAuthenticator(
+	override: IAuthenticatorFactory = { user: {}, authenticator: {} },
+) {
 	const user = makeUser(override.user);
 
 	const authenticator = Authenticator.create(
@@ -27,7 +29,7 @@ export function makeAuthenticator(override: IAuthenticatorFactory = {}) {
 			credentialDeviceType: faker.lorem.word(),
 			credentialBackedUp: faker.datatype.boolean(),
 			userId: user.id,
-			...override,
+			...override.authenticator,
 		},
 		override.authenticator.id,
 	);
@@ -45,7 +47,9 @@ export class AuthenticatorFactory {
 		private authenticator: AuthenticatorsRepository,
 	) {}
 
-	async makeAuthenticator(data: IAuthenticatorFactory = {}) {
+	async makeAuthenticator(
+		data: IAuthenticatorFactory = { user: {}, authenticator: {} },
+	) {
 		const { user, authenticator } = makeAuthenticator(data);
 
 		await this.usersRepository.create(user);

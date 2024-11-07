@@ -15,7 +15,9 @@ interface ISessionFactory {
 	session?: TPartialFactory<ISession>;
 }
 
-export function makeSession(override: ISessionFactory = {}) {
+export function makeSession(
+	override: ISessionFactory = { user: {}, session: {} },
+) {
 	const user = makeUser(override.user);
 
 	const session = Session.create(
@@ -24,7 +26,7 @@ export function makeSession(override: ISessionFactory = {}) {
 			expiresAt: faker.date.future(),
 			createdAt: faker.date.past({ refDate: user.createdAt }),
 			userId: user.id,
-			...override,
+			...override.session,
 		},
 		override.session.id,
 	);
@@ -42,7 +44,7 @@ export class SessionFactory {
 		private sessionsRepository: SessionsRepository,
 	) {}
 
-	async makeSession(data: ISessionFactory = {}) {
+	async makeSession(data: ISessionFactory = { user: {}, session: {} }) {
 		const { user, session } = makeSession(data);
 
 		await this.usersRepository.create(user);

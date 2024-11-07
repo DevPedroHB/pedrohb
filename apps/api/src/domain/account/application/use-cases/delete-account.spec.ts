@@ -1,11 +1,12 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeAccount } from "test/factories/account-factory";
+import { AccountFactory } from "test/factories/account-factory";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { DeleteAccountUseCase } from "./delete-account";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
+let accountFactory: AccountFactory;
 let sut: DeleteAccountUseCase;
 
 describe("Delete account", () => {
@@ -14,14 +15,15 @@ describe("Delete account", () => {
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
+		accountFactory = new AccountFactory(
+			inMemoryUsersRepository,
+			inMemoryAccountsRepository,
+		);
 		sut = new DeleteAccountUseCase(inMemoryAccountsRepository);
 	});
 
 	it("should be able to delete an existing account", async () => {
-		const { user, account } = makeAccount();
-
-		await inMemoryUsersRepository.items.push(user);
-		await inMemoryAccountsRepository.items.push(account);
+		const { account } = await accountFactory.makeAccount();
 
 		const result = await sut.execute({
 			provider: account.provider,
@@ -40,7 +42,7 @@ describe("Delete account", () => {
 	it("should be able to return error if account is not found", async () => {
 		const result = await sut.execute({
 			provider: "non-existent-provider",
-			providerAccountId: "non-existent-provider-account--id",
+			providerAccountId: "non-existent-provider-account-id",
 		});
 
 		expect(result.isError()).toBe(true);

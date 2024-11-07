@@ -1,11 +1,12 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeAccount } from "test/factories/account-factory";
+import { AccountFactory } from "test/factories/account-factory";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { GetUserByAccountUseCase } from "./get-user-by-account";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
+let accountFactory: AccountFactory;
 let sut: GetUserByAccountUseCase;
 
 describe("Get user by account", () => {
@@ -14,14 +15,15 @@ describe("Get user by account", () => {
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
+		accountFactory = new AccountFactory(
+			inMemoryUsersRepository,
+			inMemoryAccountsRepository,
+		);
 		sut = new GetUserByAccountUseCase(inMemoryAccountsRepository);
 	});
 
 	it("should be able to get user by account", async () => {
-		const { user, account } = makeAccount();
-
-		await inMemoryUsersRepository.items.push(user);
-		await inMemoryAccountsRepository.items.push(account);
+		const { user, account } = await accountFactory.makeAccount();
 
 		const result = await sut.execute({
 			provider: account.provider,

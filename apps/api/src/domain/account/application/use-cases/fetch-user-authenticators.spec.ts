@@ -1,20 +1,26 @@
-import { makeAuthenticator } from "test/factories/authenticator-factory";
+import { AuthenticatorFactory } from "test/factories/authenticator-factory";
 import { InMemoryAuthenticatorsRepository } from "test/repositories/in-memory-authenticators-repository";
+import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { FetchUserAuthenticatorsUseCase } from "./fetch-user-authenticators";
 
+let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAuthenticatorsRepository: InMemoryAuthenticatorsRepository;
+let authenticatorFactory: AuthenticatorFactory;
 let sut: FetchUserAuthenticatorsUseCase;
 
 describe("Fetch user authenticators", () => {
 	beforeEach(() => {
+		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAuthenticatorsRepository = new InMemoryAuthenticatorsRepository();
+		authenticatorFactory = new AuthenticatorFactory(
+			inMemoryUsersRepository,
+			inMemoryAuthenticatorsRepository,
+		);
 		sut = new FetchUserAuthenticatorsUseCase(inMemoryAuthenticatorsRepository);
 	});
 
 	it("should be able to fetch authenticators for a user", async () => {
-		const { authenticator } = makeAuthenticator();
-
-		await inMemoryAuthenticatorsRepository.items.push(authenticator);
+		const { authenticator } = await authenticatorFactory.makeAuthenticator();
 
 		const result = await sut.execute({
 			userId: authenticator.userId.id,

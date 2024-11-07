@@ -15,7 +15,9 @@ interface IAccountFactory {
 	account?: TPartialFactory<IAccount>;
 }
 
-export function makeAccount(override: IAccountFactory = {}) {
+export function makeAccount(
+	override: IAccountFactory = { user: {}, account: {} },
+) {
 	const user = makeUser(override.user);
 
 	const account = Account.create(
@@ -43,7 +45,7 @@ export class AccountFactory {
 		private accountsRepository: AccountsRepository,
 	) {}
 
-	async makeAccount(data: IAccountFactory = {}) {
+	async makeAccount(data: IAccountFactory = { user: {}, account: {} }) {
 		const { user, account } = makeAccount(data);
 
 		await this.usersRepository.create(user);

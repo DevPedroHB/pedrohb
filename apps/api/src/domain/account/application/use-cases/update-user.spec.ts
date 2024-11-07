@@ -1,19 +1,21 @@
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { InMemoryHasherRepository } from "test/cryptography/in-memory-hasher-repository";
-import { makeUser } from "test/factories/user-factory";
+import { UserFactory } from "test/factories/user-factory";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { Roles } from "../../enterprise/entities/user";
 import { UpdateUserUseCase } from "./update-user";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryHasherRepository: InMemoryHasherRepository;
+let userFactory: UserFactory;
 let sut: UpdateUserUseCase;
 
 describe("Update user", () => {
 	beforeEach(() => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryHasherRepository = new InMemoryHasherRepository();
+		userFactory = new UserFactory(inMemoryUsersRepository);
 		sut = new UpdateUserUseCase(
 			inMemoryUsersRepository,
 			inMemoryHasherRepository,
@@ -21,9 +23,7 @@ describe("Update user", () => {
 	});
 
 	it("should be able to update a user", async () => {
-		const user = makeUser();
-
-		await inMemoryUsersRepository.items.push(user);
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			userId: user.id.id,
@@ -54,9 +54,7 @@ describe("Update user", () => {
 	});
 
 	it("should be able to return error if email is null", async () => {
-		const user = makeUser();
-
-		await inMemoryUsersRepository.items.push(user);
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			userId: user.id.id,
@@ -68,9 +66,7 @@ describe("Update user", () => {
 	});
 
 	it("should be able to set password to null", async () => {
-		const user = makeUser({ password: "hashedPassword" });
-
-		await inMemoryUsersRepository.items.push(user);
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			userId: user.id.id,
@@ -85,9 +81,7 @@ describe("Update user", () => {
 	});
 
 	it("should be able to not change password if undefined", async () => {
-		const user = makeUser({ password: "hashedPassword" });
-
-		await inMemoryUsersRepository.items.push(user);
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			userId: user.id.id,
@@ -96,7 +90,7 @@ describe("Update user", () => {
 		expect(result.isSuccess()).toBe(true);
 
 		if (result.isSuccess()) {
-			expect(result.value.user.password).toBe("hashedPassword");
+			expect(result.value.user.password).toBe(user.password);
 		}
 	});
 });

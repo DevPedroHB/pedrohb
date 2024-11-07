@@ -1,10 +1,11 @@
-import { makeUser } from "test/factories/user-factory";
+import { UserFactory } from "test/factories/user-factory";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateAccountUseCase } from "./create-account";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryAccountsRepository: InMemoryAccountsRepository;
+let userFactory: UserFactory;
 let sut: CreateAccountUseCase;
 
 describe("Create account", () => {
@@ -13,13 +14,12 @@ describe("Create account", () => {
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
+		userFactory = new UserFactory(inMemoryUsersRepository);
 		sut = new CreateAccountUseCase(inMemoryAccountsRepository);
 	});
 
 	it("should be able to create a new account", async () => {
-		const user = makeUser();
-
-		await inMemoryUsersRepository.items.push(user);
+		const user = await userFactory.makeUser();
 
 		const result = await sut.execute({
 			provider: "google",
