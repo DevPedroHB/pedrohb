@@ -1,4 +1,4 @@
-import { makeUser } from "test/factories/make-user";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateAccountUseCase } from "./create-account";

@@ -1,5 +1,5 @@
-import { makeNotification } from "test/factories/make-notification";
-import { makeUser } from "test/factories/make-user";
+import { makeNotification } from "test/factories/notification-factory";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
 import { ReadAllNotificationsUseCase } from "./read-all-notifications";
 

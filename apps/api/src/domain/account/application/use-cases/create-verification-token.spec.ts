@@ -1,18 +1,20 @@
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
 import { InMemoryVerificationTokensRepository } from "test/repositories/in-memory-verification-tokens-repository";
-import { CreateTokenUseCase } from "./create-token";
+import { CreateVerificationTokenUseCase } from "./create-verification-token";
 
 let inMemoryVerificationTokensRepository: InMemoryVerificationTokensRepository;
-let sut: CreateTokenUseCase;
+let sut: CreateVerificationTokenUseCase;
 
-describe("Create token", () => {
+describe("Create verification token", () => {
 	beforeEach(() => {
 		inMemoryVerificationTokensRepository =
 			new InMemoryVerificationTokensRepository();
-		sut = new CreateTokenUseCase(inMemoryVerificationTokensRepository);
+		sut = new CreateVerificationTokenUseCase(
+			inMemoryVerificationTokensRepository,
+		);
 	});
 
-	it("should be able to create a token", async () => {
+	it("should be able to create a verification token", async () => {
 		const result = await sut.execute({
 			identifier: "test-identifier",
 			token: "sample-token",

@@ -1,5 +1,5 @@
 import { waitFor } from "@/core/functions/wait-for";
-import { makeUser } from "test/factories/make-user";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { MockInstance } from "vitest";

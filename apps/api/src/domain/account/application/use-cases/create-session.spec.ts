@@ -1,5 +1,5 @@
 import { AlreadyExistsError } from "@/core/errors/already-exists-error";
-import { makeSession } from "test/factories/make-session";
+import { makeSession } from "test/factories/session-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { CreateSessionUseCase } from "./create-session";

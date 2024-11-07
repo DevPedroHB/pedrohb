@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeAccount } from "test/factories/make-account";
+import { makeAccount } from "test/factories/account-factory";
 import { InMemoryAccountsRepository } from "test/repositories/in-memory-accounts-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { DeleteAccountUseCase } from "./delete-account";

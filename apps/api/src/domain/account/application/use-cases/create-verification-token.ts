@@ -4,20 +4,20 @@ import { isBefore } from "date-fns";
 import { VerificationToken } from "../../enterprise/entities/verification-token";
 import { VerificationTokensRepository } from "../repositories/verification-tokens-repository";
 
-interface CreateTokenUseCaseRequest {
+interface CreateVerificationTokenUseCaseRequest {
 	identifier: string;
 	token?: string;
 	expiresAt?: Date;
 }
 
-type CreateTokenUseCaseResponse = Either<
+type CreateVerificationTokenUseCaseResponse = Either<
 	InvalidCredentialsError,
 	{
 		verificationToken: VerificationToken;
 	}
 >;
 
-export class CreateTokenUseCase {
+export class CreateVerificationTokenUseCase {
 	constructor(
 		private verificationTokensRepository: VerificationTokensRepository,
 	) {}
@@ -26,7 +26,7 @@ export class CreateTokenUseCase {
 		identifier,
 		token,
 		expiresAt,
-	}: CreateTokenUseCaseRequest): Promise<CreateTokenUseCaseResponse> {
+	}: CreateVerificationTokenUseCaseRequest): Promise<CreateVerificationTokenUseCaseResponse> {
 		if (expiresAt && isBefore(expiresAt, new Date())) {
 			return error(new InvalidCredentialsError());
 		}

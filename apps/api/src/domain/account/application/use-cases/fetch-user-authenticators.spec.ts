@@ -1,4 +1,4 @@
-import { makeAuthenticator } from "test/factories/make-authenticator";
+import { makeAuthenticator } from "test/factories/authenticator-factory";
 import { InMemoryAuthenticatorsRepository } from "test/repositories/in-memory-authenticators-repository";
 import { FetchUserAuthenticatorsUseCase } from "./fetch-user-authenticators";
 

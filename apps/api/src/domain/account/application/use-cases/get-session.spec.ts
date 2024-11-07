@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeSession } from "test/factories/make-session";
+import { makeSession } from "test/factories/session-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { GetSessionUseCase } from "./get-session";

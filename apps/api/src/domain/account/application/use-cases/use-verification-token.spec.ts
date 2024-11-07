@@ -1,6 +1,6 @@
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeVerificationToken } from "test/factories/make-verification-token";
+import { makeVerificationToken } from "test/factories/verification-token-factory";
 import { InMemoryVerificationTokensRepository } from "test/repositories/in-memory-verification-tokens-repository";
 import { UseVerificationTokenUseCase } from "./use-verification-token";
 

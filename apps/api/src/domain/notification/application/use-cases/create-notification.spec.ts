@@ -1,8 +1,7 @@
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
-import { makeUser } from "test/factories/make-user";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
 import { CreateNotificationUseCase } from "./create-notification";
-
 
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository;
 let sut: CreateNotificationUseCase;

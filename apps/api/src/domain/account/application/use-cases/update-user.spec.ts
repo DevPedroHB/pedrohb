@@ -1,7 +1,7 @@
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { InMemoryHasherRepository } from "test/cryptography/in-memory-hasher-repository";
-import { makeUser } from "test/factories/make-user";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { Roles } from "../../enterprise/entities/user";
 import { UpdateUserUseCase } from "./update-user";

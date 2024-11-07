@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { makeUser } from "test/factories/make-user";
+import { makeUser } from "test/factories/user-factory";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { GetUserByEmailUseCase } from "./get-user-by-email";
 
