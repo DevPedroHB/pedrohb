@@ -19,10 +19,16 @@ export class SignUpController {
 	constructor(private signUp: SignUpUseCase) {}
 
 	@Post()
-	async handle(@Body() body: SignUpBodyDto) {
-		const { name, email, password, avatarUrl, birthdate, emailVerifiedAt } =
-			body;
-
+	async handle(
+		@Body() {
+			name,
+			email,
+			password,
+			avatarUrl,
+			birthdate,
+			emailVerifiedAt,
+		}: SignUpBodyDto,
+	) {
 		const result = await this.signUp.execute({
 			name,
 			email,

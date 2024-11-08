@@ -1,5 +1,5 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { GetUserByIdUseCase } from "@/domain/account/application/use-cases/get-user-by-id";
+import { GetUserByEmailUseCase } from "@/domain/account/application/use-cases/get-user-by-email";
 import { Public } from "@/infra/auth/public";
 import {
 	BadRequestException,
@@ -9,18 +9,18 @@ import {
 	Param,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
-import { GetUserByIdParamDto } from "../../dtos/account/get-user-by-id.dto";
+import { GetUserByEmailParamDto } from "../../dtos/account/get-user-by-email.dto";
 import { UserPresenter } from "../../presenters/user-presenter";
 
 @ApiTags("users")
 @Public()
-@Controller({ path: "/users/:userId", version: "v1" })
-export class GetUserByIdController {
-	constructor(private getUserById: GetUserByIdUseCase) {}
+@Controller({ path: "/users/email/:email", version: "v1" })
+export class GetUserByEmailController {
+	constructor(private getUserByEmail: GetUserByEmailUseCase) {}
 
 	@Get()
-	async handle(@Param() { userId }: GetUserByIdParamDto) {
-		const result = await this.getUserById.execute({ userId });
+	async handle(@Param() { email }: GetUserByEmailParamDto) {
+		const result = await this.getUserByEmail.execute({ email });
 
 		if (result.isError()) {
 			const error = result.value;

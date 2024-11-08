@@ -3,41 +3,40 @@ import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
+import { UserFactory } from "test/factories/user-factory";
 
-describe("Sign up (E2E)", () => {
+describe("Get user by email (E2E)", () => {
 	let app: INestApplication;
+	let userFactory: UserFactory;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [AppModule, DatabaseModule],
+			providers: [UserFactory],
 		}).compile();
 
 		app = moduleRef.createNestApplication();
 
+		userFactory = moduleRef.get(UserFactory);
+
 		await app.init();
 	});
 
-	test("[POST] /users/sign-up", async () => {
-		const data = {
-			name: "John Doe",
-			email: "john.doe@example.com",
-			password: "3x4mpl3@P4ssw0rd",
-			avatarUrl: "https://example.com/avatar.jpg",
-			birthdate: new Date("1980-01-01"),
-		};
+	test("[GET] /users/email/:email", async () => {
+		const user = await userFactory.makeUser();
 
 		const response = await request(app.getHttpServer())
-			.post("/users/sign-up")
-			.send(data);
+			.get(`/users/email/${user.email}`)
+			.send();
 
-		expect(response.statusCode).toBe(201);
+		expect(response.statusCode).toBe(200);
 		expect(response.body).toEqual({
 			user: expect.objectContaining({
-				name: data.name,
-				email: data.email,
-				avatarUrl: data.avatarUrl,
+				id: user.id.id,
+				name: user.name,
+				email: user.email,
+				avatarUrl: user.avatarUrl,
 			}),
-			token: expect.any(String),
 		});
 	});
 });

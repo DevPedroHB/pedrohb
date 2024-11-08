@@ -12,8 +12,8 @@ A API está organizada em módulos para facilitar a integração e o uso de seus
 
 - [x] Deve ser possível criar um usuário;
 - [x] Deve ser possível obter o usuário pelo ID;
-- [ ] Deve ser possível obter o usuário pelo email; getUserByEmail(email)
-- [ ] Deve ser possível buscar a conta com o usuário pelo ID da conta do provedor; getUserByAccount(providerAccountId)
+- [x] Deve ser possível obter o usuário pelo email;
+- [x] Deve ser possível buscar a conta com o usuário pelo ID da conta do provedor;
 - [ ] Deve ser possível atualizar um usuário; updateUser(user)
 - [ ] Deve ser possível excluir um usuário; deleteUser(userId)
 - [ ] Deve ser possível criar uma conta e vinculá-la ao usuário; linkAccount(account)

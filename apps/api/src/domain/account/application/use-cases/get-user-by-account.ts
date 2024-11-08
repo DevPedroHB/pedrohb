@@ -1,5 +1,6 @@
 import { Either, error, success } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { Injectable } from "@nestjs/common";
 import { AccountWithUser } from "../../enterprise/entities/value-objects/account-with-user";
 import { AccountsRepository } from "../repositories/accounts-repository";
 
@@ -15,6 +16,7 @@ type GetUserByAccountUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class GetUserByAccountUseCase {
 	constructor(private accountsRepository: AccountsRepository) {}
 
