@@ -6,10 +6,10 @@ import {
 	BadRequestException,
 	Body,
 	Controller,
+	ForbiddenException,
 	NotFoundException,
 	Param,
 	Put,
-	UnauthorizedException,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
@@ -55,7 +55,7 @@ export class UpdateUserController {
 				case ResourceNotFoundError:
 					throw new NotFoundException(error.message);
 				case NotAllowedError:
-					throw new UnauthorizedException(error.message);
+					throw new ForbiddenException(error.message);
 				default:
 					throw new BadRequestException(error.message);
 			}
