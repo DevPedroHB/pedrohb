@@ -1,43 +1,51 @@
+import { Roles } from "@/domain/account/enterprise/entities/user";
 import { AppModule } from "@/infra/app.module";
 import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { AccountFactory } from "test/factories/account-factory";
 import { UserFactory } from "test/factories/user-factory";
 
-describe("Get user by account (E2E)", () => {
+describe("Update user (E2E)", () => {
 	let app: INestApplication;
 	let userFactory: UserFactory;
-	let accountFactory: AccountFactory;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [AppModule, DatabaseModule],
-			providers: [UserFactory, AccountFactory],
+			providers: [UserFactory],
 		}).compile();
 
 		app = moduleRef.createNestApplication();
 
 		userFactory = moduleRef.get(UserFactory);
-		accountFactory = moduleRef.get(AccountFactory);
 
 		await app.init();
 	});
 
-	test("[GET] /accounts/user/:provider/:providerAccountId", async () => {
+	test("[PUT] /users/:userId", async () => {
 		const user = await userFactory.makeUser();
-		const account = await accountFactory.makeAccount({ userId: user.id });
+
+		const newData = {
+			userId: user.id.id,
+			name: "John Doe",
+			email: "john.doe@example.com",
+			password: "3x4mpl3@P4ssw0rd",
+			avatarUrl: "https://example.com/avatar.jpg",
+			birthdate: new Date("1980-01-01"),
+			role: Roles.CLIENT,
+			emailVerifiedAt: new Date(),
+		};
 
 		const response = await request(app.getHttpServer())
-			.get(`/accounts/user/${account.provider}/${account.providerAccountId}`)
-			.send();
+			.put(`/users/${user.id.id}`)
+			.send(newData);
 
 		expect(response.statusCode).toBe(200);
 		expect(response.body).toEqual({
-			account: expect.objectContaining({
-				provider: account.provider,
-				providerAccountId: account.providerAccountId,
+			user: expect.objectContaining({
+				name: newData.name,
+				email: newData.email,
 			}),
 		});
 	});

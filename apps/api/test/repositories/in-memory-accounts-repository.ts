@@ -1,7 +1,7 @@
 import { matchesFields } from "@/core/functions/matches-fields";
 import {
-  AccountsRepository,
-  type TAccountFields,
+	AccountsRepository,
+	type TAccountFields,
 } from "@/domain/account/application/repositories/accounts-repository";
 import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import { Account } from "@/domain/account/enterprise/entities/account";
@@ -47,9 +47,9 @@ export class InMemoryAccountsRepository implements AccountsRepository {
 			return null;
 		}
 
-    return AccountAndUser.create({
-      account,
-      user
-    })
+		return AccountAndUser.create({
+			account,
+			user,
+		});
 	}
 }

@@ -1,5 +1,5 @@
 import { generateCacheKey } from "@/core/functions/generate-cache-key";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	NotificationsRepository,
 	type TNotificationFields,
@@ -33,7 +33,7 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
 		fields,
 		orderBy,
 		pagination,
-	}: TFetchEntity<TNotificationFields>) {
+	}: TQueryOptions<TNotificationFields>) {
 		const cacheKey = generateCacheKey("notifications", [
 			fields,
 			orderBy,

@@ -1,3 +1,3 @@
-export type TOrderBy<T> = {
+export type TSortOrder<T> = {
 	[key in keyof T]: "asc" | "desc";
 };

@@ -14,14 +14,13 @@ describe("Get authenticator", () => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAuthenticatorsRepository = new InMemoryAuthenticatorsRepository();
 		authenticatorFactory = new AuthenticatorFactory(
-			inMemoryUsersRepository,
 			inMemoryAuthenticatorsRepository,
 		);
 		sut = new GetAuthenticatorUseCase(inMemoryAuthenticatorsRepository);
 	});
 
 	it("should be able to get an existing authenticator", async () => {
-		const { authenticator } = await authenticatorFactory.makeAuthenticator();
+		const authenticator = await authenticatorFactory.makeAuthenticator();
 
 		const result = await sut.execute({
 			credentialId: authenticator.credentialId,

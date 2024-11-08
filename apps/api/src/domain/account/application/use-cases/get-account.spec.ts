@@ -15,15 +15,12 @@ describe("Get account", () => {
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
-		accountFactory = new AccountFactory(
-			inMemoryUsersRepository,
-			inMemoryAccountsRepository,
-		);
+		accountFactory = new AccountFactory(inMemoryAccountsRepository);
 		sut = new GetAccountUseCase(inMemoryAccountsRepository);
 	});
 
 	it("should be able to get an existing account", async () => {
-		const { account } = await accountFactory.makeAccount();
+		const account = await accountFactory.makeAccount();
 
 		const result = await sut.execute({
 			provider: account.provider,

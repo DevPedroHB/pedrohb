@@ -1,10 +1,10 @@
-import type { TPartialFactory } from "@/core/types/partial-factory";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import { type IUser, User } from "@/domain/account/enterprise/entities/user";
 import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
 
-export function makeUser(override: TPartialFactory<IUser> = {}) {
+export function makeUser(override: Partial<IUser> = {}, id?: UniqueEntityID) {
 	const name = faker.person.fullName();
 
 	const user = User.create(
@@ -21,7 +21,7 @@ export function makeUser(override: TPartialFactory<IUser> = {}) {
 			createdAt: faker.date.past(),
 			...override,
 		},
-		override.id,
+		id,
 	);
 
 	return user;
@@ -31,8 +31,8 @@ export function makeUser(override: TPartialFactory<IUser> = {}) {
 export class UserFactory {
 	constructor(private usersRepository: UsersRepository) {}
 
-	async makeUser(data: TPartialFactory<IUser> = {}) {
-		const user = makeUser(data);
+	async makeUser(data: Partial<IUser> = {}, id?: UniqueEntityID) {
+		const user = makeUser(data, id);
 
 		await this.usersRepository.create(user);
 

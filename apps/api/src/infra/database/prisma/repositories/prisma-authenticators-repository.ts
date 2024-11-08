@@ -1,5 +1,5 @@
 import { generateCacheKey } from "@/core/functions/generate-cache-key";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	AuthenticatorsRepository,
 	type TAuthenticatorFields,
@@ -35,7 +35,7 @@ export class PrismaAuthenticatorsRepository
 		fields,
 		orderBy,
 		pagination,
-	}: TFetchEntity<TAuthenticatorFields>) {
+	}: TQueryOptions<TAuthenticatorFields>) {
 		const cacheKey = generateCacheKey("authenticators", [
 			fields,
 			orderBy,

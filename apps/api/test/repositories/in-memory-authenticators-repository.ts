@@ -1,5 +1,5 @@
 import { matchesFields } from "@/core/functions/matches-fields";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	AuthenticatorsRepository,
 	type TAuthenticatorFields,
@@ -15,7 +15,7 @@ export class InMemoryAuthenticatorsRepository
 		fields,
 		orderBy,
 		pagination,
-	}: TFetchEntity<TAuthenticatorFields>) {
+	}: TQueryOptions<TAuthenticatorFields>) {
 		let items = this.items;
 
 		if (fields) {

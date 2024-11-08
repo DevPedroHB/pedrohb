@@ -1,7 +1,7 @@
 import { AggregateRoot } from "@/core/entities/aggregate-root";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { DomainEvent } from "@/core/events/domain-event";
-import { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 import { ITestEntity } from "./test-entity";
 
 export class TestAggregateRoot extends AggregateRoot<ITestEntity> {
@@ -34,7 +34,7 @@ export class TestAggregateRoot extends AggregateRoot<ITestEntity> {
 	}
 
 	static create(
-		props: Optional<ITestEntity, "createdAt">,
+		props: TOptional<ITestEntity, "createdAt">,
 		id?: UniqueEntityID,
 	) {
 		const testDomainEvents = new TestAggregateRoot(

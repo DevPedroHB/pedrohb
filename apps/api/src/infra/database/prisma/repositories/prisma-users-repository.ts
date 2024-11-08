@@ -1,6 +1,6 @@
 import { DomainEvents } from "@/core/events/domain-events";
 import { generateCacheKey } from "@/core/functions/generate-cache-key";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	type TUserFields,
 	UsersRepository,
@@ -30,7 +30,11 @@ export class PrismaUsersRepository implements UsersRepository {
 		}
 	}
 
-	async fetchUsers({ fields, orderBy, pagination }: TFetchEntity<TUserFields>) {
+	async fetchUsers({
+		fields,
+		orderBy,
+		pagination,
+	}: TQueryOptions<TUserFields>) {
 		const cacheKey = generateCacheKey("users", [fields, orderBy, pagination]);
 		const cacheHit = await this.cache.get(cacheKey);
 

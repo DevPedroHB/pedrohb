@@ -1,6 +1,6 @@
 import { AggregateRoot } from "@/core/entities/aggregate-root";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import type { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 import { UserCreatedEvent } from "../events/user-created-event";
 
 export enum Roles {
@@ -115,7 +115,7 @@ export class User extends AggregateRoot<IUser> {
 	}
 
 	static create(
-		props: Optional<IUser, "role" | "createdAt">,
+		props: TOptional<IUser, "role" | "createdAt">,
 		id?: UniqueEntityID,
 	) {
 		const user = new User(

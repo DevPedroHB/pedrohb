@@ -1,6 +1,6 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import type { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 
 export interface ISession {
 	sessionToken: string;
@@ -53,7 +53,7 @@ export class Session extends Entity<ISession> {
 		this.props.updatedAt = new Date();
 	}
 
-	static create(props: Optional<ISession, "createdAt">, id?: UniqueEntityID) {
+	static create(props: TOptional<ISession, "createdAt">, id?: UniqueEntityID) {
 		const session = new Session(
 			{
 				...props,

@@ -6,7 +6,7 @@ const getUserByEmailParamSchema = z.object({
 		.string({
 			required_error: "O parâmetro de e-mail é obrigatório.",
 		})
-		.email("O e-mail deve ser válido."),
+		.email({ message: "O e-mail deve ser válido." }),
 });
 
 export class GetUserByEmailParamDto extends createZodDto(

@@ -1,17 +1,17 @@
-import type { TEntityFields } from "@/core/types/entity-fields";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TLogicalFilter } from "@/core/types/logical-filter";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	Authenticator,
 	type IAuthenticator,
 } from "../../enterprise/entities/authenticator";
 
-export type TAuthenticatorFields = TEntityFields<IAuthenticator, "userId"> & {
+export type TAuthenticatorFields = TLogicalFilter<IAuthenticator, "userId"> & {
 	userId?: string;
 };
 
 export abstract class AuthenticatorsRepository {
 	abstract fetchAuthenticators(
-		options: TFetchEntity<TAuthenticatorFields>,
+		options: TQueryOptions<TAuthenticatorFields>,
 	): Promise<Authenticator[]>;
 	abstract findByFields(
 		fields: TAuthenticatorFields,

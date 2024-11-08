@@ -1,25 +1,16 @@
-import type { TPartialFactory } from "@/core/types/partial-factory";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { AuthenticatorsRepository } from "@/domain/account/application/repositories/authenticators-repository";
-import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import {
 	Authenticator,
 	type IAuthenticator,
 } from "@/domain/account/enterprise/entities/authenticator";
-import type { IUser } from "@/domain/account/enterprise/entities/user";
 import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
-import { makeUser } from "./user-factory";
-
-interface IAuthenticatorFactory {
-	user?: TPartialFactory<IUser>;
-	authenticator?: TPartialFactory<IAuthenticator>;
-}
 
 export function makeAuthenticator(
-	override: IAuthenticatorFactory = { user: {}, authenticator: {} },
+	override: Partial<IAuthenticator> = {},
+	id?: UniqueEntityID,
 ) {
-	const user = makeUser(override.user);
-
 	const authenticator = Authenticator.create(
 		{
 			credentialId: faker.string.uuid(),
@@ -28,36 +19,27 @@ export function makeAuthenticator(
 			counter: faker.number.int({ min: 1, max: 100 }),
 			credentialDeviceType: faker.lorem.word(),
 			credentialBackedUp: faker.datatype.boolean(),
-			userId: user.id,
-			...override.authenticator,
+			userId: new UniqueEntityID(),
+			...override,
 		},
-		override.authenticator.id,
+		id,
 	);
 
-	return {
-		user,
-		authenticator,
-	};
+	return authenticator;
 }
 
 @Injectable()
 export class AuthenticatorFactory {
-	constructor(
-		private usersRepository: UsersRepository,
-		private authenticator: AuthenticatorsRepository,
-	) {}
+	constructor(private authenticatorsRepository: AuthenticatorsRepository) {}
 
 	async makeAuthenticator(
-		data: IAuthenticatorFactory = { user: {}, authenticator: {} },
+		data: Partial<IAuthenticator> = {},
+		id?: UniqueEntityID,
 	) {
-		const { user, authenticator } = makeAuthenticator(data);
+		const authenticator = makeAuthenticator(data, id);
 
-		await this.usersRepository.create(user);
-		await this.authenticator.create(authenticator);
+		await this.authenticatorsRepository.create(authenticator);
 
-		return {
-			user,
-			authenticator,
-		};
+		return authenticator;
 	}
 }

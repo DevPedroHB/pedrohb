@@ -1,6 +1,6 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 
 export interface ITestEntity {
 	name: string;
@@ -43,7 +43,7 @@ export class TestEntity extends Entity<ITestEntity> {
 	}
 
 	static create(
-		props: Optional<ITestEntity, "createdAt">,
+		props: TOptional<ITestEntity, "createdAt">,
 		id?: UniqueEntityID,
 	) {
 		const testEntity = new TestEntity(

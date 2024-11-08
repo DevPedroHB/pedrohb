@@ -15,10 +15,7 @@ describe("Create session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
-		sessionFactory = new SessionFactory(
-			inMemoryUsersRepository,
-			inMemorySessionsRepository,
-		);
+		sessionFactory = new SessionFactory(inMemorySessionsRepository);
 		sut = new CreateSessionUseCase(inMemorySessionsRepository);
 	});
 
@@ -45,7 +42,7 @@ describe("Create session", () => {
 	});
 
 	it("should be able to return error if session already exists", async () => {
-		const { session } = await sessionFactory.makeSession();
+		const session = await sessionFactory.makeSession();
 
 		const result = await sut.execute({
 			sessionToken: session.sessionToken,

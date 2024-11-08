@@ -6,7 +6,7 @@ const getUserByIdParamSchema = z.object({
 		.string({
 			required_error: "O ID do usuário é obrigatório.",
 		})
-		.uuid("O ID do usuário deve ser um UUID válido."),
+		.uuid({ message: "O ID do usuário deve ser um UUID válido." }),
 });
 
 export class GetUserByIdParamDto extends createZodDto(getUserByIdParamSchema) {}

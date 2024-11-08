@@ -15,15 +15,12 @@ describe("Delete account", () => {
 		inMemoryAccountsRepository = new InMemoryAccountsRepository(
 			inMemoryUsersRepository,
 		);
-		accountFactory = new AccountFactory(
-			inMemoryUsersRepository,
-			inMemoryAccountsRepository,
-		);
+		accountFactory = new AccountFactory(inMemoryAccountsRepository);
 		sut = new DeleteAccountUseCase(inMemoryAccountsRepository);
 	});
 
 	it("should be able to delete an existing account", async () => {
-		const { account } = await accountFactory.makeAccount();
+		const account = await accountFactory.makeAccount();
 
 		const result = await sut.execute({
 			provider: account.provider,

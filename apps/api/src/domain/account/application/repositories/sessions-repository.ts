@@ -1,8 +1,8 @@
-import type { TEntityFields } from "@/core/types/entity-fields";
+import type { TLogicalFilter } from "@/core/types/logical-filter";
 import { type ISession, Session } from "../../enterprise/entities/session";
 import { SessionAndUser } from "../../enterprise/entities/value-objects/session-and-user";
 
-export type TSessionFields = TEntityFields<ISession, "userId"> & {
+export type TSessionFields = TLogicalFilter<ISession, "userId"> & {
 	userId?: string;
 };
 

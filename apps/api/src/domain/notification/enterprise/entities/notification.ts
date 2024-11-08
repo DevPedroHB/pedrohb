@@ -1,6 +1,6 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import type { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 
 export interface INotification {
 	title: string;
@@ -36,7 +36,7 @@ export class Notification extends Entity<INotification> {
 	}
 
 	static create(
-		props: Optional<INotification, "createdAt">,
+		props: TOptional<INotification, "createdAt">,
 		id?: UniqueEntityID,
 	) {
 		const notification = new Notification(

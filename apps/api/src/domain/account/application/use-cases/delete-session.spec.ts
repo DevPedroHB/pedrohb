@@ -15,15 +15,12 @@ describe("Delete session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
-		sessionFactory = new SessionFactory(
-			inMemoryUsersRepository,
-			inMemorySessionsRepository,
-		);
+		sessionFactory = new SessionFactory(inMemorySessionsRepository);
 		sut = new DeleteSessionUseCase(inMemorySessionsRepository);
 	});
 
 	it("should be able to delete an existing session", async () => {
-		const { session } = await sessionFactory.makeSession();
+		const session = await sessionFactory.makeSession();
 
 		const result = await sut.execute({
 			sessionToken: session.sessionToken,

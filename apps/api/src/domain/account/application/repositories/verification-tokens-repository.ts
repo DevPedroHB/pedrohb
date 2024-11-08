@@ -1,10 +1,10 @@
-import type { TEntityFields } from "@/core/types/entity-fields";
+import type { TLogicalFilter } from "@/core/types/logical-filter";
 import {
 	type IVerificationToken,
 	VerificationToken,
 } from "../../enterprise/entities/verification-token";
 
-export type TVerificationTokenFields = TEntityFields<IVerificationToken>;
+export type TVerificationTokenFields = TLogicalFilter<IVerificationToken>;
 
 export abstract class VerificationTokensRepository {
 	abstract findByFields(

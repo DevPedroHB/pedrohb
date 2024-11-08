@@ -1,11 +1,11 @@
-import type { TEntityFields } from "@/core/types/entity-fields";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TLogicalFilter } from "@/core/types/logical-filter";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	type INotification,
 	Notification,
 } from "../../enterprise/entities/notification";
 
-export type TNotificationFields = TEntityFields<
+export type TNotificationFields = TLogicalFilter<
 	INotification,
 	"recipientId" | "content"
 > & {
@@ -14,7 +14,7 @@ export type TNotificationFields = TEntityFields<
 
 export abstract class NotificationsRepository {
 	abstract fetchNotifications(
-		options: TFetchEntity<TNotificationFields>,
+		options: TQueryOptions<TNotificationFields>,
 	): Promise<Notification[]>;
 	abstract findByFields(
 		fields: TNotificationFields,

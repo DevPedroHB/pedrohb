@@ -25,7 +25,7 @@ describe("Update user", () => {
 	it("should be able to update a user", async () => {
 		const user = await userFactory.makeUser();
 
-		const result = await sut.execute({
+		const newData = {
 			userId: user.id.id,
 			name: "John Doe",
 			email: "john.doe@example.com",
@@ -34,13 +34,15 @@ describe("Update user", () => {
 			birthdate: new Date("1980-01-01"),
 			role: Roles.CLIENT,
 			emailVerifiedAt: new Date(),
-		});
+		};
+
+		const result = await sut.execute(newData);
 
 		expect(result.isSuccess()).toBe(true);
 
 		if (result.isSuccess()) {
-			expect(result.value.user.name).toBe("John Doe");
-			expect(result.value.user.email).toBe("john.doe@example.com");
+			expect(result.value.user.name).toBe(newData.name);
+			expect(result.value.user.email).toBe(newData.email);
 		}
 	});
 

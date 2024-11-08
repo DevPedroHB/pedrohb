@@ -1,11 +1,13 @@
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { SessionFactory } from "test/factories/session-factory";
+import { UserFactory } from "test/factories/user-factory";
 import { InMemorySessionsRepository } from "test/repositories/in-memory-sessions-repository";
 import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { GetSessionUseCase } from "./get-session";
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemorySessionsRepository: InMemorySessionsRepository;
+let userFactory: UserFactory;
 let sessionFactory: SessionFactory;
 let sut: GetSessionUseCase;
 
@@ -15,15 +17,14 @@ describe("Get session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
-		sessionFactory = new SessionFactory(
-			inMemoryUsersRepository,
-			inMemorySessionsRepository,
-		);
+		userFactory = new UserFactory(inMemoryUsersRepository);
+		sessionFactory = new SessionFactory(inMemorySessionsRepository);
 		sut = new GetSessionUseCase(inMemorySessionsRepository);
 	});
 
 	it("should be able to get an existing session", async () => {
-		const { session } = await sessionFactory.makeSession();
+		const user = await userFactory.makeUser();
+		const session = await sessionFactory.makeSession({ userId: user.id });
 
 		const result = await sut.execute({
 			sessionToken: session.sessionToken,
@@ -33,9 +34,16 @@ describe("Get session", () => {
 
 		if (result.isSuccess()) {
 			expect(result.value.sessionAndUser).toBeDefined();
-			expect(result.value.sessionAndUser.session.sessionToken).toBe(
-				session.sessionToken,
-			);
+			expect(result.value.sessionAndUser).toEqual({
+				_props: expect.objectContaining({
+					session: expect.objectContaining({
+						sessionToken: session.sessionToken,
+					}),
+					user: expect.objectContaining({
+						id: user.id,
+					}),
+				}),
+			});
 		}
 	});
 

@@ -1,19 +1,15 @@
 import { Either, error, success } from "@/core/either";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
-import { Roles, User } from "../../enterprise/entities/user";
+import type { TPartialExcept } from "@/core/types/partial-except";
+import { Injectable } from "@nestjs/common";
+import { type IUser, Roles, User } from "../../enterprise/entities/user";
 import { HasherRepository } from "../cryptography/hasher-repository";
 import { UsersRepository } from "../repositories/users-repository";
 
-interface UpdateUserUseCaseRequest {
+interface UpdateUserUseCaseRequest
+	extends TPartialExcept<IUser, "createdAt" | "updatedAt"> {
 	userId: string;
-	name?: string | null;
-	email?: string | null;
-	password?: string | null;
-	avatarUrl?: string | null;
-	birthdate?: Date | null;
-	role?: string | null;
-	emailVerifiedAt?: Date | null;
 }
 
 type UpdateUserUseCaseResponse = Either<
@@ -23,6 +19,7 @@ type UpdateUserUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class UpdateUserUseCase {
 	constructor(
 		private usersRepository: UsersRepository,

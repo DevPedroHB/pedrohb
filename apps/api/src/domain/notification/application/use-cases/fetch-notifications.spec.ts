@@ -1,20 +1,16 @@
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { NotificationFactory } from "test/factories/notification-factory";
 import { InMemoryNotificationsRepository } from "test/repositories/in-memory-notifications-repository";
-import { InMemoryUsersRepository } from "test/repositories/in-memory-users-repository";
 import { FetchNotificationsUseCase } from "./fetch-notifications";
 
-let inMemoryUsersRepository: InMemoryUsersRepository;
 let inMemoryNotificationsRepository: InMemoryNotificationsRepository;
 let notificationFactory: NotificationFactory;
 let sut: FetchNotificationsUseCase;
 
 describe("Fetch notifications", () => {
 	beforeEach(() => {
-		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryNotificationsRepository = new InMemoryNotificationsRepository();
 		notificationFactory = new NotificationFactory(
-			inMemoryUsersRepository,
 			inMemoryNotificationsRepository,
 		);
 		sut = new FetchNotificationsUseCase(inMemoryNotificationsRepository);
@@ -24,10 +20,7 @@ describe("Fetch notifications", () => {
 		const recipientId = new UniqueEntityID();
 
 		for (let i = 0; i < 8; i++) {
-			await notificationFactory.makeNotification({
-				user: { id: recipientId },
-				notification: { recipientId },
-			});
+			await notificationFactory.makeNotification({ recipientId });
 		}
 
 		const firstPageResult = await sut.execute({

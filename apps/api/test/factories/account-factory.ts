@@ -1,59 +1,40 @@
-import type { TPartialFactory } from "@/core/types/partial-factory";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { AccountsRepository } from "@/domain/account/application/repositories/accounts-repository";
-import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import {
 	Account,
 	type IAccount,
 } from "@/domain/account/enterprise/entities/account";
-import type { IUser } from "@/domain/account/enterprise/entities/user";
 import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
-import { makeUser } from "./user-factory";
-
-interface IAccountFactory {
-	user?: TPartialFactory<IUser>;
-	account?: TPartialFactory<IAccount>;
-}
 
 export function makeAccount(
-	override: IAccountFactory = { user: {}, account: {} },
+	override: Partial<IAccount> = {},
+	id?: UniqueEntityID,
 ) {
-	const user = makeUser(override.user);
-
 	const account = Account.create(
 		{
 			provider: faker.lorem.word(),
 			providerAccountId: faker.string.uuid(),
 			type: faker.lorem.word(),
-			createdAt: faker.date.past({ refDate: user.createdAt }),
-			userId: user.id,
-			...override.account,
+			createdAt: faker.date.past(),
+			userId: new UniqueEntityID(),
+			...override,
 		},
-		override.account.id,
+		id,
 	);
 
-	return {
-		user,
-		account,
-	};
+	return account;
 }
 
 @Injectable()
 export class AccountFactory {
-	constructor(
-		private usersRepository: UsersRepository,
-		private accountsRepository: AccountsRepository,
-	) {}
+	constructor(private accountsRepository: AccountsRepository) {}
 
-	async makeAccount(data: IAccountFactory = { user: {}, account: {} }) {
-		const { user, account } = makeAccount(data);
+	async makeAccount(data: Partial<IAccount> = {}, id?: UniqueEntityID) {
+		const account = makeAccount(data, id);
 
-		await this.usersRepository.create(user);
 		await this.accountsRepository.create(account);
 
-		return {
-			user,
-			account,
-		};
+		return account;
 	}
 }

@@ -1,5 +1,5 @@
 import { matchesFields } from "@/core/functions/matches-fields";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	NotificationsRepository,
 	type TNotificationFields,
@@ -15,7 +15,7 @@ export class InMemoryNotificationsRepository
 		fields,
 		orderBy,
 		pagination,
-	}: TFetchEntity<TNotificationFields>) {
+	}: TQueryOptions<TNotificationFields>) {
 		let items = this.items;
 
 		if (fields) {

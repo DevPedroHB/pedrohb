@@ -1,6 +1,6 @@
 import { DomainEvents } from "@/core/events/domain-events";
 import { matchesFields } from "@/core/functions/matches-fields";
-import type { TFetchEntity } from "@/core/types/fetch-entity";
+import type { TQueryOptions } from "@/core/types/query-options";
 import {
 	type TUserFields,
 	UsersRepository,
@@ -10,7 +10,11 @@ import { User } from "@/domain/account/enterprise/entities/user";
 export class InMemoryUsersRepository implements UsersRepository {
 	public items: User[] = [];
 
-	async fetchUsers({ fields, orderBy, pagination }: TFetchEntity<TUserFields>) {
+	async fetchUsers({
+		fields,
+		orderBy,
+		pagination,
+	}: TQueryOptions<TUserFields>) {
 		let items = this.items;
 
 		if (fields) {

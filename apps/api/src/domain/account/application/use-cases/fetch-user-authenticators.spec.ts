@@ -13,14 +13,13 @@ describe("Fetch user authenticators", () => {
 		inMemoryUsersRepository = new InMemoryUsersRepository();
 		inMemoryAuthenticatorsRepository = new InMemoryAuthenticatorsRepository();
 		authenticatorFactory = new AuthenticatorFactory(
-			inMemoryUsersRepository,
 			inMemoryAuthenticatorsRepository,
 		);
 		sut = new FetchUserAuthenticatorsUseCase(inMemoryAuthenticatorsRepository);
 	});
 
 	it("should be able to fetch authenticators for a user", async () => {
-		const { authenticator } = await authenticatorFactory.makeAuthenticator();
+		const authenticator = await authenticatorFactory.makeAuthenticator();
 
 		const result = await sut.execute({
 			userId: authenticator.userId.id,

@@ -15,15 +15,12 @@ describe("Update Session", () => {
 		inMemorySessionsRepository = new InMemorySessionsRepository(
 			inMemoryUsersRepository,
 		);
-		sessionFactory = new SessionFactory(
-			inMemoryUsersRepository,
-			inMemorySessionsRepository,
-		);
+		sessionFactory = new SessionFactory(inMemorySessionsRepository);
 		sut = new UpdateSessionUseCase(inMemorySessionsRepository);
 	});
 
 	it("should be able to update an existing session", async () => {
-		const { session } = await sessionFactory.makeSession();
+		const session = await sessionFactory.makeSession();
 
 		const newExpiresAt = new Date(Date.now() + 3600 * 1000);
 		const newUserId = "new-user-id";

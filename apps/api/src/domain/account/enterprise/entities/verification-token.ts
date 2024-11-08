@@ -1,6 +1,6 @@
 import { Entity } from "@/core/entities/entity";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import type { Optional } from "@/core/types/optional";
+import type { TOptional } from "@/core/types/optional";
 import { addMinutes } from "date-fns";
 import { randomBytes } from "node:crypto";
 
@@ -32,7 +32,7 @@ export class VerificationToken extends Entity<IVerificationToken> {
 	}
 
 	static create(
-		props: Optional<IVerificationToken, "token" | "expiresAt">,
+		props: TOptional<IVerificationToken, "token" | "expiresAt">,
 		id?: UniqueEntityID,
 	) {
 		const verificationToken = new VerificationToken(

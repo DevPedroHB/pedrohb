@@ -1,58 +1,39 @@
-import type { TPartialFactory } from "@/core/types/partial-factory";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { SessionsRepository } from "@/domain/account/application/repositories/sessions-repository";
-import { UsersRepository } from "@/domain/account/application/repositories/users-repository";
 import {
 	type ISession,
 	Session,
 } from "@/domain/account/enterprise/entities/session";
-import type { IUser } from "@/domain/account/enterprise/entities/user";
 import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
-import { makeUser } from "./user-factory";
-
-interface ISessionFactory {
-	user?: TPartialFactory<IUser>;
-	session?: TPartialFactory<ISession>;
-}
 
 export function makeSession(
-	override: ISessionFactory = { user: {}, session: {} },
+	override: Partial<ISession> = {},
+	id?: UniqueEntityID,
 ) {
-	const user = makeUser(override.user);
-
 	const session = Session.create(
 		{
 			sessionToken: faker.string.uuid(),
 			expiresAt: faker.date.future(),
-			createdAt: faker.date.past({ refDate: user.createdAt }),
-			userId: user.id,
-			...override.session,
+			createdAt: faker.date.past(),
+			userId: new UniqueEntityID(),
+			...override,
 		},
-		override.session.id,
+		id,
 	);
 
-	return {
-		user,
-		session,
-	};
+	return session;
 }
 
 @Injectable()
 export class SessionFactory {
-	constructor(
-		private usersRepository: UsersRepository,
-		private sessionsRepository: SessionsRepository,
-	) {}
+	constructor(private sessionsRepository: SessionsRepository) {}
 
-	async makeSession(data: ISessionFactory = { user: {}, session: {} }) {
-		const { user, session } = makeSession(data);
+	async makeSession(data: Partial<ISession> = {}, id?: UniqueEntityID) {
+		const session = makeSession(data, id);
 
-		await this.usersRepository.create(user);
 		await this.sessionsRepository.create(session);
 
-		return {
-			user,
-			session,
-		};
+		return session;
 	}
 }

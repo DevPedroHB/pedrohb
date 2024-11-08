@@ -1,5 +1,5 @@
-import type { TPartialFactory } from "@/core/types/partial-factory";
-import type { VerificationTokensRepository } from "@/domain/account/application/repositories/verification-tokens-repository";
+import { UniqueEntityID } from "@/core/entities/unique-entity-id";
+import { VerificationTokensRepository } from "@/domain/account/application/repositories/verification-tokens-repository";
 import {
 	type IVerificationToken,
 	VerificationToken,
@@ -8,17 +8,18 @@ import { faker } from "@faker-js/faker";
 import { Injectable } from "@nestjs/common";
 
 export function makeVerificationToken(
-	override: TPartialFactory<IVerificationToken> = {},
+	override: Partial<IVerificationToken> = {},
+	id?: UniqueEntityID,
 ) {
-	const token = VerificationToken.create(
+	const verificationToken = VerificationToken.create(
 		{
 			identifier: faker.lorem.word(),
 			...override,
 		},
-		override.id,
+		id,
 	);
 
-	return token;
+	return verificationToken;
 }
 
 @Injectable()
@@ -27,8 +28,11 @@ export class VerificationTokenFactory {
 		private verificationTokensRepository: VerificationTokensRepository,
 	) {}
 
-	async makeVerificationToken(data: TPartialFactory<IVerificationToken> = {}) {
-		const verificationToken = makeVerificationToken(data);
+	async makeVerificationToken(
+		data: Partial<IVerificationToken> = {},
+		id?: UniqueEntityID,
+	) {
+		const verificationToken = makeVerificationToken(data, id);
 
 		await this.verificationTokensRepository.create(verificationToken);
 
