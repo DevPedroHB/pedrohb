@@ -44,6 +44,9 @@
 	},
 	"license": "UNLICENSED",
 	"name": "pedrohb-api",
+	"prisma": {
+		"seed": "ts-node prisma/seed.ts"
+	},
 	"private": true,
 	"scripts": {
 		"build": "nest build",
