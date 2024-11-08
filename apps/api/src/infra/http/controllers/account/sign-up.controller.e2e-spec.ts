@@ -3,6 +3,7 @@ import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
+import { makeUser } from "test/factories/user-factory";
 
 describe("Sign up (E2E)", () => {
 	let app: INestApplication;
@@ -18,24 +19,25 @@ describe("Sign up (E2E)", () => {
 	});
 
 	test("[POST] /users/sign-up", async () => {
-		const data = {
-			name: "John Doe",
-			email: "john.doe@example.com",
-			password: "3x4mpl3@P4ssw0rd",
-			avatarUrl: "https://example.com/avatar.jpg",
-			birthdate: new Date("1980-01-01"),
-		};
+		const user = makeUser({ password: "3x4mpl3@P4ssw0rd" });
 
 		const response = await request(app.getHttpServer())
 			.post("/users/sign-up")
-			.send(data);
+			.send({
+				name: user.name,
+				email: user.email,
+				password: user.password,
+				avatarUrl: user.avatarUrl,
+				birthdate: user.birthdate,
+				emailVerifiedAt: user.emailVerifiedAt,
+			});
 
 		expect(response.statusCode).toBe(201);
 		expect(response.body).toEqual({
 			user: expect.objectContaining({
-				name: data.name,
-				email: data.email,
-				avatarUrl: data.avatarUrl,
+				name: user.name,
+				email: user.email,
+				avatarUrl: user.avatarUrl,
 			}),
 			token: expect.any(String),
 		});

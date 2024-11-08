@@ -1,21 +1,12 @@
-import { NotAllowedError } from "@/core/errors/not-allowed-error";
-import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { UpdateUserUseCase } from "@/domain/account/application/use-cases/update-user";
 import { Public } from "@/infra/auth/public";
-import {
-	BadRequestException,
-	Body,
-	Controller,
-	ForbiddenException,
-	NotFoundException,
-	Param,
-	Put,
-} from "@nestjs/common";
+import { Body, Controller, Param, Put } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
 	UpdateUserBodyDto,
 	UpdateUserParamDto,
 } from "../../dtos/account/update-user.dto";
+import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
 @ApiTags("users")
@@ -49,16 +40,7 @@ export class UpdateUserController {
 		});
 
 		if (result.isError()) {
-			const error = result.value;
-
-			switch (error.constructor) {
-				case ResourceNotFoundError:
-					throw new NotFoundException(error.message);
-				case NotAllowedError:
-					throw new ForbiddenException(error.message);
-				default:
-					throw new BadRequestException(error.message);
-			}
+			ErrorHandler.handle(result.value);
 		}
 
 		return {

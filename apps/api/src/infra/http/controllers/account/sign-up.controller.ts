@@ -1,15 +1,9 @@
-import { AlreadyExistsError } from "@/core/errors/already-exists-error";
 import { SignUpUseCase } from "@/domain/account/application/use-cases/sign-up";
 import { Public } from "@/infra/auth/public";
-import {
-	BadRequestException,
-	Body,
-	ConflictException,
-	Controller,
-	Post,
-} from "@nestjs/common";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { SignUpBodyDto } from "../../dtos/account/sign-up.dto";
+import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "./../../presenters/user-presenter";
 
 @ApiTags("users")
@@ -39,14 +33,7 @@ export class SignUpController {
 		});
 
 		if (result.isError()) {
-			const error = result.value;
-
-			switch (error.constructor) {
-				case AlreadyExistsError:
-					throw new ConflictException(error.message);
-				default:
-					throw new BadRequestException(error.message);
-			}
+			ErrorHandler.handle(result.value);
 		}
 
 		return {

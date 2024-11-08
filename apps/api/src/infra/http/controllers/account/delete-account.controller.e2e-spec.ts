@@ -3,50 +3,41 @@ import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { makeAccount } from "test/factories/account-factory";
+import { AccountFactory } from "test/factories/account-factory";
 import { UserFactory } from "test/factories/user-factory";
 
-describe("Create account (E2E)", () => {
+describe("Delete account (E2E)", () => {
 	let app: INestApplication;
 	let userFactory: UserFactory;
+	let accountFactory: AccountFactory;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [AppModule, DatabaseModule],
-			providers: [UserFactory],
+			providers: [UserFactory, AccountFactory],
 		}).compile();
 
 		app = moduleRef.createNestApplication();
 
 		userFactory = moduleRef.get(UserFactory);
+		accountFactory = moduleRef.get(AccountFactory);
 
 		await app.init();
 	});
 
-	test("[POST] /accounts/:userId", async () => {
+	test("[DELETE] /accounts/:provider/:providerAccountId", async () => {
 		const user = await userFactory.makeUser();
-		const account = makeAccount({ userId: user.id });
+		const account = await accountFactory.makeAccount({ userId: user.id });
 
 		const response = await request(app.getHttpServer())
-			.post(`/accounts/${account.userId.id}`)
-			.send({
-				provider: account.provider,
-				providerAccountId: account.providerAccountId,
-				type: account.type,
-				refreshToken: account.refreshToken,
-				accessToken: account.accessToken,
-				expiresAt: account.expiresAt,
-				tokenType: account.tokenType,
-				scope: account.scope,
-				tokenId: account.tokenId,
-			});
+			.delete(`/accounts/${account.provider}/${account.providerAccountId}`)
+			.send();
 
-		expect(response.statusCode).toBe(201);
+		expect(response.statusCode).toBe(200);
 		expect(response.body).toEqual({
 			account: expect.objectContaining({
 				provider: account.provider,
 				providerAccountId: account.providerAccountId,
-				type: account.type,
 			}),
 		});
 	});

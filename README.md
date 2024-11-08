@@ -17,7 +17,7 @@ A API está organizada em módulos para facilitar a integração e o uso de seus
 - [x] Deve ser possível atualizar um usuário;
 - [x] Deve ser possível excluir um usuário;
 - [x] Deve ser possível criar uma conta e vinculá-la ao usuário;
-- [ ] Deve ser possível excluir uma conta pelo ID da conta do provedor e desvinculá-la do usuário; unlinkAccount(providerAccountId)
+- [x] Deve ser possível excluir uma conta pelo ID da conta do provedor e desvinculá-la do usuário;
 - [ ] Deve ser possível criar uma sessão; createSession(session)
 - [ ] Deve ser possível obter a sessão com o usuário pelo token da sessão; getSessionAndUser(sessionToken)
 - [ ] Deve ser possível atualizar uma sessão; updateSession(session)

@@ -1,15 +1,9 @@
-import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { GetUserByIdUseCase } from "@/domain/account/application/use-cases/get-user-by-id";
 import { Public } from "@/infra/auth/public";
-import {
-	BadRequestException,
-	Controller,
-	Get,
-	NotFoundException,
-	Param,
-} from "@nestjs/common";
+import { Controller, Get, Param } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { GetUserByIdParamDto } from "../../dtos/account/get-user-by-id.dto";
+import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
 @ApiTags("users")
@@ -23,14 +17,7 @@ export class GetUserByIdController {
 		const result = await this.getUserById.execute({ userId });
 
 		if (result.isError()) {
-			const error = result.value;
-
-			switch (error.constructor) {
-				case ResourceNotFoundError:
-					throw new NotFoundException(error.message);
-				default:
-					throw new BadRequestException(error.message);
-			}
+			ErrorHandler.handle(result.value);
 		}
 
 		return {

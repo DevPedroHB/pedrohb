@@ -1,4 +1,5 @@
 import { CreateAccountUseCase } from "@/domain/account/application/use-cases/create-account";
+import { DeleteAccountUseCase } from "@/domain/account/application/use-cases/delete-account";
 import { DeleteUserUseCase } from "@/domain/account/application/use-cases/delete-user";
 import { GetUserByAccountUseCase } from "@/domain/account/application/use-cases/get-user-by-account";
 import { GetUserByEmailUseCase } from "@/domain/account/application/use-cases/get-user-by-email";
@@ -9,6 +10,7 @@ import { CryptographyModule } from "@/infra/cryptography/cryptography.module";
 import { DatabaseModule } from "@/infra/database/database.module";
 import { Module } from "@nestjs/common";
 import { CreateAccountController } from "./create-account.controller";
+import { DeleteAccountController } from "./delete-account.controller";
 import { DeleteUserController } from "./delete-user.controller";
 import { GetUserByAccountController } from "./get-user-by-account.controller";
 import { GetUserByEmailController } from "./get-user-by-email.controller";
@@ -28,6 +30,7 @@ import { UpdateUserController } from "./update-user.controller";
 		// Account
 		GetUserByAccountController,
 		CreateAccountController,
+		DeleteAccountController,
 	],
 	providers: [
 		SignUpUseCase,
@@ -38,6 +41,7 @@ import { UpdateUserController } from "./update-user.controller";
 		// Account
 		GetUserByAccountUseCase,
 		CreateAccountUseCase,
+		DeleteAccountUseCase,
 	],
 })
 export class AccountModule {}

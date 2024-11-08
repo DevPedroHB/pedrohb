@@ -1,22 +1,17 @@
 import { CreateAccountUseCase } from "@/domain/account/application/use-cases/create-account";
 import { Public } from "@/infra/auth/public";
-import {
-	BadRequestException,
-	Body,
-	Controller,
-	Param,
-	Post,
-} from "@nestjs/common";
+import { Body, Controller, Param, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import {
 	CreateAccountBodyDto,
 	CreateAccountParamDto,
 } from "../../dtos/account/create-account.dto";
+import { ErrorHandler } from "../../error-handler";
 import { AccountPresenter } from "../../presenters/account-presenter";
 
 @ApiTags("accounts")
 @Public()
-@Controller({ path: "/accounts/user/:userId", version: "v1" })
+@Controller({ path: "/accounts/:userId", version: "v1" })
 export class CreateAccountController {
 	constructor(private createAccount: CreateAccountUseCase) {}
 
@@ -49,7 +44,7 @@ export class CreateAccountController {
 		});
 
 		if (result.isError()) {
-			throw new BadRequestException();
+			ErrorHandler.handle(result.value);
 		}
 
 		return {

@@ -13,7 +13,6 @@ export function makeUser(override: Partial<IUser> = {}, id?: UniqueEntityID) {
 			email: faker.internet.email({
 				firstName: name.split(" ")[0],
 				lastName: name.split(" ")[1],
-				allowSpecialCharacters: true,
 			}),
 			password: faker.internet.password(),
 			avatarUrl: faker.image.avatar(),
