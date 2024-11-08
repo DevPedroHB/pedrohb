@@ -6,7 +6,7 @@ import {
 import { Session } from "@/domain/account/enterprise/entities/session";
 import { CacheRepository } from "@/infra/cache/cache-repository";
 import { Injectable } from "@nestjs/common";
-import { PrismaSessionWithUserMapper } from "../mappers/prisma-session-with-user-mapper";
+import { PrismaSessionAndUserMapper } from "../mappers/prisma-session-and-user-mapper";
 import { PrismaSessionMapper } from "../mappers/prisma-session.mapper";
 import { PrismaService } from "../prisma.service";
 
@@ -94,7 +94,7 @@ export class PrismaSessionsRepository implements SessionsRepository {
 		const cacheHit = await this.cache.get(cacheKey);
 
 		if (cacheHit) {
-			return PrismaSessionWithUserMapper.toDomain(JSON.parse(cacheHit));
+			return PrismaSessionAndUserMapper.toDomain(JSON.parse(cacheHit));
 		}
 
 		const sessionWithUser = await this.prisma.session.findUnique({
@@ -112,6 +112,6 @@ export class PrismaSessionsRepository implements SessionsRepository {
 
 		await this.cache.set(cacheKey, JSON.stringify(sessionWithUser));
 
-		return PrismaSessionWithUserMapper.toDomain(sessionWithUser);
+		return PrismaSessionAndUserMapper.toDomain(sessionWithUser);
 	}
 }

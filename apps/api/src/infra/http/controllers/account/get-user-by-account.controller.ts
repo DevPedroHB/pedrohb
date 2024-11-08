@@ -2,15 +2,15 @@ import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { GetUserByAccountUseCase } from "@/domain/account/application/use-cases/get-user-by-account";
 import { Public } from "@/infra/auth/public";
 import {
-	BadRequestException,
-	Controller,
-	Get,
-	NotFoundException,
-	Param,
+  BadRequestException,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
 } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { GetUserByAccountParamDto } from "../../dtos/account/get-user-by-account.dto";
-import { AccountWithUserPresenter } from "../../presenters/account-with-user-presenter";
+import { AccountAndUserPresenter } from "../../presenters/account-and-user-presenter";
 
 @ApiTags("accounts")
 @Public()
@@ -42,7 +42,7 @@ export class GetUserByAccountController {
 		}
 
 		return {
-			account: AccountWithUserPresenter.toHTTP(result.value.account),
+			account: AccountAndUserPresenter.toHTTP(result.value.accountAndUser),
 		};
 	}
 }

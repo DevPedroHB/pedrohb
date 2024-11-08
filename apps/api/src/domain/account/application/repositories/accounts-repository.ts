@@ -1,6 +1,6 @@
 import type { TEntityFields } from "@/core/types/entity-fields";
 import { Account, type IAccount } from "../../enterprise/entities/account";
-import { AccountWithUser } from "../../enterprise/entities/value-objects/account-with-user";
+import { AccountAndUser } from "../../enterprise/entities/value-objects/account-and-user";
 
 export type TAccountFields = TEntityFields<IAccount, "userId"> & {
 	userId?: string;
@@ -13,5 +13,5 @@ export abstract class AccountsRepository {
 	abstract findByProviderId(
 		provider: string,
 		providerAccountId: string,
-	): Promise<AccountWithUser | null>;
+	): Promise<AccountAndUser | null>;
 }

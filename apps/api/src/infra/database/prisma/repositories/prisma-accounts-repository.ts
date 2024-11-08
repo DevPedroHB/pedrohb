@@ -1,13 +1,13 @@
 import { generateCacheKey } from "@/core/functions/generate-cache-key";
 import {
-	AccountsRepository,
-	type TAccountFields,
+  AccountsRepository,
+  type TAccountFields,
 } from "@/domain/account/application/repositories/accounts-repository";
 import { Account } from "@/domain/account/enterprise/entities/account";
 import { CacheRepository } from "@/infra/cache/cache-repository";
 import { Injectable } from "@nestjs/common";
+import { PrismaAccountAndUserMapper } from "../mappers/prisma-account-and-user-mapper";
 import { PrismaAccountMapper } from "../mappers/prisma-account-mapper";
-import { PrismaAccountWithUserMapper } from "../mappers/prisma-account-with-user-mapper";
 import { PrismaService } from "../prisma.service";
 
 @Injectable()
@@ -84,10 +84,10 @@ export class PrismaAccountsRepository implements AccountsRepository {
 		const cacheHit = await this.cache.get(cacheKey);
 
 		if (cacheHit) {
-			return PrismaAccountWithUserMapper.toDomain(JSON.parse(cacheHit));
+			return PrismaAccountAndUserMapper.toDomain(JSON.parse(cacheHit));
 		}
 
-		const accountWithUser = await this.prisma.account.findUnique({
+		const accountAndUser = await this.prisma.account.findUnique({
 			where: {
 				provider_providerAccountId: {
 					provider,
@@ -99,12 +99,12 @@ export class PrismaAccountsRepository implements AccountsRepository {
 			},
 		});
 
-		if (!accountWithUser) {
+		if (!accountAndUser) {
 			return null;
 		}
 
-		await this.cache.set(cacheKey, JSON.stringify(accountWithUser));
+		await this.cache.set(cacheKey, JSON.stringify(accountAndUser));
 
-		return PrismaAccountWithUserMapper.toDomain(accountWithUser);
+		return PrismaAccountAndUserMapper.toDomain(accountAndUser);
 	}
 }

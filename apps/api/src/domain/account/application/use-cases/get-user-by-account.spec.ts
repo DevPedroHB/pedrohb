@@ -31,16 +31,19 @@ describe("Get user by account", () => {
 		});
 
 		expect(result.isSuccess()).toBe(true);
-		expect(result.value).toEqual({
-			account: expect.objectContaining({
-				_props: expect.objectContaining({
-					providerAccountId: account.providerAccountId,
-					user: expect.objectContaining({
-						id: user.id,
-					}),
-				}),
-			}),
-		});
+
+    if(result.isSuccess()) {
+      expect(result.value.accountAndUser).toEqual({
+        _props: expect.objectContaining({
+          account: expect.objectContaining({
+            providerAccountId: account.providerAccountId,
+          }),
+          user: expect.objectContaining({
+            id: user.id,
+          }),
+        }),
+      });
+    }
 	});
 
 	it("should be able to return an error if user not found", async () => {

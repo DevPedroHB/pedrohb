@@ -32,8 +32,10 @@ describe("Get session", () => {
 		expect(result.isSuccess()).toBe(true);
 
 		if (result.isSuccess()) {
-			expect(result.value.session).toBeDefined();
-			expect(result.value.session.sessionToken).toBe(session.sessionToken);
+			expect(result.value.sessionAndUser).toBeDefined();
+			expect(result.value.sessionAndUser.session.sessionToken).toBe(
+				session.sessionToken,
+			);
 		}
 	});
 

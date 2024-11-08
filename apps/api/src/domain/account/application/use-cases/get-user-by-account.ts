@@ -1,7 +1,7 @@
 import { Either, error, success } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
 import { Injectable } from "@nestjs/common";
-import { AccountWithUser } from "../../enterprise/entities/value-objects/account-with-user";
+import { AccountAndUser } from "../../enterprise/entities/value-objects/account-and-user";
 import { AccountsRepository } from "../repositories/accounts-repository";
 
 interface GetUserByAccountUseCaseRequest {
@@ -12,7 +12,7 @@ interface GetUserByAccountUseCaseRequest {
 type GetUserByAccountUseCaseResponse = Either<
 	ResourceNotFoundError,
 	{
-		account: AccountWithUser;
+		accountAndUser: AccountAndUser;
 	}
 >;
 
@@ -24,17 +24,17 @@ export class GetUserByAccountUseCase {
 		provider,
 		providerAccountId,
 	}: GetUserByAccountUseCaseRequest): Promise<GetUserByAccountUseCaseResponse> {
-		const account = await this.accountsRepository.findByProviderId(
+		const accountAndUser = await this.accountsRepository.findByProviderId(
 			provider,
 			providerAccountId,
 		);
 
-		if (!account) {
+		if (!accountAndUser) {
 			return error(new ResourceNotFoundError("Conta"));
 		}
 
 		return success({
-			account,
+			accountAndUser,
 		});
 	}
 }
