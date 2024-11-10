@@ -16,7 +16,6 @@ export function makeAccount(
 			provider: faker.lorem.word(),
 			providerAccountId: faker.string.uuid(),
 			type: faker.lorem.word(),
-			createdAt: faker.date.past(),
 			userId: new UniqueEntityID(),
 			...override,
 		},

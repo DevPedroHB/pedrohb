@@ -1,5 +1,6 @@
 import { AppModule } from "@/infra/app.module";
 import { DatabaseModule } from "@/infra/database/database.module";
+import { PrismaService } from "@/infra/database/prisma/prisma.service";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
@@ -8,6 +9,7 @@ import { UserFactory } from "test/factories/user-factory";
 
 describe("Delete account (E2E)", () => {
 	let app: INestApplication;
+	let prisma: PrismaService;
 	let userFactory: UserFactory;
 	let accountFactory: AccountFactory;
 
@@ -19,6 +21,7 @@ describe("Delete account (E2E)", () => {
 
 		app = moduleRef.createNestApplication();
 
+		prisma = moduleRef.get(PrismaService);
 		userFactory = moduleRef.get(UserFactory);
 		accountFactory = moduleRef.get(AccountFactory);
 
@@ -33,12 +36,23 @@ describe("Delete account (E2E)", () => {
 			.delete(`/accounts/${account.provider}/${account.providerAccountId}`)
 			.send();
 
+		const accountOnDatabase = await prisma.account.findUnique({
+			where: {
+				provider_providerAccountId: {
+					provider: account.provider,
+					providerAccountId: account.providerAccountId,
+				},
+			},
+		});
+
 		expect(response.statusCode).toBe(200);
 		expect(response.body).toEqual({
 			account: expect.objectContaining({
 				provider: account.provider,
 				providerAccountId: account.providerAccountId,
+				userId: account.userId.id,
 			}),
 		});
+		expect(accountOnDatabase).toBeNull();
 	});
 });

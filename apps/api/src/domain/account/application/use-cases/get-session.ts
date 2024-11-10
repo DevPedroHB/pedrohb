@@ -1,5 +1,6 @@
 import { Either, error, success } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { Injectable } from "@nestjs/common";
 import { SessionAndUser } from "../../enterprise/entities/value-objects/session-and-user";
 import { SessionsRepository } from "../repositories/sessions-repository";
 
@@ -14,6 +15,7 @@ type GetSessionUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class GetSessionUseCase {
 	constructor(private sessionsRepository: SessionsRepository) {}
 

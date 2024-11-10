@@ -26,7 +26,6 @@ export function makeNotification(
 		{
 			title: faker.lorem.sentence(),
 			content: JSON.parse(JSON.stringify(content)),
-			createdAt: faker.date.past(),
 			recipientId: new UniqueEntityID(),
 			...override,
 		},

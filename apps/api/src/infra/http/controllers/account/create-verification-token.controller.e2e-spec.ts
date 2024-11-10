@@ -3,9 +3,9 @@ import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { makeUser } from "test/factories/user-factory";
+import { makeVerificationToken } from "test/factories/verification-token-factory";
 
-describe("Sign up (E2E)", () => {
+describe("Create verification token (E2E)", () => {
 	let app: INestApplication;
 
 	beforeAll(async () => {
@@ -18,29 +18,24 @@ describe("Sign up (E2E)", () => {
 		await app.init();
 	});
 
-	test("[POST] /users/sign-up", async () => {
-		const user = makeUser({ password: "3x4mpl3@P4ssw0rd" });
+	test("[POST] /verification-tokens", async () => {
+		const verificationToken = makeVerificationToken();
 
 		const response = await request(app.getHttpServer())
-			.post("/users/sign-up")
+			.post("/verification-tokens")
 			.send({
-				name: user.name,
-				email: user.email,
-				password: user.password,
-				avatarUrl: user.avatarUrl,
-				birthdate: user.birthdate,
-				emailVerifiedAt: user.emailVerifiedAt,
+				identifier: verificationToken.identifier,
+				token: verificationToken.token,
+				expiresAt: verificationToken.expiresAt,
 			});
 
 		expect(response.statusCode).toBe(201);
 		expect(response.body).toEqual({
-			user: expect.objectContaining({
-				name: user.name,
-				email: user.email,
-				avatarUrl: user.avatarUrl,
-				birthdate: user.birthdate.toISOString(),
+			verificationToken: expect.objectContaining({
+				identifier: verificationToken.identifier,
+				token: verificationToken.token,
+				expiresAt: verificationToken.expiresAt.toISOString(),
 			}),
-			token: expect.any(String),
 		});
 	});
 });

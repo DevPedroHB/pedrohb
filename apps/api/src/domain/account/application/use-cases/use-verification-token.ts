@@ -1,6 +1,7 @@
 import { Either, error, success } from "@/core/either";
 import { NotAllowedError } from "@/core/errors/not-allowed-error";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { Injectable } from "@nestjs/common";
 import { isBefore } from "date-fns";
 import { VerificationToken } from "../../enterprise/entities/verification-token";
 import { VerificationTokensRepository } from "../repositories/verification-tokens-repository";
@@ -17,6 +18,7 @@ type UseVerificationTokenUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class UseVerificationTokenUseCase {
 	constructor(
 		private verificationTokensRepository: VerificationTokensRepository,

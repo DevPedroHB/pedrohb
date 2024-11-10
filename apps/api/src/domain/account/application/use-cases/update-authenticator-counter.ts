@@ -1,5 +1,6 @@
 import { Either, error, success } from "@/core/either";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { Injectable } from "@nestjs/common";
 import { Authenticator } from "../../enterprise/entities/authenticator";
 import { AuthenticatorsRepository } from "../repositories/authenticators-repository";
 
@@ -15,6 +16,7 @@ type UpdateAuthenticatorCounterUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class UpdateAuthenticatorCounterUseCase {
 	constructor(private authenticatorsRepository: AuthenticatorsRepository) {}
 

@@ -38,6 +38,9 @@ describe("Get user by account (E2E)", () => {
 			account: expect.objectContaining({
 				provider: account.provider,
 				providerAccountId: account.providerAccountId,
+				user: expect.objectContaining({
+					id: user.id.id,
+				}),
 			}),
 		});
 	});

@@ -1,6 +1,7 @@
 import { Either, error, success } from "@/core/either";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { ResourceNotFoundError } from "@/core/errors/resource-not-found-error";
+import { Injectable } from "@nestjs/common";
 import { Session } from "../../enterprise/entities/session";
 import { SessionsRepository } from "../repositories/sessions-repository";
 
@@ -17,6 +18,7 @@ type UpdateSessionUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class UpdateSessionUseCase {
 	constructor(private sessionsRepository: SessionsRepository) {}
 

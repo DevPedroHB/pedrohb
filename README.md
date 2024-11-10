@@ -18,17 +18,17 @@ A API está organizada em módulos para facilitar a integração e o uso de seus
 - [x] Deve ser possível excluir um usuário;
 - [x] Deve ser possível criar uma conta e vinculá-la ao usuário;
 - [x] Deve ser possível excluir uma conta pelo ID da conta do provedor e desvinculá-la do usuário;
-- [ ] Deve ser possível criar uma sessão; createSession(session)
-- [ ] Deve ser possível obter a sessão com o usuário pelo token da sessão; getSessionAndUser(sessionToken)
-- [ ] Deve ser possível atualizar uma sessão; updateSession(session)
-- [ ] Deve ser possível excluir uma sessão pelo token da sessão; deleteSession(sessionToken)
-- [ ] Deve ser possível criar um token de verificação; createVerificationToken(verificationToken)
-- [ ] Deve ser possível usar o token de verificação; useVerificationToken(params)
-- [ ] Deve ser possível obter a conta pelo ID da conta do provedor e pelo provedor; getAccount(providerAccountId, provider)
-- [ ] Deve ser possível obter o autenticador pelo ID da credencial; getAuthenticator(credentialID)
-- [ ] Deve ser possível criar um autenticador; createAuthenticator(authenticator)
-- [ ] Deve ser possível buscar todos os autenticadores de um usuário; listAuthenticatorsByUserId(userId)
-- [ ] Deve ser possível atualizar o contador do autenticador pelo ID da credencial; updateAuthenticatorCounter(credentialID newCounter)
+- [x] Deve ser possível criar uma sessão;
+- [x] Deve ser possível obter a sessão com o usuário pelo token da sessão;
+- [x] Deve ser possível atualizar uma sessão;
+- [x] Deve ser possível excluir uma sessão pelo token da sessão;
+- [x] Deve ser possível criar um token de verificação;
+- [x] Deve ser possível usar o token de verificação;
+- [x] Deve ser possível obter a conta pelo ID da conta do provedor e pelo provedor;
+- [x] Deve ser possível obter o autenticador pelo ID da credencial;
+- [x] Deve ser possível criar um autenticador;
+- [x] Deve ser possível buscar todos os autenticadores de um usuário;
+- [x] Deve ser possível atualizar o contador do autenticador pelo ID da credencial;
 
 ### 🖥️ WEB
 

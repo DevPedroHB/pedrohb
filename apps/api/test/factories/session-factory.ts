@@ -15,7 +15,6 @@ export function makeSession(
 		{
 			sessionToken: faker.string.uuid(),
 			expiresAt: faker.date.future(),
-			createdAt: faker.date.past(),
 			userId: new UniqueEntityID(),
 			...override,
 		},

@@ -1,5 +1,6 @@
 import { Either, error, success } from "@/core/either";
 import { InvalidCredentialsError } from "@/core/errors/invalid-credentials-error";
+import { Injectable } from "@nestjs/common";
 import { isBefore } from "date-fns";
 import { VerificationToken } from "../../enterprise/entities/verification-token";
 import { VerificationTokensRepository } from "../repositories/verification-tokens-repository";
@@ -17,6 +18,7 @@ type CreateVerificationTokenUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class CreateVerificationTokenUseCase {
 	constructor(
 		private verificationTokensRepository: VerificationTokensRepository,

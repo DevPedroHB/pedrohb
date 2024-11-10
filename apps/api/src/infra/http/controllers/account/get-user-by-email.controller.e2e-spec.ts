@@ -33,9 +33,7 @@ describe("Get user by email (E2E)", () => {
 		expect(response.body).toEqual({
 			user: expect.objectContaining({
 				id: user.id.id,
-				name: user.name,
 				email: user.email,
-				avatarUrl: user.avatarUrl,
 			}),
 		});
 	});

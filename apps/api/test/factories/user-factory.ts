@@ -17,7 +17,6 @@ export function makeUser(override: Partial<IUser> = {}, id?: UniqueEntityID) {
 			password: faker.internet.password(),
 			avatarUrl: faker.image.avatar(),
 			birthdate: faker.date.birthdate(),
-			createdAt: faker.date.past(),
 			...override,
 		},
 		id,

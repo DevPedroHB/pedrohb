@@ -1,6 +1,7 @@
 import { Either, error, success } from "@/core/either";
 import { UniqueEntityID } from "@/core/entities/unique-entity-id";
 import { AlreadyExistsError } from "@/core/errors/already-exists-error";
+import { Injectable } from "@nestjs/common";
 import { Authenticator } from "../../enterprise/entities/authenticator";
 import { AuthenticatorsRepository } from "../repositories/authenticators-repository";
 
@@ -22,6 +23,7 @@ type CreateAuthenticatorUseCaseResponse = Either<
 	}
 >;
 
+@Injectable()
 export class CreateAuthenticatorUseCase {
 	constructor(private authenticatorsRepository: AuthenticatorsRepository) {}
 
