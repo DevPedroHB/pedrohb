@@ -1,7 +1,7 @@
 import { GetUserByAccountUseCase } from "@/domain/account/application/use-cases/get-user-by-account";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetUserByAccountParamDto } from "../../dtos/account/get-user-by-account.dto";
 import { ErrorHandler } from "../../error-handler";
 import { AccountAndUserPresenter } from "../../presenters/account-and-user-presenter";
@@ -15,6 +15,7 @@ import { AccountAndUserPresenter } from "../../presenters/account-and-user-prese
 export class GetUserByAccountController {
 	constructor(private getUserByAccount: GetUserByAccountUseCase) {}
 
+	@ApiOperation({ summary: "Get user by account" })
 	@Get()
 	async handle(
 		@Param() { provider, providerAccountId }: GetUserByAccountParamDto,

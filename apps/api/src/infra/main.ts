@@ -2,6 +2,7 @@ import { NestInterceptor, VersioningType } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { patchNestJsSwagger } from "nestjs-zod";
+import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 import { AppModule } from "./app.module";
 import { EnvService } from "./env/env.service";
 import { CustomExceptionFilter } from "./http/filters/custom-exception.filter";
@@ -40,10 +41,13 @@ async function bootstrap() {
 			"token",
 		)
 		.build();
-
 	const document = SwaggerModule.createDocument(app, config);
+	const theme = new SwaggerTheme();
 
-	SwaggerModule.setup("docs", app, document);
+	SwaggerModule.setup("docs", app, document, {
+		explorer: true,
+		customCss: theme.getBuffer(SwaggerThemeNameEnum.DRACULA),
+	});
 
 	const envService = app.get(EnvService);
 

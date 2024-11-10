@@ -1,7 +1,7 @@
 import { GetSessionUseCase } from "@/domain/account/application/use-cases/get-session";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetSessionParamDto } from "../../dtos/account/get-session.dto";
 import { ErrorHandler } from "../../error-handler";
 import { SessionAndUserPresenter } from "../../presenters/session-and-user-presenter";
@@ -12,6 +12,7 @@ import { SessionAndUserPresenter } from "../../presenters/session-and-user-prese
 export class GetSessionController {
 	constructor(private getSession: GetSessionUseCase) {}
 
+	@ApiOperation({ summary: "Get session" })
 	@Get()
 	async handle(@Param() { sessionToken }: GetSessionParamDto) {
 		const result = await this.getSession.execute({ sessionToken });

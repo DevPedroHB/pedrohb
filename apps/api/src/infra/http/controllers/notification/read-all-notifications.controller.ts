@@ -2,7 +2,7 @@ import { ReadAllNotificationsUseCase } from "@/domain/notification/application/u
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { UserPayloadSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Patch } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
 
@@ -11,6 +11,7 @@ import { NotificationPresenter } from "../../presenters/notification-presenter";
 export class ReadAllNotificationsController {
 	constructor(private readAllNotifications: ReadAllNotificationsUseCase) {}
 
+	@ApiOperation({ summary: "Read all notifications" })
 	@Patch()
 	async handle(@CurrentUser() { sub }: UserPayloadSchema) {
 		const result = await this.readAllNotifications.execute({

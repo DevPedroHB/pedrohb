@@ -1,7 +1,7 @@
 import { DeleteUserUseCase } from "@/domain/account/application/use-cases/delete-user";
 import { Public } from "@/infra/auth/public";
 import { Controller, Delete, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { DeleteUserParamDto } from "../../dtos/account/delete-user.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
@@ -12,6 +12,7 @@ import { UserPresenter } from "../../presenters/user-presenter";
 export class DeleteUserController {
 	constructor(private deleteUser: DeleteUserUseCase) {}
 
+	@ApiOperation({ summary: "Delete user" })
 	@Delete()
 	async handle(@Param() { userId }: DeleteUserParamDto) {
 		const result = await this.deleteUser.execute({ userId });

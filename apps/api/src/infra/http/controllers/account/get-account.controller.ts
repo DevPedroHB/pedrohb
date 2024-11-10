@@ -1,7 +1,7 @@
 import { GetAccountUseCase } from "@/domain/account/application/use-cases/get-account";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetAccountParamDto } from "../../dtos/account/get-account.dto";
 import { ErrorHandler } from "../../error-handler";
 import { AccountPresenter } from "../../presenters/account-presenter";
@@ -12,6 +12,7 @@ import { AccountPresenter } from "../../presenters/account-presenter";
 export class GetAccountController {
 	constructor(private getAccount: GetAccountUseCase) {}
 
+	@ApiOperation({ summary: "Get account" })
 	@Get()
 	async handle(@Param() { provider, providerAccountId }: GetAccountParamDto) {
 		const result = await this.getAccount.execute({

@@ -1,7 +1,7 @@
 import { FetchUserAuthenticatorsUseCase } from "@/domain/account/application/use-cases/fetch-user-authenticators";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { FetchUserAuthenticatorsParamDto } from "../../dtos/account/fetch-user-authenticators.dto";
 import { ErrorHandler } from "../../error-handler";
 import { AuthenticatorPresenter } from "../../presenters/authenticator-presenter";
@@ -14,6 +14,7 @@ export class FetchUserAuthenticatorsController {
 		private fetchUserAuthenticators: FetchUserAuthenticatorsUseCase,
 	) {}
 
+	@ApiOperation({ summary: "Fetch user authenticators" })
 	@Get()
 	async handle(@Param() { userId }: FetchUserAuthenticatorsParamDto) {
 		const result = await this.fetchUserAuthenticators.execute({ userId });

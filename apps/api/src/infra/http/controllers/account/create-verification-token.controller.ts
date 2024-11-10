@@ -1,7 +1,7 @@
 import { CreateVerificationTokenUseCase } from "@/domain/account/application/use-cases/create-verification-token";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { CreateVerificationTokenBodyDto } from "../../dtos/account/create-verification-token.dto";
 import { ErrorHandler } from "../../error-handler";
 import { VerificationTokenPresenter } from "../../presenters/verification-token-presenter";
@@ -14,6 +14,7 @@ export class CreateVerificationTokenController {
 		private createVerificationToken: CreateVerificationTokenUseCase,
 	) {}
 
+	@ApiOperation({ summary: "Create verification token" })
 	@Post()
 	async handle(
 		@Body() { identifier, token, expiresAt }: CreateVerificationTokenBodyDto,

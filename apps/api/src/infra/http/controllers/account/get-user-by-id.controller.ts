@@ -1,7 +1,7 @@
 import { GetUserByIdUseCase } from "@/domain/account/application/use-cases/get-user-by-id";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetUserByIdParamDto } from "../../dtos/account/get-user-by-id.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
@@ -12,6 +12,7 @@ import { UserPresenter } from "../../presenters/user-presenter";
 export class GetUserByIdController {
 	constructor(private getUserById: GetUserByIdUseCase) {}
 
+	@ApiOperation({ summary: "Get user by id" })
 	@Get()
 	async handle(@Param() { userId }: GetUserByIdParamDto) {
 		const result = await this.getUserById.execute({ userId });

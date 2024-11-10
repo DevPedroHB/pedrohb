@@ -1,7 +1,7 @@
 import { CreateAuthenticatorUseCase } from "@/domain/account/application/use-cases/create-authenticator";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	CreateAuthenticatorBodyDto,
 	CreateAuthenticatorParamDto,
@@ -15,6 +15,7 @@ import { AuthenticatorPresenter } from "../../presenters/authenticator-presenter
 export class CreateAuthenticatorController {
 	constructor(private createAuthenticator: CreateAuthenticatorUseCase) {}
 
+	@ApiOperation({ summary: "Create authenticator" })
 	@Post()
 	async handle(
 		@Param() { userId }: CreateAuthenticatorParamDto,

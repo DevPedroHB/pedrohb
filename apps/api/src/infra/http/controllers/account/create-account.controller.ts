@@ -1,7 +1,7 @@
 import { CreateAccountUseCase } from "@/domain/account/application/use-cases/create-account";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	CreateAccountBodyDto,
 	CreateAccountParamDto,
@@ -15,6 +15,7 @@ import { AccountPresenter } from "../../presenters/account-presenter";
 export class CreateAccountController {
 	constructor(private createAccount: CreateAccountUseCase) {}
 
+	@ApiOperation({ summary: "Create account" })
 	@Post()
 	async handle(
 		@Param() { userId }: CreateAccountParamDto,

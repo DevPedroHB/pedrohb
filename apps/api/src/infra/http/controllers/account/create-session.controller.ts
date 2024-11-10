@@ -1,7 +1,7 @@
 import { CreateSessionUseCase } from "@/domain/account/application/use-cases/create-session";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	CreateSessionBodyDto,
 	CreateSessionParamDto,
@@ -15,6 +15,7 @@ import { SessionPresenter } from "../../presenters/session-presenter";
 export class CreateSessionController {
 	constructor(private createSession: CreateSessionUseCase) {}
 
+	@ApiOperation({ summary: "Create session" })
 	@Post()
 	async handle(
 		@Param() { userId }: CreateSessionParamDto,

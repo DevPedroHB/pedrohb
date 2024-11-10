@@ -2,7 +2,7 @@ import { ReadNotificationUseCase } from "@/domain/notification/application/use-c
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { UserPayloadSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Param, Patch } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ReadNotificationParamDto } from "../../dtos/notification/read-notification.dto";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
@@ -12,6 +12,7 @@ import { NotificationPresenter } from "../../presenters/notification-presenter";
 export class ReadNotificationController {
 	constructor(private readNotification: ReadNotificationUseCase) {}
 
+	@ApiOperation({ summary: "Read notification" })
 	@Patch()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,

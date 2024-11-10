@@ -2,7 +2,7 @@ import { GetNotificationUseCase } from "@/domain/notification/application/use-ca
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { UserPayloadSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetNotificationParamDto } from "../../dtos/notification/get-notification.dto";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
@@ -12,6 +12,7 @@ import { NotificationPresenter } from "../../presenters/notification-presenter";
 export class GetNotificationController {
 	constructor(private getNotification: GetNotificationUseCase) {}
 
+	@ApiOperation({ summary: "Get notification" })
 	@Get()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,

@@ -1,7 +1,7 @@
 import { SignUpUseCase } from "@/domain/account/application/use-cases/sign-up";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Post } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { SignUpBodyDto } from "../../dtos/account/sign-up.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "./../../presenters/user-presenter";
@@ -12,6 +12,7 @@ import { UserPresenter } from "./../../presenters/user-presenter";
 export class SignUpController {
 	constructor(private signUp: SignUpUseCase) {}
 
+	@ApiOperation({ summary: "Sign up" })
 	@Post()
 	async handle(
 		@Body() {

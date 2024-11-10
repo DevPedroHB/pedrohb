@@ -1,7 +1,7 @@
 import { GetUserByEmailUseCase } from "@/domain/account/application/use-cases/get-user-by-email";
 import { Public } from "@/infra/auth/public";
 import { Controller, Get, Param } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { GetUserByEmailParamDto } from "../../dtos/account/get-user-by-email.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
@@ -12,6 +12,7 @@ import { UserPresenter } from "../../presenters/user-presenter";
 export class GetUserByEmailController {
 	constructor(private getUserByEmail: GetUserByEmailUseCase) {}
 
+	@ApiOperation({ summary: "Get user by email" })
 	@Get()
 	async handle(@Param() { email }: GetUserByEmailParamDto) {
 		const result = await this.getUserByEmail.execute({ email });

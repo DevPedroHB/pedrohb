@@ -1,7 +1,7 @@
 import { UpdateSessionUseCase } from "@/domain/account/application/use-cases/update-session";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	UpdateSessionBodyDto,
 	UpdateSessionParamDto,
@@ -15,6 +15,7 @@ import { SessionPresenter } from "../../presenters/session-presenter";
 export class UpdateSessionController {
 	constructor(private updateSession: UpdateSessionUseCase) {}
 
+	@ApiOperation({ summary: "Update session" })
 	@Put()
 	async handle(
 		@Param() { sessionToken }: UpdateSessionParamDto,

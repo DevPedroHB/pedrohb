@@ -1,7 +1,7 @@
 import { UpdateAuthenticatorCounterUseCase } from "@/domain/account/application/use-cases/update-authenticator-counter";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Patch } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	UpdateAuthenticatorCounterBodyDto,
 	UpdateAuthenticatorCounterParamDto,
@@ -17,6 +17,7 @@ export class UpdateAuthenticatorCounterController {
 		private updateAuthenticatorCounter: UpdateAuthenticatorCounterUseCase,
 	) {}
 
+	@ApiOperation({ summary: "Update authenticator" })
 	@Patch()
 	async handle(
 		@Param() { credentialId }: UpdateAuthenticatorCounterParamDto,

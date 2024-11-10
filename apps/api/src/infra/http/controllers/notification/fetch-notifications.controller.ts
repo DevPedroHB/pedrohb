@@ -2,7 +2,7 @@ import { FetchNotificationsUseCase } from "@/domain/notification/application/use
 import { CurrentUser } from "@/infra/auth/current-user-decorator";
 import type { UserPayloadSchema } from "@/infra/auth/jwt.strategy";
 import { Controller, Get, Query } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { PaginationQueryDto } from "../../dtos/pagination.dto";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
@@ -12,6 +12,7 @@ import { NotificationPresenter } from "../../presenters/notification-presenter";
 export class FetchNotificationsController {
 	constructor(private fetchNotifications: FetchNotificationsUseCase) {}
 
+	@ApiOperation({ summary: "Fetch notifications" })
 	@Get()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,

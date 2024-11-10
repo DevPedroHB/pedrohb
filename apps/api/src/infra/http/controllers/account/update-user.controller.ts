@@ -1,7 +1,7 @@
 import { UpdateUserUseCase } from "@/domain/account/application/use-cases/update-user";
 import { Public } from "@/infra/auth/public";
 import { Body, Controller, Param, Put } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
 	UpdateUserBodyDto,
 	UpdateUserParamDto,
@@ -15,6 +15,7 @@ import { UserPresenter } from "../../presenters/user-presenter";
 export class UpdateUserController {
 	constructor(private updateUser: UpdateUserUseCase) {}
 
+	@ApiOperation({ summary: "Update user" })
 	@Put()
 	async handle(
 		@Param() { userId }: UpdateUserParamDto,
