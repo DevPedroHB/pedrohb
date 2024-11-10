@@ -1,42 +1,46 @@
 import { AppModule } from "@/infra/app.module";
 import { DatabaseModule } from "@/infra/database/database.module";
 import { INestApplication } from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
 import { Test } from "@nestjs/testing";
 import request from "supertest";
-import { AuthenticatorFactory } from "test/factories/authenticator-factory";
+import { NotificationFactory } from "test/factories/notification-factory";
 import { UserFactory } from "test/factories/user-factory";
 
-describe("Fetch user authenticators (E2E)", () => {
+describe("Read notification (E2E)", () => {
 	let app: INestApplication;
+	let jwt: JwtService;
 	let userFactory: UserFactory;
-	let authenticatorFactory: AuthenticatorFactory;
+	let notificationFactory: NotificationFactory;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
 			imports: [AppModule, DatabaseModule],
-			providers: [UserFactory, AuthenticatorFactory],
+			providers: [UserFactory, NotificationFactory],
 		}).compile();
 
 		app = moduleRef.createNestApplication();
 
+		jwt = moduleRef.get(JwtService);
 		userFactory = moduleRef.get(UserFactory);
-		authenticatorFactory = moduleRef.get(AuthenticatorFactory);
+		notificationFactory = moduleRef.get(NotificationFactory);
 
 		await app.init();
 	});
 
-	test("[GET] /authenticators/user-id/:userId", async () => {
+	test("[PATCH] /notifications/:notificationId", async () => {
 		const user = await userFactory.makeUser();
-
-		for (let i = 0; i < 5; i++) {
-			await authenticatorFactory.makeAuthenticator({ userId: user.id });
-		}
+		const notification = await notificationFactory.makeNotification({
+			recipientId: user.id,
+		});
+		const token = jwt.sign({ sub: user.id.id });
 
 		const response = await request(app.getHttpServer())
-			.get(`/authenticators/user-id/${user.id.id}`)
+			.patch(`/notifications/${notification.id.id}`)
+			.set("Authorization", `Bearer ${token}`)
 			.send();
 
 		expect(response.statusCode).toBe(200);
-		expect(response.body.authenticators).toHaveLength(5);
+		expect(response.body.notification.readAt).not.toBeNull();
 	});
 });

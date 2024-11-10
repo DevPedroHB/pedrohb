@@ -30,6 +30,13 @@ A API está organizada em módulos para facilitar a integração e o uso de seus
 - [x] Deve ser possível buscar todos os autenticadores de um usuário;
 - [x] Deve ser possível atualizar o contador do autenticador pelo ID da credencial;
 
+#### 🔔 Notificação (Notification)
+
+- [x] Deve ser possível buscar todas as notificações de um usuário;
+- [x] Deve ser possível obter uma notificação de um usuário;
+- [x] Deve ser possível marcar uma notificação de um usuário como lida;
+- [x] Deve ser possível marcar todas as notificação de um usuário como lida;
+
 ### 🖥️ WEB
 
 A aplicação Web é a interface de usuário para interação com os recursos e funcionalidades disponibilizados pela API.

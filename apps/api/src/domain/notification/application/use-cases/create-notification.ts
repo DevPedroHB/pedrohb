@@ -12,7 +12,7 @@ interface CreateNotificationUseCaseRequest {
 }
 
 type CreateNotificationUseCaseResponse = Either<
-InvalidCredentialsError,
+	InvalidCredentialsError,
 	{
 		notification: Notification;
 	}
@@ -27,7 +27,7 @@ export class CreateNotificationUseCase {
 		content,
 		recipientId,
 	}: CreateNotificationUseCaseRequest): Promise<CreateNotificationUseCaseResponse> {
-    let parsedContent;
+		let parsedContent: any;
 
 		try {
 			parsedContent = JSON.parse(content);
