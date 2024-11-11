@@ -1,15 +1,6 @@
 import { createZodDto } from "nestjs-zod";
-import { z } from "zod";
-
-const deleteAccountParamSchema = z.object({
-	provider: z.string({
-		required_error: "O parâmetro 'provider' é obrigatório.",
-	}),
-	providerAccountId: z.string({
-		required_error: "O parâmetro 'providerAccountId' é obrigatório.",
-	}),
-});
+import { providerAccountIdParamSchema } from "../../schemas/account/provider-account-id-param-schema";
 
 export class DeleteAccountParamDto extends createZodDto(
-	deleteAccountParamSchema,
+	providerAccountIdParamSchema,
 ) {}

@@ -1,0 +1,15 @@
+{
+	"author": "PedroHB",
+	"dependencies": {
+		"zod": "^3.23.8"
+	},
+	"devDependencies": {
+		"@pedrohb/typescript-config": "workspace:*"
+	},
+	"license": "MIT",
+	"main": "src/index.ts",
+	"name": "@pedrohb/types",
+	"private": true,
+	"types": "src/index.ts",
+	"version": "1.0.0"
+}

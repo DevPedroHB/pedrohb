@@ -18,7 +18,11 @@ export class ErrorHandler {
 		[ResourceNotFoundError, NotFoundException],
 	]);
 
-	static handle(error: Error): never {
+	static handle(error: Error | null): never {
+		if (error === null) {
+			throw new BadRequestException();
+		}
+
 		const ExceptionClass =
 			ErrorHandler.errorMap.get(error.constructor as any) ||
 			BadRequestException;

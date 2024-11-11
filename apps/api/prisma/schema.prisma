@@ -63,12 +63,13 @@ model Session {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
+  @@id([sessionToken])
   @@map("sessions")
 }
 
 model VerificationToken {
   identifier String
-  token      String
+  token      String   @unique
   expiresAt  DateTime @map("expires_at")
 
   @@id([identifier, token])

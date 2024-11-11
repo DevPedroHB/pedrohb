@@ -1,12 +1,6 @@
 import { createZodDto } from "nestjs-zod";
-import { z } from "zod";
-
-const deleteSessionParamSchema = z.object({
-	sessionToken: z.string({
-		required_error: "O token da sessão é obrigatório.",
-	}),
-});
+import { sessionTokenParamSchema } from "../../schemas/account/session-token-param-schema";
 
 export class DeleteSessionParamDto extends createZodDto(
-	deleteSessionParamSchema,
+	sessionTokenParamSchema,
 ) {}

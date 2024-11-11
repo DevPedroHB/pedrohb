@@ -1,9 +1,8 @@
 {
-  "license": "MIT",
-  "name": "@pedrohb/typescript-config",
-  "private": true,
-  "publishConfig": {
-    "access": "public"
-  },
-  "version": "1.0.0"
+	"author": "PedroHB",
+	"files": ["base.json", "nestjs.json"],
+	"license": "MIT",
+	"name": "@pedrohb/typescript-config",
+	"private": true,
+	"version": "1.0.0"
 }
