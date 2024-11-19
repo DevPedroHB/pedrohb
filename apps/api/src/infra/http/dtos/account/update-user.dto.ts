@@ -1,6 +1,5 @@
+import { updateUserBodySchema, userIdParamSchema } from "@pedrohb/types";
 import { createZodDto } from "nestjs-zod";
-import { updateUserBodySchema } from "../../schemas/account/update-user-schema";
-import { userIdParamSchema } from "../../schemas/account/user-id-param-schema";
 
 export class UpdateUserParamDto extends createZodDto(userIdParamSchema) {}
 

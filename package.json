@@ -1,11 +1,14 @@
 {
 	"name": "pedrohb",
+  "license": "MIT",
+  "author": "PedroHB",
 	"private": true,
 	"scripts": {
 		"build": "turbo build",
 		"dev": "turbo dev"
 	},
 	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
 		"turbo": "^2.2.3",
 		"typescript": "5.5.4"
 	},

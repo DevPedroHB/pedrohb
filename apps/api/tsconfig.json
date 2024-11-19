@@ -1,7 +1,6 @@
 {
-  "extends": "@pedrohb/typescript-config/nestjs.json",
+  "extends": "@pedrohb/typescript-config/nest.json",
   "compilerOptions": {
-    "resolveJsonModule": true,
     "baseUrl": "./",
     "outDir": "./dist",
     "paths": {

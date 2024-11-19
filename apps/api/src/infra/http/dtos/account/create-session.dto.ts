@@ -1,6 +1,5 @@
+import { createSessionBodySchema, userIdParamSchema } from "@pedrohb/types";
 import { createZodDto } from "nestjs-zod";
-import { createSessionBodySchema } from "../../schemas/account/create-session-schema";
-import { userIdParamSchema } from "../../schemas/account/user-id-param-schema";
 
 export class CreateSessionParamDto extends createZodDto(userIdParamSchema) {}
 

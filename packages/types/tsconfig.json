@@ -1,3 +1,6 @@
 {
-  "extends": "@pedrohb/typescript-config/base.json",
+  "extends": "@pedrohb/typescript-config/library.json",
+  "include": [
+    "src/**/*",
+  ],
 }

@@ -1,15 +1,20 @@
 {
-	"author": "PedroHB",
-	"dependencies": {
-		"zod": "^3.23.8"
-	},
-	"devDependencies": {
-		"@pedrohb/typescript-config": "workspace:*"
-	},
-	"license": "MIT",
-	"main": "src/index.ts",
-	"name": "@pedrohb/types",
-	"private": true,
-	"types": "src/index.ts",
-	"version": "1.0.0"
+  "author": "PedroHB",
+  "dependencies": {
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@pedrohb/typescript-config": "workspace:*",
+    "@types/node": "^22.9.0",
+    "tsup": "^8.3.5"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "name": "@pedrohb/types",
+  "private": true,
+  "types": "dist/index.d.ts",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsup"
+  }
 }
