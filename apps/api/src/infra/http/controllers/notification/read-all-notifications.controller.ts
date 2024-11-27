@@ -6,12 +6,15 @@ import { ApiOperation, ApiTags } from "@nestjs/swagger";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
 
-@ApiTags("notifications")
+@ApiTags("Notifications")
 @Controller({ path: "/notifications", version: "v1" })
 export class ReadAllNotificationsController {
 	constructor(private readAllNotifications: ReadAllNotificationsUseCase) {}
 
-	@ApiOperation({ summary: "Read all notifications" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível marcar todas as notificação de um usuário como lida",
+	})
 	@Patch()
 	async handle(@CurrentUser() { sub }: UserPayloadSchema) {
 		const result = await this.readAllNotifications.execute({

@@ -6,13 +6,13 @@ import { GetUserByIdParamDto } from "../../dtos/account/get-user-by-id.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
-@ApiTags("users")
+@ApiTags("Users")
 @Public()
 @Controller({ path: "/users/:userId", version: "v1" })
 export class GetUserByIdController {
 	constructor(private getUserById: GetUserByIdUseCase) {}
 
-	@ApiOperation({ summary: "Get user by id" })
+	@ApiOperation({ summary: "Deve ser possível obter o usuário pelo ID" })
 	@Get()
 	async handle(@Param() { userId }: GetUserByIdParamDto) {
 		const result = await this.getUserById.execute({ userId });

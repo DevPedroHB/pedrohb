@@ -6,13 +6,13 @@ import { SignUpBodyDto } from "../../dtos/account/sign-up.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "./../../presenters/user-presenter";
 
-@ApiTags("users")
+@ApiTags("Users")
 @Public()
 @Controller({ path: "/users/sign-up", version: "v1" })
 export class SignUpController {
 	constructor(private signUp: SignUpUseCase) {}
 
-	@ApiOperation({ summary: "Sign up" })
+	@ApiOperation({ summary: "Deve ser possível criar um usuário" })
 	@Post()
 	async handle(
 		@Body() {

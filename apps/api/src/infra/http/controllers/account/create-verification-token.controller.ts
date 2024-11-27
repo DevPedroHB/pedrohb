@@ -6,7 +6,7 @@ import { CreateVerificationTokenBodyDto } from "../../dtos/account/create-verifi
 import { ErrorHandler } from "../../error-handler";
 import { VerificationTokenPresenter } from "../../presenters/verification-token-presenter";
 
-@ApiTags("verification-tokens")
+@ApiTags("Verification tokens")
 @Public()
 @Controller({ path: "/verification-tokens", version: "v1" })
 export class CreateVerificationTokenController {
@@ -14,7 +14,7 @@ export class CreateVerificationTokenController {
 		private createVerificationToken: CreateVerificationTokenUseCase,
 	) {}
 
-	@ApiOperation({ summary: "Create verification token" })
+	@ApiOperation({ summary: "Deve ser possível criar um token de verificação" })
 	@Post()
 	async handle(
 		@Body() { identifier, token, expiresAt }: CreateVerificationTokenBodyDto,

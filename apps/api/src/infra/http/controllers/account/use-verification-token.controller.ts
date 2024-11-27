@@ -6,13 +6,13 @@ import { UseVerificationTokenDto } from "../../dtos/account/use-verification-tok
 import { ErrorHandler } from "../../error-handler";
 import { VerificationTokenPresenter } from "../../presenters/verification-token-presenter";
 
-@ApiTags("verification-tokens")
+@ApiTags("Verification tokens")
 @Public()
 @Controller({ path: "/verification-tokens/:identifier/:token", version: "v1" })
 export class UseVerificationTokenController {
 	constructor(private useVerificationToken: UseVerificationTokenUseCase) {}
 
-	@ApiOperation({ summary: "Use verification token" })
+	@ApiOperation({ summary: "Deve ser possível usar o token de verificação" })
 	@Patch()
 	async handle(@Param() { identifier, token }: UseVerificationTokenDto) {
 		const result = await this.useVerificationToken.execute({

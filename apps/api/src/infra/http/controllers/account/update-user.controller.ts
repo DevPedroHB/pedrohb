@@ -9,13 +9,13 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
-@ApiTags("users")
+@ApiTags("Users")
 @Public()
 @Controller({ path: "/users/:userId", version: "v1" })
 export class UpdateUserController {
 	constructor(private updateUser: UpdateUserUseCase) {}
 
-	@ApiOperation({ summary: "Update user" })
+	@ApiOperation({ summary: "Deve ser possível atualizar um usuário" })
 	@Put()
 	async handle(
 		@Param() { userId }: UpdateUserParamDto,

@@ -6,13 +6,15 @@ import { DeleteSessionParamDto } from "../../dtos/account/delete-session.dto";
 import { ErrorHandler } from "../../error-handler";
 import { SessionPresenter } from "../../presenters/session-presenter";
 
-@ApiTags("sessions")
+@ApiTags("Sessions")
 @Public()
 @Controller({ path: "/sessions/:sessionToken", version: "v1" })
 export class DeleteSessionController {
 	constructor(private deleteSession: DeleteSessionUseCase) {}
 
-	@ApiOperation({ summary: "Delete session" })
+	@ApiOperation({
+		summary: "Deve ser possível excluir uma sessão pelo token da sessão",
+	})
 	@Delete()
 	async handle(@Param() { sessionToken }: DeleteSessionParamDto) {
 		const result = await this.deleteSession.execute({ sessionToken });

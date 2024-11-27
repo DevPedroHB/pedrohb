@@ -9,13 +9,13 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { AuthenticatorPresenter } from "../../presenters/authenticator-presenter";
 
-@ApiTags("authenticators")
+@ApiTags("Authenticators")
 @Public()
 @Controller({ path: "/authenticators/:userId", version: "v1" })
 export class CreateAuthenticatorController {
 	constructor(private createAuthenticator: CreateAuthenticatorUseCase) {}
 
-	@ApiOperation({ summary: "Create authenticator" })
+	@ApiOperation({ summary: "Deve ser possível criar um autenticador" })
 	@Post()
 	async handle(
 		@Param() { userId }: CreateAuthenticatorParamDto,

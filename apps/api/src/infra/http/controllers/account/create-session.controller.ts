@@ -9,13 +9,13 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { SessionPresenter } from "../../presenters/session-presenter";
 
-@ApiTags("sessions")
+@ApiTags("Sessions")
 @Public()
 @Controller({ path: "/sessions/:userId", version: "v1" })
 export class CreateSessionController {
 	constructor(private createSession: CreateSessionUseCase) {}
 
-	@ApiOperation({ summary: "Create session" })
+	@ApiOperation({ summary: "Deve ser possível criar uma sessão" })
 	@Post()
 	async handle(
 		@Param() { userId }: CreateSessionParamDto,

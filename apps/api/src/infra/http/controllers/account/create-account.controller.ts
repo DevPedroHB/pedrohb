@@ -9,13 +9,15 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { AccountPresenter } from "../../presenters/account-presenter";
 
-@ApiTags("accounts")
+@ApiTags("Accounts")
 @Public()
 @Controller({ path: "/accounts/:userId", version: "v1" })
 export class CreateAccountController {
 	constructor(private createAccount: CreateAccountUseCase) {}
 
-	@ApiOperation({ summary: "Create account" })
+	@ApiOperation({
+		summary: "Deve ser possível criar uma conta e vinculá-la ao usuário",
+	})
 	@Post()
 	async handle(
 		@Param() { userId }: CreateAccountParamDto,

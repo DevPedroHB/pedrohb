@@ -6,13 +6,16 @@ import { GetSessionParamDto } from "../../dtos/account/get-session.dto";
 import { ErrorHandler } from "../../error-handler";
 import { SessionAndUserPresenter } from "../../presenters/session-and-user-presenter";
 
-@ApiTags("sessions")
+@ApiTags("Sessions")
 @Public()
 @Controller({ path: "/sessions/:sessionToken", version: "v1" })
 export class GetSessionController {
 	constructor(private getSession: GetSessionUseCase) {}
 
-	@ApiOperation({ summary: "Get session" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível obter a sessão com o usuário pelo token da sessão",
+	})
 	@Get()
 	async handle(@Param() { sessionToken }: GetSessionParamDto) {
 		const result = await this.getSession.execute({ sessionToken });

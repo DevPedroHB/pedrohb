@@ -6,13 +6,16 @@ import { GetAccountParamDto } from "../../dtos/account/get-account.dto";
 import { ErrorHandler } from "../../error-handler";
 import { AccountPresenter } from "../../presenters/account-presenter";
 
-@ApiTags("accounts")
+@ApiTags("Accounts")
 @Public()
 @Controller({ path: "/accounts/:provider/:providerAccountId", version: "v1" })
 export class GetAccountController {
 	constructor(private getAccount: GetAccountUseCase) {}
 
-	@ApiOperation({ summary: "Get account" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível obter a conta pelo ID da conta do provedor e pelo provedor",
+	})
 	@Get()
 	async handle(@Param() { provider, providerAccountId }: GetAccountParamDto) {
 		const result = await this.getAccount.execute({

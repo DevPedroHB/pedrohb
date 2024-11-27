@@ -6,7 +6,7 @@ import { FetchUserAuthenticatorsParamDto } from "../../dtos/account/fetch-user-a
 import { ErrorHandler } from "../../error-handler";
 import { AuthenticatorPresenter } from "../../presenters/authenticator-presenter";
 
-@ApiTags("authenticators")
+@ApiTags("Authenticators")
 @Public()
 @Controller({ path: "/authenticators/user-id/:userId", version: "v1" })
 export class FetchUserAuthenticatorsController {
@@ -14,7 +14,9 @@ export class FetchUserAuthenticatorsController {
 		private fetchUserAuthenticators: FetchUserAuthenticatorsUseCase,
 	) {}
 
-	@ApiOperation({ summary: "Fetch user authenticators" })
+	@ApiOperation({
+		summary: "Deve ser possível buscar todos os autenticadores de um usuário",
+	})
 	@Get()
 	async handle(@Param() { userId }: FetchUserAuthenticatorsParamDto) {
 		const result = await this.fetchUserAuthenticators.execute({ userId });

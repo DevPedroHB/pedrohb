@@ -6,13 +6,13 @@ import { GetUserByEmailParamDto } from "../../dtos/account/get-user-by-email.dto
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
-@ApiTags("users")
+@ApiTags("Users")
 @Public()
 @Controller({ path: "/users/email/:email", version: "v1" })
 export class GetUserByEmailController {
 	constructor(private getUserByEmail: GetUserByEmailUseCase) {}
 
-	@ApiOperation({ summary: "Get user by email" })
+	@ApiOperation({ summary: "Deve ser possível obter o usuário pelo email" })
 	@Get()
 	async handle(@Param() { email }: GetUserByEmailParamDto) {
 		const result = await this.getUserByEmail.execute({ email });

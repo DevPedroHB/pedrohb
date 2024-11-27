@@ -6,7 +6,7 @@ import { GetUserByAccountParamDto } from "../../dtos/account/get-user-by-account
 import { ErrorHandler } from "../../error-handler";
 import { AccountAndUserPresenter } from "../../presenters/account-and-user-presenter";
 
-@ApiTags("accounts")
+@ApiTags("Accounts")
 @Public()
 @Controller({
 	path: "/accounts/user/:provider/:providerAccountId",
@@ -15,7 +15,10 @@ import { AccountAndUserPresenter } from "../../presenters/account-and-user-prese
 export class GetUserByAccountController {
 	constructor(private getUserByAccount: GetUserByAccountUseCase) {}
 
-	@ApiOperation({ summary: "Get user by account" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível buscar a conta com o usuário pelo ID da conta do provedor",
+	})
 	@Get()
 	async handle(
 		@Param() { provider, providerAccountId }: GetUserByAccountParamDto,

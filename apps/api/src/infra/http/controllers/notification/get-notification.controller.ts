@@ -7,12 +7,14 @@ import { GetNotificationParamDto } from "../../dtos/notification/get-notificatio
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
 
-@ApiTags("notifications")
+@ApiTags("Notifications")
 @Controller({ path: "/notifications/:notificationId", version: "v1" })
 export class GetNotificationController {
 	constructor(private getNotification: GetNotificationUseCase) {}
 
-	@ApiOperation({ summary: "Get notification" })
+	@ApiOperation({
+		summary: "Deve ser possível obter uma notificação de um usuário",
+	})
 	@Get()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,

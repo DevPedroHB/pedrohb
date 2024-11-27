@@ -9,13 +9,13 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { SessionPresenter } from "../../presenters/session-presenter";
 
-@ApiTags("sessions")
+@ApiTags("Sessions")
 @Public()
 @Controller({ path: "/sessions/:sessionToken", version: "v1" })
 export class UpdateSessionController {
 	constructor(private updateSession: UpdateSessionUseCase) {}
 
-	@ApiOperation({ summary: "Update session" })
+	@ApiOperation({ summary: "Deve ser possível atualizar uma sessão" })
 	@Put()
 	async handle(
 		@Param() { sessionToken }: UpdateSessionParamDto,

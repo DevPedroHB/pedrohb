@@ -6,13 +6,16 @@ import { DeleteAccountParamDto } from "../../dtos/account/delete-account.dto";
 import { ErrorHandler } from "../../error-handler";
 import { AccountPresenter } from "../../presenters/account-presenter";
 
-@ApiTags("accounts")
+@ApiTags("Accounts")
 @Public()
 @Controller({ path: "/accounts/:provider/:providerAccountId", version: "v1" })
 export class DeleteAccountController {
 	constructor(private deleteAccount: DeleteAccountUseCase) {}
 
-	@ApiOperation({ summary: "Delete account" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível excluir uma conta pelo ID da conta do provedor e desvinculá-la do usuário",
+	})
 	@Delete()
 	async handle(
 		@Param() { provider, providerAccountId }: DeleteAccountParamDto,

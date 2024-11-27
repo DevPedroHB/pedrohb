@@ -7,12 +7,14 @@ import { PaginationQueryDto } from "../../dtos/pagination.dto";
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
 
-@ApiTags("notifications")
+@ApiTags("Notifications")
 @Controller({ path: "/notifications", version: "v1" })
 export class FetchNotificationsController {
 	constructor(private fetchNotifications: FetchNotificationsUseCase) {}
 
-	@ApiOperation({ summary: "Fetch notifications" })
+	@ApiOperation({
+		summary: "Deve ser possível buscar todas as notificações de um usuário",
+	})
 	@Get()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,

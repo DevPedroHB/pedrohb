@@ -6,13 +6,13 @@ import { DeleteUserParamDto } from "../../dtos/account/delete-user.dto";
 import { ErrorHandler } from "../../error-handler";
 import { UserPresenter } from "../../presenters/user-presenter";
 
-@ApiTags("users")
+@ApiTags("Users")
 @Public()
 @Controller({ path: "/users/:userId", version: "v1" })
 export class DeleteUserController {
 	constructor(private deleteUser: DeleteUserUseCase) {}
 
-	@ApiOperation({ summary: "Delete user" })
+	@ApiOperation({ summary: "Deve ser possível excluir um usuário" })
 	@Delete()
 	async handle(@Param() { userId }: DeleteUserParamDto) {
 		const result = await this.deleteUser.execute({ userId });

@@ -9,7 +9,7 @@ import {
 import { ErrorHandler } from "../../error-handler";
 import { AuthenticatorPresenter } from "../../presenters/authenticator-presenter";
 
-@ApiTags("authenticators")
+@ApiTags("Authenticators")
 @Public()
 @Controller({ path: "/authenticators/:credentialId", version: "v1" })
 export class UpdateAuthenticatorCounterController {
@@ -17,7 +17,10 @@ export class UpdateAuthenticatorCounterController {
 		private updateAuthenticatorCounter: UpdateAuthenticatorCounterUseCase,
 	) {}
 
-	@ApiOperation({ summary: "Update authenticator" })
+	@ApiOperation({
+		summary:
+			"Deve ser possível atualizar o contador do autenticador pelo ID da credencial",
+	})
 	@Patch()
 	async handle(
 		@Param() { credentialId }: UpdateAuthenticatorCounterParamDto,

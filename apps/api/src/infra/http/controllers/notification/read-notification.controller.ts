@@ -7,12 +7,14 @@ import { ReadNotificationParamDto } from "../../dtos/notification/read-notificat
 import { ErrorHandler } from "../../error-handler";
 import { NotificationPresenter } from "../../presenters/notification-presenter";
 
-@ApiTags("notifications")
+@ApiTags("Notifications")
 @Controller({ path: "/notifications/:notificationId", version: "v1" })
 export class ReadNotificationController {
 	constructor(private readNotification: ReadNotificationUseCase) {}
 
-	@ApiOperation({ summary: "Read notification" })
+	@ApiOperation({
+		summary: "Deve ser possível marcar uma notificação de um usuário como lida",
+	})
 	@Patch()
 	async handle(
 		@CurrentUser() { sub }: UserPayloadSchema,
