@@ -1,4 +1,6 @@
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/functions/cn";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
@@ -32,13 +34,18 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 		<html
 			lang="pt-BR"
 			className={cn(
-				"antialiased scroll-smooth dark",
+				"antialiased scroll-smooth",
 				geistSans.variable,
 				geistMono.variable,
 			)}
 			suppressHydrationWarning
 		>
-			<body>{children}</body>
+			<body>
+				<ThemeProvider>
+					{children}
+					<Toaster visibleToasts={9} richColors />
+				</ThemeProvider>
+			</body>
 		</html>
 	);
 }
