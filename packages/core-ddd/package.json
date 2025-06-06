@@ -1,0 +1,70 @@
+{
+	"author": {
+		"email": "pedroh.bergamo20@gmail.com",
+		"name": "Pedro Henrique Bérgamo",
+		"url": "https://github.com/DevPedroHB"
+	},
+	"bugs": {
+		"email": "pedroh.bergamo20@gmail.com",
+		"url": "https://github.com/DevPedroHB/core-ddd/issues"
+	},
+	"dependencies": {
+		"@paralleldrive/cuid2": "^2.2.2",
+		"bcrypt": "^6.0.0",
+		"ulid": "^3.0.0",
+		"uuid": "^11.1.0"
+	},
+	"description": "O Core DDD é uma biblioteca para criar Domain Driven Design em TypeScript.",
+	"devDependencies": {
+		"@faker-js/faker": "^9.6.0",
+		"@pedrohb/tsup-config": "workspace:*",
+		"@pedrohb/typescript-config": "workspace:*",
+		"@pedrohb/vitest-config": "workspace:*",
+		"@types/bcrypt": "^5.0.2",
+		"@types/benchmark": "^2.1.5",
+		"@types/node": "^22.13.11",
+		"@vitest/coverage-v8": "3.2.2",
+		"barrelsby": "^2.8.1",
+		"benchmark": "^2.1.4",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.4.0",
+		"tsx": "^4.19.3",
+		"typescript": "5.8.2",
+		"vitest": "^3.2.2"
+	},
+	"exports": {
+		".": {
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.js"
+		}
+	},
+	"files": ["dist"],
+	"homepage": "https://core-ddd.vercel.app",
+	"keywords": [
+		"DDD",
+		"Domain Driven Design",
+		"Clean Architecture",
+		"Typescript"
+	],
+	"license": "MIT",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"name": "@pedrohb/core-ddd",
+	"packageManager": "pnpm@10.6.5",
+	"publishConfig": {
+		"access": "public"
+	},
+	"readme": "README.md",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/DevPedroHB/core-ddd.git"
+	},
+	"scripts": {
+		"barrels:generate": "barrelsby -c barrelsby.json",
+		"build": "tsup",
+		"test": "vitest",
+		"test:ui": "vitest --ui --coverage"
+	},
+	"types": "dist/index.d.ts",
+	"version": "1.5.0"
+}

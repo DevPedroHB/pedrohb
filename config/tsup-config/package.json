@@ -1,0 +1,14 @@
+{
+	"devDependencies": {
+		"tsup": "^8.5.0"
+	},
+	"license": "MIT",
+	"main": "./tsup.config.ts",
+	"name": "@pedrohb/tsup-config",
+	"private": true,
+	"publishConfig": {
+		"access": "public"
+	},
+	"type": "module",
+	"version": "1.0.0"
+}

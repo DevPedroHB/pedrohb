@@ -1,0 +1,40 @@
+name: Publicar Package Core DDD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/core-ddd/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '23'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Instalar pnpm
+        run: npm install -g pnpm
+
+      - name: Instalar dependências
+        run: pnpm install
+
+      - name: Build do package
+        run: |
+          cd packages/core-ddd
+          pnpm run build
+
+      - name: Publicar no NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd packages/core-ddd
+          pnpm publish --access public --no-git-checks
