@@ -1,3 +1,4 @@
+import { cn } from "@/functions/cn";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";
@@ -30,7 +31,11 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 	return (
 		<html
 			lang="pt-BR"
-			className={`${geistSans.variable} ${geistMono.variable} antialiased scroll-smooth`}
+			className={cn(
+				"antialiased scroll-smooth dark",
+				geistSans.variable,
+				geistMono.variable,
+			)}
 			suppressHydrationWarning
 		>
 			<body>{children}</body>
