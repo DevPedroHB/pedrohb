@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "_version": "24.0.0",
+  "compilerOptions": {
+    "module": "preserve",
+    "moduleResolution": "bundler"
+  },
+  "extends": "./base.json"
+}
