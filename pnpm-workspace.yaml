@@ -5,5 +5,7 @@ packages:
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@swc/core'
+  - '@tailwindcss/oxide'
   - bcrypt
   - esbuild
+  - sharp
