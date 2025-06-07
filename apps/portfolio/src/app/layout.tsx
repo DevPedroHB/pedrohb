@@ -2,18 +2,15 @@ import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/functions/cn";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const geistSans = Geist({
-	variable: "--font-geist-sans",
+const poppins = Poppins({
+	variable: "--font-poppins",
 	subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-	variable: "--font-geist-mono",
-	subsets: ["latin"],
+	display: "swap",
+	weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
@@ -33,11 +30,7 @@ export default function RootLayout({ children }: Readonly<IRootLayout>) {
 	return (
 		<html
 			lang="pt-BR"
-			className={cn(
-				"antialiased scroll-smooth",
-				geistSans.variable,
-				geistMono.variable,
-			)}
+			className={cn("antialiased scroll-smooth", poppins.variable)}
 			suppressHydrationWarning
 		>
 			<body>
