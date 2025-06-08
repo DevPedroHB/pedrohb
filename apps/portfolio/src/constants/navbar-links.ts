@@ -1,40 +1,48 @@
+import type { components } from "@messages/pt.json";
 import {
 	Briefcase,
 	FileText,
 	Home,
 	Image,
+	type LucideIcon,
 	SendHorizontal,
 	User2,
 } from "lucide-react";
 
-export const navbarLinks = [
+export type NavbarLink = {
+	key: keyof (typeof components.header)["navbar_links"];
+	icon: LucideIcon;
+	path: string;
+};
+
+export const navbarLinks: NavbarLink[] = [
 	{
-		name: "Início",
+		key: "hero",
 		icon: Home,
 		path: "/#hero",
 	},
 	{
-		name: "Sobre mim",
+		key: "about_me",
 		icon: User2,
 		path: "/#about-me",
 	},
 	{
-		name: "Habilidades",
+		key: "skills",
 		icon: FileText,
 		path: "/#skills",
 	},
 	{
-		name: "Serviços",
+		key: "services",
 		icon: Briefcase,
 		path: "/#services",
 	},
 	{
-		name: "Portfólio",
+		key: "portfolio",
 		icon: Image,
 		path: "/#portfolio",
 	},
 	{
-		name: "Contato",
+		key: "contact_me",
 		icon: SendHorizontal,
 		path: "/#contact-me",
 	},

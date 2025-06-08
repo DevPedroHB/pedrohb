@@ -1,5 +1,8 @@
+"use client";
+
 import { navbarLinks } from "@/constants/navbar-links";
 import { LayoutGrid, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import {
 	Drawer,
@@ -11,6 +14,8 @@ import { HeaderLink } from "./header-link";
 import { HeaderProfile } from "./header-profile";
 
 export function HeaderMobile() {
+	const t = useTranslations("components.header");
+
 	return (
 		<Drawer>
 			<DrawerTrigger asChild>
@@ -22,10 +27,10 @@ export function HeaderMobile() {
 						const Icon = link.icon;
 
 						return (
-							<DrawerClose key={link.path} asChild>
-								<HeaderLink key={link.path} to={link.path} variant="mobile">
+							<DrawerClose key={link.key} asChild>
+								<HeaderLink to={link.path} variant="mobile">
 									<Icon className="size-4" />
-									{link.name}
+									{t(`navbar_links.${link.key}`)}
 								</HeaderLink>
 							</DrawerClose>
 						);
@@ -36,7 +41,7 @@ export function HeaderMobile() {
 						href="/"
 						className="font-medium hover:text-primary transition-all"
 					>
-						PedroHB
+						{t("title")}
 					</Link>
 					<div className="flex items-center gap-4">
 						<HeaderProfile />

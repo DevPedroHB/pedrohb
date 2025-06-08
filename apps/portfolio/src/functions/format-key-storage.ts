@@ -1,5 +1,5 @@
-import pkg from "../../../../package.json";
+import pkg from "../../package.json";
 
 export function formatKeyStorage(key: string) {
-	return `@${pkg.name}/${pkg.version}:${key}`;
+	return `@${pkg.name.replace("@", "")}:${pkg.version}:${key}`;
 }

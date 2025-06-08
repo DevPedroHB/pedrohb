@@ -1,0 +1,95 @@
+{
+	"app": {
+		"description": "Personal portfolio of Pedro Henrique Bérgamo. Software engineer.",
+		"home": {
+			"section": {
+				"about_me": {
+					"subtitle": "My introduction",
+					"title": "About Me"
+				},
+				"contact_me": {
+					"subtitle": "Get in touch",
+					"title": "Contact Me"
+				},
+				"hero": {
+					"subtitle": "Software Engineer",
+					"title": "Hi, I'm Pedro"
+				},
+				"new_project": {
+					"subtitle": "Contact me now and get 30% off your new project.",
+					"title": "Got a new project?"
+				},
+				"portfolio": {
+					"subtitle": "Most recent work",
+					"title": "Portfolio"
+				},
+				"qualifications": {
+					"subtitle": "My professional journey",
+					"title": "Qualifications"
+				},
+				"services": {
+					"subtitle": "What I offer",
+					"title": "Services"
+				},
+				"skills": {
+					"subtitle": "My technical level",
+					"title": "Skills"
+				},
+				"testimonials": {
+					"subtitle": "What my clients say",
+					"title": "Testimonials"
+				}
+			},
+			"title": "Home"
+		},
+		"profile": {
+			"section": {
+				"profile": {
+					"subtitle": "View and edit your personal information",
+					"title": "My Profile"
+				}
+			},
+			"title": "Profile"
+		},
+		"title": "PedroHB",
+		"user_profile": {
+			"section": {
+				"user_profile": {
+					"subtitle": "See information and activity for {name}",
+					"title": "{name}'s Profile"
+				}
+			},
+			"title": "{name}'s Profile"
+		}
+	},
+	"components": {
+		"header": {
+			"header_profile": {
+				"items": {
+					"language": "Languages",
+					"profile": "Profile",
+					"sign_in": "Sign In",
+					"sign_out": "Sign Out",
+					"themes": {
+						"items": {
+							"dark": "Dark",
+							"light": "Light",
+							"system": "System"
+						},
+						"title": "Themes"
+					}
+				},
+				"title": "My Account"
+			},
+			"navbar_links": {
+				"about_me": "About",
+				"contact_me": "Contact",
+				"hero": "Home",
+				"portfolio": "Portfolio",
+				"services": "Services",
+				"skills": "Skills"
+			},
+			"title": "PedroHB"
+		}
+	}
+}

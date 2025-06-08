@@ -2,9 +2,11 @@
 
 import { languages } from "@/constants/languages";
 import { themes } from "@/constants/themes";
+import { Link, usePathname } from "@/i18n/navigation";
 import { User2 } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import Link from "next/link";
+import NextLink from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
 	DropdownMenu,
@@ -24,7 +26,10 @@ import {
 } from "../ui/dropdown-menu";
 
 export function HeaderProfile() {
+	const t = useTranslations("components.header.header_profile");
 	const { theme, setTheme } = useTheme();
+	const locale = useLocale();
+	const pathname = usePathname();
 
 	return (
 		<DropdownMenu>
@@ -37,35 +42,40 @@ export function HeaderProfile() {
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
-				<DropdownMenuLabel>Minha conta</DropdownMenuLabel>
+				<DropdownMenuLabel>{t("title")}</DropdownMenuLabel>
 				<DropdownMenuGroup>
 					<DropdownMenuItem asChild>
-						<Link href="/profile">
-							Perfil
+						<NextLink href="/profile">
+							{t("items.profile")}
 							<DropdownMenuShortcut>ALT+P</DropdownMenuShortcut>
-						</Link>
+						</NextLink>
 					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>
 					<DropdownMenuSub>
-						<DropdownMenuSubTrigger>Idiomas</DropdownMenuSubTrigger>
+						<DropdownMenuSubTrigger>
+							{t("items.language")}
+						</DropdownMenuSubTrigger>
 						<DropdownMenuPortal>
 							<DropdownMenuSubContent>
-								<DropdownMenuRadioGroup value="pt" onValueChange={() => {}}>
+								<DropdownMenuRadioGroup value={locale}>
 									{languages.map((language) => {
 										const Flag = language.flag;
 
 										return (
-											<DropdownMenuRadioItem
-												key={language.value}
-												value={language.value}
+											<Link
+												key={language.key}
+												href={pathname}
+												locale={language.key}
 											>
-												{language.name}
-												<DropdownMenuShortcut>
-													<Flag />
-												</DropdownMenuShortcut>
-											</DropdownMenuRadioItem>
+												<DropdownMenuRadioItem value={language.key}>
+													{language.name}
+													<DropdownMenuShortcut>
+														<Flag />
+													</DropdownMenuShortcut>
+												</DropdownMenuRadioItem>
+											</Link>
 										);
 									})}
 								</DropdownMenuRadioGroup>
@@ -73,7 +83,9 @@ export function HeaderProfile() {
 						</DropdownMenuPortal>
 					</DropdownMenuSub>
 					<DropdownMenuSub>
-						<DropdownMenuSubTrigger>Temas</DropdownMenuSubTrigger>
+						<DropdownMenuSubTrigger>
+							{t("items.themes.title")}
+						</DropdownMenuSubTrigger>
 						<DropdownMenuPortal>
 							<DropdownMenuSubContent>
 								<DropdownMenuRadioGroup value={theme} onValueChange={setTheme}>
@@ -81,11 +93,8 @@ export function HeaderProfile() {
 										const Icon = theme.icon;
 
 										return (
-											<DropdownMenuRadioItem
-												key={theme.value}
-												value={theme.value}
-											>
-												{theme.name}
+											<DropdownMenuRadioItem key={theme.key} value={theme.key}>
+												{t(`items.themes.items.${theme.key}`)}
 												<DropdownMenuShortcut>
 													<Icon />
 												</DropdownMenuShortcut>
@@ -99,7 +108,7 @@ export function HeaderProfile() {
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					Entrar
+					{t("items.sign_in")}
 					<DropdownMenuShortcut>ALT+E</DropdownMenuShortcut>
 				</DropdownMenuItem>
 			</DropdownMenuContent>

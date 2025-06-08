@@ -1,19 +1,22 @@
-import { Moon, Sun, SunMoon } from "lucide-react";
+import type { components } from "@messages/pt.json";
+import { type LucideIcon, Moon, Sun, SunMoon } from "lucide-react";
 
-export const themes = [
+export type Theme = {
+	key: keyof typeof components.header.header_profile.items.themes.items;
+	icon: LucideIcon;
+};
+
+export const themes: Theme[] = [
 	{
-		name: "Claro",
-		value: "light",
+		key: "light",
 		icon: Sun,
 	},
 	{
-		name: "Escuro",
-		value: "dark",
+		key: "dark",
 		icon: Moon,
 	},
 	{
-		name: "Sistema",
-		value: "system",
+		key: "system",
 		icon: SunMoon,
 	},
 ] as const;

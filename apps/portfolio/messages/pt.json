@@ -1,0 +1,95 @@
+{
+	"app": {
+		"description": "Portfólio pessoal de Pedro Henrique Bérgamo. Engenheiro de software.",
+		"home": {
+			"section": {
+				"about_me": {
+					"subtitle": "Minha introdução",
+					"title": "Sobre Mim"
+				},
+				"contact_me": {
+					"subtitle": "Entre em contato",
+					"title": "Fale Comigo"
+				},
+				"hero": {
+					"subtitle": "Engenheiro de software",
+					"title": "Olá, eu sou o Pedro"
+				},
+				"new_project": {
+					"subtitle": "Fale comigo agora e receba 30% de desconto no seu novo projeto.",
+					"title": "Tem um novo projeto?"
+				},
+				"portfolio": {
+					"subtitle": "Trabalhos mais recentes",
+					"title": "Portfólio"
+				},
+				"qualifications": {
+					"subtitle": "Minha trajetória profissional",
+					"title": "Qualificações"
+				},
+				"services": {
+					"subtitle": "O que eu ofereço",
+					"title": "Serviços"
+				},
+				"skills": {
+					"subtitle": "Meu nível técnico",
+					"title": "Habilidades"
+				},
+				"testimonials": {
+					"subtitle": "O que dizem meus clientes",
+					"title": "Depoimentos"
+				}
+			},
+			"title": "Início"
+		},
+		"profile": {
+			"section": {
+				"profile": {
+					"subtitle": "Visualize e edite suas informações pessoais",
+					"title": "Meu Perfil"
+				}
+			},
+			"title": "Perfil"
+		},
+		"title": "PedroHB",
+		"user_profile": {
+			"section": {
+				"user_profile": {
+					"subtitle": "Veja as informações e atividades de {name}",
+					"title": "Perfil de {name}"
+				}
+			},
+			"title": "Perfil de {name}"
+		}
+	},
+	"components": {
+		"header": {
+			"header_profile": {
+				"items": {
+					"language": "Idiomas",
+					"profile": "Perfil",
+					"sign_in": "Entrar",
+					"sign_out": "Sair",
+					"themes": {
+						"items": {
+							"dark": "Escuro",
+							"light": "Claro",
+							"system": "Sistema"
+						},
+						"title": "Temas"
+					}
+				},
+				"title": "Minha conta"
+			},
+			"navbar_links": {
+				"about_me": "Sobre",
+				"contact_me": "Contato",
+				"hero": "Início",
+				"portfolio": "Portfólio",
+				"services": "Serviços",
+				"skills": "Habilidades"
+			},
+			"title": "PedroHB"
+		}
+	}
+}

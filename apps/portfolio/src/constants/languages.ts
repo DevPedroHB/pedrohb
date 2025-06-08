@@ -1,14 +1,21 @@
-import { BR, US } from "country-flag-icons/react/3x2";
+import type { routing } from "@/i18n/routing";
+import { BR, type FlagComponent, US } from "country-flag-icons/react/3x2";
 
-export const languages = [
+export type Language = {
+	key: (typeof routing.locales)[number];
+	name: string;
+	flag: FlagComponent;
+};
+
+export const languages: Language[] = [
 	{
+		key: "pt",
 		name: "Português",
-		value: "pt",
 		flag: BR,
 	},
 	{
+		key: "en",
 		name: "English",
-		value: "en",
 		flag: US,
 	},
 ] as const;
