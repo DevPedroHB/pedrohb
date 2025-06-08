@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default async function Profile() {
 	return (
 		<main className="main__container">
-			<section className="section__container">
+			<section id="profile" className="section__container">
 				<h2 className="section__title">Meu Perfil</h2>
 				<p className="section__subtitle">
 					Visualize e edite suas informações pessoais

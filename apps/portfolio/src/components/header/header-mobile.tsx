@@ -32,7 +32,10 @@ export function HeaderMobile() {
 					})}
 				</div>
 				<div className="flex justify-between items-center gap-4 mx-auto px-6 w-full max-w-[calc(60.5rem+3rem)] h-12">
-					<Link href="/" className="font-medium hover:text-primary transition">
+					<Link
+						href="/"
+						className="font-medium hover:text-primary transition-all"
+					>
 						PedroHB
 					</Link>
 					<div className="flex items-center gap-4">

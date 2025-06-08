@@ -1,4 +1,5 @@
 import { Header } from "@/components/header";
+import { ScrollToTop } from "@/components/scroll-to-top";
 import type { ReactNode } from "react";
 
 interface IAppLayout {
@@ -10,6 +11,7 @@ export default function AppLayout({ children }: Readonly<IAppLayout>) {
 		<>
 			<Header />
 			{children}
+			<ScrollToTop />
 		</>
 	);
 }

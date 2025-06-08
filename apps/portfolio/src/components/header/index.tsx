@@ -16,7 +16,10 @@ export function Header() {
 			className="md:top-0 not-md:bottom-0 z-50 fixed inset-x-0 bg-background data-[scroll=true]:shadow-header"
 		>
 			<nav className="flex justify-between items-center gap-4 mx-auto px-6 max-w-[calc(60.5rem+3rem)] h-12 md:h-[4.5rem]">
-				<Link href="/" className="font-medium hover:text-primary transition">
+				<Link
+					href="/"
+					className="font-medium hover:text-primary transition-all"
+				>
 					PedroHB
 				</Link>
 				<div className="hidden md:flex md:flex-1 md:justify-end md:gap-8">

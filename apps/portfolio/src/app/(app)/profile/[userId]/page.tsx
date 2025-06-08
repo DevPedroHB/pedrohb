@@ -22,7 +22,7 @@ export default async function UserProfile({ params }: IUserProfile) {
 
 	return (
 		<main className="main__container">
-			<section className="section__container">
+			<section id="user-profile" className="section__container">
 				<h2 className="section__title">Perfil de {userId}</h2>
 				<p className="section__subtitle">
 					Veja as informações e atividades de {userId}
