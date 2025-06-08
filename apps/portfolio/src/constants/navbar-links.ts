@@ -11,31 +11,31 @@ export const navbarLinks = [
 	{
 		name: "Início",
 		icon: Home,
-		path: "#hero",
+		path: "/#hero",
 	},
 	{
 		name: "Sobre mim",
 		icon: User2,
-		path: "#about-me",
+		path: "/#about-me",
 	},
 	{
 		name: "Habilidades",
 		icon: FileText,
-		path: "#skills",
+		path: "/#skills",
 	},
 	{
 		name: "Serviços",
 		icon: Briefcase,
-		path: "#services",
+		path: "/#services",
 	},
 	{
 		name: "Portfólio",
 		icon: Image,
-		path: "#portfolio",
+		path: "/#portfolio",
 	},
 	{
 		name: "Contato",
 		icon: SendHorizontal,
-		path: "#contact-me",
+		path: "/#contact-me",
 	},
 ] as const;
