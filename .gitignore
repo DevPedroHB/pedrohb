@@ -27,6 +27,7 @@ out/
 build
 dist
 cache
+generated
 
 
 # Debug
