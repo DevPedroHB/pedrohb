@@ -32,5 +32,6 @@
 		"dev": "pnpm env:load prisma studio",
 		"env:load": "dotenv -e ../../.env --"
 	},
+	"types": "src/index.ts",
 	"version": "1.0.0"
 }
