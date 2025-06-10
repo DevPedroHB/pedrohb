@@ -1,4 +1,8 @@
 {
-	"i18n-ally.localesPaths": ["./apps/portfolio/messages"],
+	"i18n-ally.localesPaths": [
+		"./apps/portfolio/messages",
+		"./apps/portfolio/messages/pt.json",
+		"./apps/portfolio/messages/en.json"
+	],
 	"i18n-ally.keystyle": "nested"
 }

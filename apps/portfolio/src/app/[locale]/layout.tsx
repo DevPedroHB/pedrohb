@@ -4,7 +4,7 @@ import { routing } from "@/i18n/routing";
 import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Poppins } from "next/font/google";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
@@ -18,10 +18,11 @@ const poppins = Poppins({
 });
 
 interface IRootLayout {
-	children: ReactNode;
 	params: Promise<{
 		locale: (typeof routing.locales)[number];
 	}>;
+	children: ReactNode;
+	dialog: ReactNode;
 }
 
 export async function generateMetadata({
@@ -40,14 +41,17 @@ export async function generateMetadata({
 }
 
 export default async function RootLayout({
-	children,
 	params,
+	children,
+	dialog,
 }: Readonly<IRootLayout>) {
 	const { locale } = await params;
 
 	if (!hasLocale(routing.locales, locale)) {
 		notFound();
 	}
+
+	setRequestLocale(locale);
 
 	return (
 		<html
@@ -59,7 +63,8 @@ export default async function RootLayout({
 				<NextIntlClientProvider>
 					<ThemeProvider>
 						{children}
-						<Toaster visibleToasts={9} richColors />
+						{dialog}
+						<Toaster visibleToasts={9} closeButton richColors />
 					</ThemeProvider>
 				</NextIntlClientProvider>
 			</body>

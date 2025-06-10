@@ -126,7 +126,7 @@
 
 @layer components {
   .main__container {
-    @apply mx-auto px-6 max-w-[calc(48rem+3rem)] min-h-screen
+    @apply mx-auto px-6 max-w-[calc(48rem+3rem)] min-h-svh
   }
 
   .section__container {

@@ -51,6 +51,26 @@
 			},
 			"title": "Perfil"
 		},
+		"sign_in": {
+			"form": {
+				"email": {
+					"label": "Email",
+					"placeholder": "email@exemplo.com"
+				},
+				"forgot_password": "Esqueceu sua senha?",
+				"not_have_account": "Não tem uma conta? <sign_up>Inscrever-se</sign_up>",
+				"or_social": "Ou continue com",
+				"password": {
+					"label": "Senha",
+					"placeholder": "**********"
+				},
+				"submit": "Entrar",
+				"subtitle": "Faça login na sua conta",
+				"title": "Bem-vindo de volta"
+			},
+			"terms_and_polices": "Ao clicar em continuar, você concorda com nossos <terms_of_service>Termos de Serviço</terms_of_service> e <privacy_policy>Política de Privacidade</privacy_policy>.",
+			"title": "Entrar"
+		},
 		"title": "PedroHB",
 		"user_profile": {
 			"section": {
@@ -90,6 +110,11 @@
 				"skills": "Habilidades"
 			},
 			"title": "PedroHB"
+		}
+	},
+	"libs": {
+		"safe_action": {
+			"server_error": "Algo deu errado ao executar a operação."
 		}
 	}
 }

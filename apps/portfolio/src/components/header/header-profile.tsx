@@ -107,9 +107,11 @@ export function HeaderProfile() {
 					</DropdownMenuSub>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
-					{t("items.sign_in")}
-					<DropdownMenuShortcut>ALT+E</DropdownMenuShortcut>
+				<DropdownMenuItem asChild>
+					<NextLink href="/auth/sign-in">
+						{t("items.sign_in")}
+						<DropdownMenuShortcut>ALT+E</DropdownMenuShortcut>
+					</NextLink>
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>
