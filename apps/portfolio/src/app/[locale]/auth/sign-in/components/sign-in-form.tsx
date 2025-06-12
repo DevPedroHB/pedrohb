@@ -1,6 +1,6 @@
 "use client";
 
-import { signInAction } from "@/actions/sign-in-action";
+import { signInCredentialsAction } from "@/actions/sign-in-credentials-action";
 import { GitHub } from "@/components/icons/github";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,7 +44,7 @@ export function SignInForm({ variant, className, ...props }: ISignInForm) {
 	const t = useTranslations("app.sign_in.form");
 
 	const { form, handleSubmitWithAction, resetFormAndAction } =
-		useHookFormAction(signInAction, zodResolver(signInSchema), {
+		useHookFormAction(signInCredentialsAction, zodResolver(signInSchema), {
 			actionProps: {
 				onError({ error }) {
 					actionClientErrorHandler({ error });

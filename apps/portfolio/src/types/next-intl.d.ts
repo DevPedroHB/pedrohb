@@ -1,4 +1,5 @@
 import type { routing } from "@/i18n/routing";
+import "next-intl";
 import type messages from "../../messages/pt.json";
 
 declare module "next-intl" {

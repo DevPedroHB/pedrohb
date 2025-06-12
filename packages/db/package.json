@@ -5,7 +5,7 @@
 		"@prisma/extension-accelerate": "^2.0.1",
 		"zod": "^3.25.56"
 	},
-	"description": "Database for portfolio",
+	"description": "Database for pedrohb",
 	"devDependencies": {
 		"@faker-js/faker": "^9.8.0",
 		"@pedrohb/typescript-config": "workspace:*",
@@ -20,7 +20,7 @@
 	"keywords": ["database", "db", "prisma"],
 	"license": "MIT",
 	"main": "src/index.ts",
-	"name": "@pedrohb/database-portfolio",
+	"name": "@pedrohb/db",
 	"packageManager": "pnpm@10.11.1",
 	"prisma": {
 		"seed": "pnpm env:load tsx prisma/seed.ts"

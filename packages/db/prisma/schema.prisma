@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+generator zod {
+  provider                         = "zod-prisma-types"
+  output                           = "../generated/zod"
+  useMultipleFiles                 = true
+  createOptionalDefaultValuesTypes = true
+  createPartialTypes               = true
+  writeNullishInModelTypes         = true
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  OWNER
+  CLIENT
+  MEMBER
+}
+
+model User {
+  id              String    @id @default(uuid())
+  name            String? /// @zod.string.min(3)
+  email           String    @unique /// @zod.string.email()
+  passwordHash    String?
+  avatarUrl       String?   @map("avatar_url") /// @zod.string.url()
+  role            Role      @default(MEMBER)
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime? @updatedAt @map("updated_at")
+
+  accounts Account[]
+
+  @@map("users")
+}
+
+enum AccountProvider {
+  CREDENTIALS
+  GOOGLE
+  GITHUB
+  DISCORD
+}
+
+model Account {
+  id                String          @id @default(uuid())
+  provider          AccountProvider
+  providerAccountId String          @map("provider_account_id")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime?       @updatedAt @map("updated_at")
+  userId            String          @map("user_id") /// @zod.string.uuid()
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+enum TokenType {
+  VERIFY_EMAIL
+  RECOVER_PASSWORD
+}
+
+model Token {
+  id        String    @id @default(uuid())
+  type      TokenType
+  token     String
+  expiresAt DateTime  @map("expires_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  @@unique([type, token])
+  @@map("tokens")
+}

@@ -4,8 +4,11 @@ packages:
   - config/*
 onlyBuiltDependencies:
   - '@biomejs/biome'
+  - '@prisma/client'
+  - '@prisma/engines'
   - '@swc/core'
   - '@tailwindcss/oxide'
   - bcrypt
   - esbuild
+  - prisma
   - sharp

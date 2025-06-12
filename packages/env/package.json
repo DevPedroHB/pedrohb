@@ -4,7 +4,7 @@
 		"@t3-oss/env-core": "^0.13.8",
 		"zod": "^3.25.56"
 	},
-	"description": "Environments for portfolio",
+	"description": "Environments for pedrohb",
 	"devDependencies": {
 		"@pedrohb/typescript-config": "workspace:*",
 		"@types/node": "^24.0.0",
@@ -16,7 +16,7 @@
 	"keywords": ["env", "environment"],
 	"license": "MIT",
 	"main": "src/index.ts",
-	"name": "@pedrohb/env-portfolio",
+	"name": "@pedrohb/env",
 	"packageManager": "pnpm@10.11.1",
 	"scripts": {
 		"env:load": "dotenv -e ../../.env --"
