@@ -1,5 +1,13 @@
 {
 	"$schema": "https://turborepo.com/schema.json",
+	"globalEnv": [
+		"NODE_ENV",
+		"DATABASE_URL",
+		"JWT_SECRET",
+		"AUTH_SECRET",
+		"AUTH_GITHUB_ID",
+		"AUTH_GITHUB_SECRET"
+	],
 	"tasks": {
 		"//#format-and-lint": {},
 		"//#format-and-lint:fix": {
@@ -10,7 +18,14 @@
 		},
 		"build": {
 			"dependsOn": ["^build", "^barrels:generate", "^db:generate"],
-			"env": ["DATABASE_URL"],
+			"env": [
+				"NODE_ENV",
+				"DATABASE_URL",
+				"JWT_SECRET",
+				"AUTH_SECRET",
+				"AUTH_GITHUB_ID",
+				"AUTH_GITHUB_SECRET"
+			],
 			"inputs": ["$TURBO_DEFAULT$", ".env*"],
 			"outputs": [".next/**", "!.next/cache/**", "dist/**"]
 		},

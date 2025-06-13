@@ -7,7 +7,7 @@ export interface SessionData {
 }
 
 export const sessionOptions: SessionOptions = {
-	password: env.COOKIES_SECRET,
+	password: env.AUTH_SECRET,
 	cookieName: keys.TOKEN,
 	ttl: 60 * 60 * 24 * 7, // 7 days
 	cookieOptions: {
