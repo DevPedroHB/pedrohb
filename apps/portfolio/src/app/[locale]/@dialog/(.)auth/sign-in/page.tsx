@@ -1,5 +1,5 @@
 import { SignInForm } from "@/app/[locale]/auth/sign-in/components/sign-in-form";
-import { InterceptedDialog } from "@/components/intercepted-dialog";
+import { InterceptingDialog } from "@/components/intercepting-dialog";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 
@@ -7,8 +7,8 @@ export default async function SignIn() {
 	const t = await getTranslations("app.sign_in");
 
 	return (
-		<InterceptedDialog className="grid md:grid-cols-2 p-0 w-full max-w-sm md:max-w-3xl overflow-hidden">
-			<div className="flex flex-col gap-2 p-6 md:p-8">
+		<InterceptingDialog className="grid md:grid-cols-2 p-0 w-full max-w-sm md:max-w-3xl overflow-hidden">
+			<div className="flex flex-col gap-4 p-6 md:p-8">
 				<SignInForm variant="dialog" />
 				<div className="text-muted-foreground *:[a]:hover:text-primary text-xs text-center *:[a]:underline *:[a]:underline-offset-4 text-balance">
 					{t.rich("terms_and_polices", {
@@ -28,6 +28,6 @@ export default async function SignIn() {
 					className="absolute inset-0 dark:brightness-[0.2] dark:grayscale w-full h-full object-cover"
 				/>
 			</div>
-		</InterceptedDialog>
+		</InterceptingDialog>
 	);
 }

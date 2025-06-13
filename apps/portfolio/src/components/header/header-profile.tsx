@@ -3,10 +3,12 @@
 import { languages } from "@/constants/languages";
 import { themes } from "@/constants/themes";
 import { Link, usePathname } from "@/i18n/navigation";
+import type { SessionData } from "@/libs/iron-session";
 import { User2 } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import NextLink from "next/link";
+import { SignOutAlertDialog } from "../sign-out-alert-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
 	DropdownMenu,
@@ -25,7 +27,11 @@ import {
 	DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 
-export function HeaderProfile() {
+interface IHeaderProfile {
+	session?: SessionData;
+}
+
+export function HeaderProfile({ session }: IHeaderProfile) {
 	const t = useTranslations("components.header.header_profile");
 	const { theme, setTheme } = useTheme();
 	const locale = useLocale();
@@ -43,15 +49,19 @@ export function HeaderProfile() {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent>
 				<DropdownMenuLabel>{t("title")}</DropdownMenuLabel>
-				<DropdownMenuGroup>
-					<DropdownMenuItem asChild>
-						<NextLink href="/profile">
-							{t("items.profile")}
-							<DropdownMenuShortcut>ALT+P</DropdownMenuShortcut>
-						</NextLink>
-					</DropdownMenuItem>
-				</DropdownMenuGroup>
-				<DropdownMenuSeparator />
+				{session?.token && (
+					<>
+						<DropdownMenuGroup>
+							<DropdownMenuItem asChild>
+								<NextLink href="/profile">
+									{t("items.profile")}
+									<DropdownMenuShortcut>ALT+P</DropdownMenuShortcut>
+								</NextLink>
+							</DropdownMenuItem>
+						</DropdownMenuGroup>
+						<DropdownMenuSeparator />
+					</>
+				)}
 				<DropdownMenuGroup>
 					<DropdownMenuSub>
 						<DropdownMenuSubTrigger>
@@ -107,12 +117,21 @@ export function HeaderProfile() {
 					</DropdownMenuSub>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<NextLink href="/auth/sign-in">
-						{t("items.sign_in")}
-						<DropdownMenuShortcut>ALT+E</DropdownMenuShortcut>
-					</NextLink>
-				</DropdownMenuItem>
+				{!session?.token ? (
+					<DropdownMenuItem asChild>
+						<NextLink href="/auth/sign-in">
+							{t("items.sign_in")}
+							<DropdownMenuShortcut>ALT+E</DropdownMenuShortcut>
+						</NextLink>
+					</DropdownMenuItem>
+				) : (
+					<SignOutAlertDialog asChild>
+						<DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+							{t("items.sign_out")}
+							<DropdownMenuShortcut>ALT+S</DropdownMenuShortcut>
+						</DropdownMenuItem>
+					</SignOutAlertDialog>
+				)}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);

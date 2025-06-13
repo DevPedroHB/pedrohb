@@ -55,27 +55,52 @@
 			"form": {
 				"email": {
 					"label": "Email",
-					"placeholder": "email@exemple.com"
+					"placeholder": "email@example.com"
 				},
 				"forgot_password": "Forgot your password?",
-				"not_have_account": "Don't have an account? <sign_up>Sign up</sign_up>",
-				"or_social": "Or continue with",
 				"password": {
 					"label": "Password",
 					"placeholder": "**********"
 				},
-				"submit": "Sign in",
-				"subtitle": "Login to your account",
+				"sign_up": "Don't have an account? <sign_up>Sign up</sign_up>",
+				"social": "Or continue with",
+				"submit": "Sign In",
+				"subtitle": "Log in to your account",
+				"success": "Welcome back! :)",
 				"title": "Welcome back"
 			},
-			"terms_and_polices": "By clicking continue, you agree to our <terms_of_service>Terms of Service</terms_of_service> and <privacy_policy>Privacy Policy</privacy_policy>.",
-			"title": "Sign in"
+			"terms_and_polices": "By clicking sign in, you agree to our <terms_of_service>Terms of Service</terms_of_service> and <privacy_policy>Privacy Policy</privacy_policy>.",
+			"title": "Sign In"
+		},
+		"sign_up": {
+			"form": {
+				"confirm_password": {
+					"label": "Confirm Password",
+					"placeholder": "**********"
+				},
+				"email": {
+					"label": "Email",
+					"placeholder": "email@example.com"
+				},
+				"password": {
+					"label": "Password",
+					"placeholder": "**********"
+				},
+				"sign_in": "Already have an account? <sign_in>Sign In</sign_in>",
+				"social": "Or continue with",
+				"submit": "Sign Up",
+				"subtitle": "Create your account",
+				"success": "Welcome aboard! :)",
+				"title": "Welcome"
+			},
+			"terms_and_polices": "By clicking sign up, you agree to our <terms_of_service>Terms of Service</terms_of_service> and <privacy_policy>Privacy Policy</privacy_policy>.",
+			"title": "Sign Up"
 		},
 		"title": "PedroHB",
 		"user_profile": {
 			"section": {
 				"user_profile": {
-					"subtitle": "See information and activity for {name}",
+					"subtitle": "See {name}'s information and activity",
 					"title": "{name}'s Profile"
 				}
 			},
@@ -110,11 +135,20 @@
 				"skills": "Skills"
 			},
 			"title": "PedroHB"
+		},
+		"sign_out_alert_dialog": {
+			"buttons": {
+				"action": "Continue",
+				"cancel": "Cancel"
+			},
+			"description": "Are you sure you want to sign out? Your current session will be cleared and you’ll be redirected to the homepage.",
+			"success": "Signed out successfully!",
+			"title": "Are you absolutely sure?"
 		}
 	},
 	"libs": {
 		"safe_action": {
-			"server_error": "Something went wrong while executing the operation."
+			"server_error": "Something went wrong while performing the operation."
 		}
 	}
 }

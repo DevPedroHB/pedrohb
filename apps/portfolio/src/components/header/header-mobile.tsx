@@ -1,20 +1,20 @@
-"use client";
-
+import { getSessionAction } from "@/actions/get-session-action";
 import { navbarLinks } from "@/constants/navbar-links";
 import { LayoutGrid, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { getTranslations } from "next-intl/server";
 import Link from "next/link";
+import { ScrollLink } from "../scroll-link";
 import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
 	DrawerTrigger,
 } from "../ui/drawer";
-import { HeaderLink } from "./header-link";
 import { HeaderProfile } from "./header-profile";
 
-export function HeaderMobile() {
-	const t = useTranslations("components.header");
+export async function HeaderMobile() {
+	const t = await getTranslations("components.header");
+	const { data } = await getSessionAction();
 
 	return (
 		<Drawer>
@@ -28,10 +28,13 @@ export function HeaderMobile() {
 
 						return (
 							<DrawerClose key={link.key} asChild>
-								<HeaderLink to={link.path} variant="mobile">
+								<ScrollLink
+									to={link.path}
+									className="flex flex-col justify-center items-center font-medium hover:text-primary text-sm transition-all cursor-pointer"
+								>
 									<Icon className="size-4" />
 									{t(`navbar_links.${link.key}`)}
-								</HeaderLink>
+								</ScrollLink>
 							</DrawerClose>
 						);
 					})}
@@ -44,7 +47,7 @@ export function HeaderMobile() {
 						{t("title")}
 					</Link>
 					<div className="flex items-center gap-4">
-						<HeaderProfile />
+						<HeaderProfile session={data} />
 						<DrawerClose asChild>
 							<X className="size-5" />
 						</DrawerClose>

@@ -58,18 +58,43 @@
 					"placeholder": "email@exemplo.com"
 				},
 				"forgot_password": "Esqueceu sua senha?",
-				"not_have_account": "Não tem uma conta? <sign_up>Inscrever-se</sign_up>",
-				"or_social": "Ou continue com",
 				"password": {
 					"label": "Senha",
 					"placeholder": "**********"
 				},
+				"sign_up": "Não tem uma conta? <sign_up>Inscrever-se</sign_up>",
+				"social": "Ou continue com",
 				"submit": "Entrar",
 				"subtitle": "Faça login na sua conta",
+				"success": "Seja bem-vindo de volta! :)",
 				"title": "Bem-vindo de volta"
 			},
-			"terms_and_polices": "Ao clicar em continuar, você concorda com nossos <terms_of_service>Termos de Serviço</terms_of_service> e <privacy_policy>Política de Privacidade</privacy_policy>.",
+			"terms_and_polices": "Ao clicar em entrar, você concorda com nossos <terms_of_service>Termos de Serviço</terms_of_service> e <privacy_policy>Política de Privacidade</privacy_policy>.",
 			"title": "Entrar"
+		},
+		"sign_up": {
+			"form": {
+				"confirm_password": {
+					"label": "Confirmar senha",
+					"placeholder": "**********"
+				},
+				"email": {
+					"label": "Email",
+					"placeholder": "email@exemplo.com"
+				},
+				"password": {
+					"label": "Senha",
+					"placeholder": "**********"
+				},
+				"sign_in": "Já tem uma conta? <sign_in>Entrar</sign_in>",
+				"social": "Ou continue com",
+				"submit": "Inscrever-se",
+				"subtitle": "Crie sua conta",
+				"success": "Seja bem-vindo! :)",
+				"title": "Seja bem-vindo"
+			},
+			"terms_and_polices": "Ao clicar em inscrever-se, você concorda com nossos <terms_of_service>Termos de Serviço</terms_of_service> e <privacy_policy>Política de Privacidade</privacy_policy>.",
+			"title": "Inscrever-se"
 		},
 		"title": "PedroHB",
 		"user_profile": {
@@ -110,6 +135,15 @@
 				"skills": "Habilidades"
 			},
 			"title": "PedroHB"
+		},
+		"sign_out_alert_dialog": {
+			"buttons": {
+				"action": "Continuar",
+				"cancel": "Cancelar"
+			},
+			"description": "Tem certeza de que deseja sair? Sua sessão atual será apagada e você será redirecionado para a página inicial.",
+			"success": "Sessão encerrada com sucesso!",
+			"title": "Você tem certeza absoluta?"
 		}
 	},
 	"libs": {

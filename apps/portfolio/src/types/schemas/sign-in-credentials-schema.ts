@@ -3,7 +3,7 @@ import { z } from "zod";
 export const passwordPattern =
 	/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!"@#$%^&*?]).{6,32}$/;
 
-export const signInSchema = z.object({
+export const signInCredentialsSchema = z.object({
 	email: z.string().email(),
 	password: z
 		.string()
@@ -15,4 +15,4 @@ export const signInSchema = z.object({
 		.max(32),
 });
 
-export type SignInSchema = z.infer<typeof signInSchema>;
+export type SignInCredentialsSchema = z.infer<typeof signInCredentialsSchema>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { signInCredentialsAction } from "@/actions/auth/sign-in-credentials-action";
+import { signUpCredentialsAction } from "@/actions/auth/sign-up-credentials-action";
 import { GitHub } from "@/components/icons/github";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { actionClientErrorHandler } from "@/functions/action-client-error-handler";
 import { cn } from "@/functions/cn";
-import { signInCredentialsSchema } from "@/types/schemas/sign-in-credentials-schema";
+import { signUpCredentialsSchema } from "@/types/schemas/sign-up-credentials-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks";
 import { Discord, Google } from "@ridemountainpig/svgl-react";
@@ -24,7 +24,7 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 import { toast } from "sonner";
 
-const signInFormVariants = cva("flex flex-col gap-4", {
+const formVariants = cva("flex flex-col gap-4", {
 	variants: {
 		variant: {
 			page: "p-6 md:p-8",
@@ -36,17 +36,17 @@ const signInFormVariants = cva("flex flex-col gap-4", {
 	},
 });
 
-interface ISignInForm
+interface ISignUpForm
 	extends ComponentProps<"form">,
-		VariantProps<typeof signInFormVariants> {}
+		VariantProps<typeof formVariants> {}
 
-export function SignInForm({ variant, className, ...props }: ISignInForm) {
-	const t = useTranslations("app.sign_in.form");
+export function SignUpForm({ variant, className, ...props }: ISignUpForm) {
+	const t = useTranslations("app.sign_up.form");
 
 	const { form, handleSubmitWithAction, resetFormAndAction } =
 		useHookFormAction(
-			signInCredentialsAction,
-			zodResolver(signInCredentialsSchema),
+			signUpCredentialsAction,
+			zodResolver(signUpCredentialsSchema),
 			{
 				actionProps: {
 					onError({ error }) {
@@ -62,6 +62,7 @@ export function SignInForm({ variant, className, ...props }: ISignInForm) {
 					defaultValues: {
 						email: "",
 						password: "",
+						confirmPassword: "",
 					},
 				},
 			},
@@ -73,7 +74,7 @@ export function SignInForm({ variant, className, ...props }: ISignInForm) {
 		<Form {...form}>
 			<form
 				onSubmit={handleSubmitWithAction}
-				className={cn(signInFormVariants({ variant }), className)}
+				className={cn(formVariants({ variant }), className)}
 				{...props}
 			>
 				<div className="flex flex-col items-center text-center">
@@ -104,14 +105,27 @@ export function SignInForm({ variant, className, ...props }: ISignInForm) {
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel className="justify-between">
-								{t("password.label")}{" "}
-								<Link
-									href="/auth/forgot-password"
-									className="hover:underline underline-offset-2"
-									replace
-								>
-									{t("forgot_password")}
-								</Link>
+								{t("password.label")}
+							</FormLabel>
+							<FormControl>
+								<Input
+									type="password"
+									placeholder={t("password.placeholder")}
+									required
+									{...field}
+								/>
+							</FormControl>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name="confirmPassword"
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel className="justify-between">
+								{t("confirm_password.label")}
 							</FormLabel>
 							<FormControl>
 								<Input
@@ -145,10 +159,10 @@ export function SignInForm({ variant, className, ...props }: ISignInForm) {
 					</Button>
 				</div>
 				<div className="text-sm text-center">
-					{t.rich("sign_up", {
-						sign_up: (chunks) => (
+					{t.rich("sign_in", {
+						sign_in: (chunks) => (
 							<Link
-								href="/auth/sign-up"
+								href="/auth/sign-in"
 								className="hover:text-primary underline underline-offset-4 transition-all"
 								replace
 							>

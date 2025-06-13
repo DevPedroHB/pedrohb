@@ -2,6 +2,7 @@ packages:
   - apps/*
   - packages/*
   - config/*
+
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@prisma/client'

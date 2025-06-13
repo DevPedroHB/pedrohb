@@ -21,7 +21,7 @@
 	"license": "MIT",
 	"main": "src/index.ts",
 	"name": "@pedrohb/db",
-	"packageManager": "pnpm@10.11.1",
+	"packageManager": "pnpm@10.12.1",
 	"prisma": {
 		"seed": "pnpm env:load tsx prisma/seed.ts"
 	},

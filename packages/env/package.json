@@ -17,7 +17,7 @@
 	"license": "MIT",
 	"main": "src/index.ts",
 	"name": "@pedrohb/env",
-	"packageManager": "pnpm@10.11.1",
+	"packageManager": "pnpm@10.12.1",
 	"scripts": {
 		"env:load": "dotenv -e ../../.env --"
 	},
