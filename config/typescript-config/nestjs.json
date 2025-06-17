@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"_version": "24.0.0",
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"module": "commonjs",
+		"noFallthroughCasesInSwitch": false,
+		"noImplicitAny": false,
+		"removeComments": true,
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strictBindCallApply": false,
+		"strictNullChecks": true,
+		"target": "ES2023"
+	}
+}

@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"_version": "24.0.0",
+	"extends": "@pedrohb/typescript-config/nestjs.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"outDir": "./dist",
+		"paths": {
+			"@/*": ["./src/*", "./test/*"]
+		},
+		"types": ["vitest/globals"]
+	}
+}

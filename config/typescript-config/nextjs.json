@@ -20,6 +20,5 @@
 		"skipLibCheck": true,
 		"strict": true,
 		"target": "ES2017"
-	},
-	"extends": "./base.json"
+	}
 }
