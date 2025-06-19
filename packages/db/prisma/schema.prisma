@@ -29,7 +29,7 @@ model User {
   email           String    @unique /// @zod.string.email()
   passwordHash    String?
   avatarUrl       String?   @map("avatar_url") /// @zod.string.url()
-  role            Role      @default(MEMBER)
+  roles           Role[]    @default([MEMBER])
   emailVerifiedAt DateTime? @map("email_verified_at")
   createdAt       DateTime  @default(now()) @map("created_at")
   updatedAt       DateTime? @updatedAt @map("updated_at")

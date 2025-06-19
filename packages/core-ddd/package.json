@@ -12,7 +12,8 @@
 		"@paralleldrive/cuid2": "^2.2.2",
 		"bcrypt": "^6.0.0",
 		"ulid": "^3.0.0",
-		"uuid": "^11.1.0"
+		"uuid": "^11.1.0",
+		"zod": "^3.25.67"
 	},
 	"description": "O Core DDD é uma biblioteca para criar Domain Driven Design em TypeScript.",
 	"devDependencies": {
@@ -38,7 +39,9 @@
 			"require": "./dist/index.js"
 		}
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"homepage": "https://core-ddd.vercel.app",
 	"keywords": [
 		"DDD",

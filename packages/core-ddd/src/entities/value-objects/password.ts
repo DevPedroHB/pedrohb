@@ -1,6 +1,13 @@
 import { InvalidCredentialsError } from "@/errors/invalid-credentials-error";
-import { compare as bcryptCompare, hash as bcryptHash } from "bcrypt";
+import { compare as bcryptCompare, hash as bcryptHash, genSalt } from "bcrypt";
+import { z } from "zod";
 import { ValueObject } from "../value-object";
+
+export const passwordSchema = z
+	.string()
+	.min(6)
+	.max(32)
+	.regex(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!"@#$%^&*?]).{6,32}$/);
 
 const ALL_CHARS = {
 	lower: "abcdefghijklmnopqrstuvwxyz",
@@ -48,10 +55,9 @@ export class Password extends ValueObject {
 	 * @param saltOrRounds Número de rounds ou string de salt. Padrão é 10.
 	 * @returns Hash da senha.
 	 */
-	public static async hash(
-		data: string | Buffer,
-		saltOrRounds: string | number = 10,
-	): Promise<string> {
+	public static async hash(data: string | Buffer, salt = 10): Promise<string> {
+		const saltOrRounds = await genSalt(salt);
+
 		return await bcryptHash(data, saltOrRounds);
 	}
 
@@ -79,9 +85,7 @@ export class Password extends ValueObject {
 	 * @returns `true` se válida, `false` se inválida.
 	 */
 	public static isValid(password: string): boolean {
-		const pattern = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!"@#$%^&*?]).{6,32}$/;
-
-		return pattern.test(password);
+		return passwordSchema.safeParse(password).success;
 	}
 
 	/**
@@ -122,7 +126,7 @@ export class Password extends ValueObject {
 	 */
 	public static async create(
 		password = Password.generate(),
-		saltOrRounds = 10,
+		salt = 10,
 	): Promise<Password> {
 		if (!Password.isValid(password)) {
 			throw new InvalidCredentialsError(
@@ -130,7 +134,7 @@ export class Password extends ValueObject {
 			);
 		}
 
-		const hashed = await Password.hash(password, saltOrRounds);
+		const hashed = await Password.hash(password, salt);
 
 		return new Password(hashed);
 	}
