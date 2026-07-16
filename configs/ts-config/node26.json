@@ -1,0 +1,5 @@
+{
+	"_version": "26.0.0",
+	"$schema": "https://www.schemastore.org/tsconfig",
+	"extends": "@tsconfig/bases/node26"
+}

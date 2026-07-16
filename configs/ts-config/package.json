@@ -1,0 +1,20 @@
+{
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "A collection of TypeScript configurations for different scenarios.",
+	"devDependencies": {
+		"@tsconfig/bases": "^1.0.26"
+	},
+	"exports": {
+		"./node26": "./node26.json"
+	},
+	"keywords": [
+		"config",
+		"ts-config",
+		"tsconfig",
+		"typescript"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/ts-config",
+	"type": "module",
+	"version": "1.0.0"
+}
