@@ -1,0 +1,82 @@
+{
+	"author": {
+		"email": "email@pedrohb.dev",
+		"name": "Pedro Henrique Bergamo",
+		"url": "https://github.com/DevPedroHB"
+	},
+	"bugs": {
+		"email": "email@pedrohb.dev",
+		"url": "https://github.com/DevPedroHB/pedrohb/issues"
+	},
+	"description": "A TypeScript package for implementing Domain-Driven Design (DDD) in Node.js applications.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.4",
+		"@pedrohb/ts-config": "workspace:*",
+		"@pedrohb/tsdown-config": "workspace:*",
+		"@pedrohb/vitest-config": "workspace:*",
+		"@types/node": "^26.1.1",
+		"@vitest/coverage-v8": "^4.1.10",
+		"@vitest/ui": "^4.1.10",
+		"tsdown": "^0.22.8",
+		"tsx": "^4.23.1",
+		"typescript": "^6.0.3",
+		"vitest": "^4.1.10"
+	},
+	"engines": {
+		"node": ">=20"
+	},
+	"exports": {
+		".": {
+			"import": {
+				"default": "./dist/index.mjs",
+				"types": "./dist/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/index.cjs",
+				"types": "./dist/index.d.cts"
+			}
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"funding": "https://github.com/sponsors/DevPedroHB",
+	"homepage": "https://github.com/DevPedroHB/pedrohb/tree/main/packages/ddd",
+	"imports": {
+		"#/*": [
+			"./src/*"
+		]
+	},
+	"keywords": [
+		"ddd",
+		"domain-driven-design"
+	],
+	"license": "MIT",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
+	"name": "@pedrohb/ddd",
+	"packageManager": "pnpm@11.13.1",
+	"publishConfig": {
+		"access": "public",
+		"provenance": true
+	},
+	"repository": {
+		"directory": "packages/ddd",
+		"type": "git",
+		"url": "git+https://github.com/DevPedroHB/pedrohb.git"
+	},
+	"scripts": {
+		"build": "tsdown",
+		"check": "biome check --write",
+		"format": "biome format --write",
+		"lint": "biome lint --write",
+		"prepublishOnly": "pnpm build && pnpm test",
+		"test": "vitest run",
+		"test:watch": "vitest --ui",
+		"typecheck": "tsc --noEmit"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"types": "./dist/index.d.mts",
+	"version": "1.0.0"
+}
