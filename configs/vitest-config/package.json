@@ -1,0 +1,21 @@
+{
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "A collection of vitest configurations for different scenarios.",
+	"exports": {
+		".": "./vitest.config.ts",
+		"./e2e": "./vitest.config.e2e.ts"
+	},
+	"keywords": [
+		"vitest",
+		"config"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/vitest-config",
+	"peerDependencies": {
+		"@vitest/coverage-v8": "^4.1.10",
+		"@vitest/ui": "^4.1.10",
+		"vitest": "^4.1.10"
+	},
+	"type": "module",
+	"version": "1.0.0"
+}
