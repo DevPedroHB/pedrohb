@@ -1,0 +1,19 @@
+{
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "A collection of tsdown configurations for different scenarios.",
+	"devDependencies": {
+		"tsdown": "^0.22.8",
+		"typescript": "^6.0.3"
+	},
+	"exports": {
+		".": "./tsdown.config.ts"
+	},
+	"keywords": [
+		"tsdown",
+		"config"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/tsdown-config",
+	"type": "module",
+	"version": "1.0.0"
+}
