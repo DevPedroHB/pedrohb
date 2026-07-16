@@ -1,0 +1,77 @@
+name: Package proposal
+description: Proponha uma nova biblioteca ou configuração para o ecossistema.
+title: "[Package]: "
+labels: ["proposal", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para propor um novo pacote, preset, configuração compartilhada ou utilitário reutilizável.
+
+  - type: input
+    id: package-name
+    attributes:
+      label: Nome sugerido
+      description: Informe o nome esperado do pacote, se já houver um.
+      placeholder: "ex.: @pedrohb/example"
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivação
+      description: Explique por que este pacote deveria existir no ecossistema.
+      placeholder: "Este pacote resolveria..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Escopo inicial
+      description: Liste as responsabilidades que o pacote deve ter e o que deve ficar fora.
+      placeholder: |
+        Deve incluir:
+        - ...
+
+        Não deve incluir:
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: API ou uso esperado
+      description: Mostre como o pacote seria usado por consumidores.
+      render: ts
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas existentes
+      description: Cite bibliotecas, padrões internos ou soluções atuais que se aproximam da proposta.
+
+  - type: dropdown
+    id: maintenance
+    attributes:
+      label: Impacto de manutenção
+      description: Qual o nível esperado de manutenção para este pacote?
+      options:
+        - "Baixo"
+        - "Médio"
+        - "Alto"
+        - "Não sei"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se a proposta não se encaixa melhor em um pacote existente.
+          required: true
+        - label: Descrevi um caso de uso real para justificar o novo pacote.
+          required: true

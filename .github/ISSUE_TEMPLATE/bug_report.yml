@@ -1,0 +1,89 @@
+name: Bug report
+description: Reporte um comportamento incorreto em uma biblioteca ou configuração do ecossistema.
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por reportar um problema. Preencha as informações abaixo para ajudar na reprodução e análise.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Pacote afetado
+      description: Selecione o pacote ou área onde o bug acontece.
+      options:
+        - "@pedrohb/ddd"
+        - "@pedrohb/errors"
+        - "Workspace / monorepo"
+        - "Outro / não sei"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Versão
+      description: Informe a versão do pacote afetado, se aplicável.
+      placeholder: "ex.: 1.2.3"
+
+  - type: textarea
+    id: current-behavior
+    attributes:
+      label: Comportamento atual
+      description: Descreva o que aconteceu.
+      placeholder: "Ao chamar..., o resultado foi..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Comportamento esperado
+      description: Descreva o que você esperava que acontecesse.
+      placeholder: "Eu esperava que..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Como reproduzir
+      description: Inclua um repositório mínimo, trecho de código ou passos claros para reproduzir.
+      placeholder: |
+        1. Instale...
+        2. Execute...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Informe versões relevantes do runtime e ferramentas.
+      value: |
+        - Node:
+        - pnpm:
+        - TypeScript:
+        - Sistema operacional:
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs ou erro completo
+      description: Cole logs, stack traces ou mensagens de erro relevantes.
+      render: shell
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se já existe uma issue relacionada.
+          required: true
+        - label: Inclui informações suficientes para reproduzir ou investigar o problema.
+          required: true

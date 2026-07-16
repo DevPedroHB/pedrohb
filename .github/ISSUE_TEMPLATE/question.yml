@@ -1,0 +1,46 @@
+name: Question / support
+description: Tire uma dúvida sobre uso, integração ou comportamento esperado.
+title: "[Question]: "
+labels: ["question", "triage"]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Pacote relacionado
+      options:
+        - "@pedrohb/ddd"
+        - "@pedrohb/errors"
+        - "Workspace / monorepo"
+        - "Outro / não sei"
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Pergunta
+      description: Descreva sua dúvida com contexto suficiente.
+      placeholder: "Estou tentando... e gostaria de entender..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto
+      description: Inclua trechos de código, configuração ou links relevantes.
+      render: ts
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: O que você já tentou?
+      description: Liste abordagens, documentação consultada ou workarounds testados.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se já existe uma issue ou documentação relacionada.
+          required: true

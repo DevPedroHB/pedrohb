@@ -1,0 +1,67 @@
+name: Feature request
+description: Sugira uma melhoria ou nova funcionalidade para uma biblioteca existente.
+title: "[Feature]: "
+labels: ["enhancement", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use este formulário para propor melhorias em pacotes já existentes.
+
+  - type: dropdown
+    id: package
+    attributes:
+      label: Pacote relacionado
+      description: Selecione o pacote ou área que receberia a melhoria.
+      options:
+        - "@pedrohb/ddd"
+        - "@pedrohb/errors"
+        - "Workspace / monorepo"
+        - "Outro / não sei"
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou necessidade
+      description: Explique qual problema esta melhoria resolve.
+      placeholder: "Hoje é difícil..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposta
+      description: Descreva a solução desejada, incluindo API esperada quando fizer sentido.
+      placeholder: "A biblioteca poderia expor..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Liste soluções alternativas, workarounds ou APIs similares em outras bibliotecas.
+
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: Pode exigir breaking change?
+      options:
+        - "Não"
+        - "Sim"
+        - "Não sei"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se já existe uma issue relacionada.
+          required: true
+        - label: A proposta está alinhada a um caso de uso real.
+          required: true

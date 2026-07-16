@@ -14,6 +14,7 @@
 	],
 	"license": "MIT",
 	"name": "@pedrohb/tsdown-config",
+	"private": true,
 	"type": "module",
 	"version": "1.0.0"
 }

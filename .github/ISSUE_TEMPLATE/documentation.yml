@@ -1,0 +1,46 @@
+name: Documentation
+description: Reporte documentação ausente, incorreta ou difícil de entender.
+title: "[Docs]: "
+labels: ["documentation", "triage"]
+body:
+  - type: dropdown
+    id: package
+    attributes:
+      label: Área da documentação
+      options:
+        - "README principal"
+        - "@pedrohb/ddd"
+        - "@pedrohb/errors"
+        - "Outro / não sei"
+    validations:
+      required: true
+
+  - type: textarea
+    id: issue
+    attributes:
+      label: O que precisa melhorar?
+      description: Descreva o problema na documentação atual ou o conteúdo ausente.
+      placeholder: "A documentação não explica..."
+    validations:
+      required: true
+
+  - type: input
+    id: location
+    attributes:
+      label: Link ou arquivo relacionado
+      description: Informe o link, arquivo ou seção da documentação, se houver.
+      placeholder: "ex.: packages/errors/README.md"
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Sugestão de melhoria
+      description: Se possível, descreva como a documentação poderia ficar mais clara.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Checklist
+      options:
+        - label: Verifiquei se já existe uma issue relacionada.
+          required: true

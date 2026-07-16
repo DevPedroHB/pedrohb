@@ -1,0 +1,15 @@
+{
+	"$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
+	"access": "public",
+	"baseBranch": "main",
+	"changelog": "@changesets/cli/changelog",
+	"commit": false,
+	"fixed": [],
+	"ignore": [
+		"@pedrohb/ts-config",
+		"@pedrohb/tsdown-config",
+		"@pedrohb/vitest-config"
+	],
+	"linked": [],
+	"updateInternalDependencies": "patch"
+}
