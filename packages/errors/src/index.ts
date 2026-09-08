@@ -1,4 +1,2 @@
-// Copyright (c) 2026 Pedro Henrique Bergamo
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
+export * from "./either.js";
+export * from "./errors/index.js";

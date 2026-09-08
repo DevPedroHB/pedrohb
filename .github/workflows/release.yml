@@ -12,28 +12,36 @@ permissions:
 
 jobs:
   release:
+    name: Release
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - name: Checkout
+        uses: actions/checkout@v5
 
-      - uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          version: 11.13.1
+          version: 12.3.4
 
-      - uses: actions/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 26
           registry-url: https://registry.npmjs.org
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - run: pnpm run build
+      - name: Build
+        run: pnpm run build
 
-      - run: pnpm run test
+      - name: Test
+        run: pnpm run test
 
-      - uses: changesets/action@v1
+      - name: Release and publish
+        uses: changesets/action@v1
         with:
           publish: pnpm release
           version: pnpm version-packages
