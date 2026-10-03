@@ -1,20 +1,28 @@
 {
-  "author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
-  "description": "A collection of tsdown configurations for different scenarios.",
-  "devDependencies": {
-    "tsdown": "^0.23.0",
-    "typescript": "^7.0.2"
-  },
-  "exports": {
-    ".": "./tsdown.config.ts"
-  },
-  "keywords": [
-    "tsdown",
-    "config"
-  ],
-  "license": "MIT",
-  "name": "@pedrohb/tsdown-config",
-  "private": true,
-  "type": "module",
-  "version": "1.0.0"
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "Shared tsdown configurations for different scenarios.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
+		"@pedrohb/ts-config": "workspace:*",
+		"@types/node": "^26.6.4",
+		"tsdown": "^0.23.0",
+		"typescript": "^7.0.2"
+	},
+	"exports": {
+		".": "./tsdown.config.ts"
+	},
+	"keywords": [
+		"tsdown-config",
+		"tsdown-configurations"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/tsdown-config",
+	"private": true,
+	"scripts": {
+		"check": "biome check --write",
+		"format": "biome format --write",
+		"lint": "biome lint --write"
+	},
+	"type": "module",
+	"version": "1.0.0"
 }

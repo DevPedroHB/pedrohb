@@ -1,9 +1,10 @@
 import { defineConfig } from "vitest/config";
 
-export const unitConfig = defineConfig({
+export const config = defineConfig({
 	test: {
-		clearMocks: true,
-		coverage: { enabled: true },
+		coverage: {
+			enabled: true,
+		},
 		exclude: [
 			"**/.git/**",
 			"**/.turbo/**",
@@ -12,7 +13,6 @@ export const unitConfig = defineConfig({
 			"**/node_modules/**",
 		],
 		globals: true,
-		include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"],
 		mockReset: true,
 		restoreMocks: true,
 	},

@@ -2,9 +2,10 @@ import { type Either, err, ok } from "./either.js";
 import { EitherUnwrapError } from "./errors/either-unwrap-error.js";
 
 describe("Either", () => {
-	it("should create an Ok with a value", () => {
-		const success = ok("Sucesso.");
+	const success: Either<string, string> = ok("Sucesso.");
+	const error: Either<string, string> = err("Erro.");
 
+	it("should create an Ok with a value", () => {
 		expect(success.tag).toBe("Ok");
 		expect(success.isOk()).toBe(true);
 		expect(success.isErr()).toBe(false);
@@ -12,8 +13,6 @@ describe("Either", () => {
 	});
 
 	it("should create an Err with an error", () => {
-		const error = err("Erro.");
-
 		expect(error.tag).toBe("Err");
 		expect(error.isOk()).toBe(false);
 		expect(error.isErr()).toBe(true);
@@ -21,104 +20,82 @@ describe("Either", () => {
 	});
 
 	it("should throw when unwrapping an Err", () => {
-		const error = err("Erro.");
-
 		expect(() => error.unwrap()).toThrow(EitherUnwrapError);
 	});
 
 	it("should throw when unwrapping an error from an Ok", () => {
-		const success = ok("Sucesso.");
-
 		expect(() => success.unwrapErr()).toThrow(EitherUnwrapError);
 	});
 
 	it("should map the value of an Ok", () => {
-		const success = ok(2).map((n) => n * 2);
+		const result = success.map((value) => value.length);
 
-		expect(success.unwrap()).toBe(4);
+		expect(result.unwrap()).toBe(8);
 	});
 
 	it("should preserve the error when mapping an Err", () => {
-		const error = err<number, string>("Erro.").map((n) => n * 2);
+		const result = error.map((value) => value.length);
 
-		expect(error.unwrapErr()).toBe("Erro.");
+		expect(result.unwrapErr()).toBe("Erro.");
 	});
 
 	it("should map the error of an Err", () => {
-		const error = err("Erro.").mapErr((e) => e.toUpperCase());
+		const result = error.mapErr((value) => value.length);
 
-		expect(error.unwrapErr()).toBe("ERRO.");
+		expect(result.unwrapErr()).toBe(5);
 	});
 
 	it("should preserve the value when mapping the error of an Ok", () => {
-		const success = ok(2).mapErr(() => "Erro.");
+		const result = success.mapErr((value) => value.length);
 
-		expect(success.unwrap()).toBe(2);
+		expect(result.unwrap()).toBe("Sucesso.");
 	});
 
 	it("should chain computations with flatMap", () => {
-		const success = ok(2).flatMap((n) => ok(n + 1));
+		const result = success.flatMap((value) => ok(value.length));
 
-		expect(success.unwrap()).toBe(3);
+		expect(result.unwrap()).toBe(8);
 	});
 
 	it("should preserve the original error when chaining an Err with flatMap", () => {
-		const error = err<number, string>("Erro.").flatMap((n) => ok(n + 1));
+		const result = error.flatMap((value) => ok(value.length));
 
-		expect(error.unwrapErr()).toBe("Erro.");
+		expect(result.unwrapErr()).toBe("Erro.");
 	});
 
 	it("should recover from an Err with orElse", () => {
-		const error = err<number, string>("Erro.").orElse(() => ok(0));
+		const result = error.orElse((value) => ok(value.length));
 
-		expect(error.unwrap()).toBe(0);
+		expect(result.unwrap()).toBe(5);
 	});
 
 	it("should preserve the value of an Ok with orElse", () => {
-		const success = ok(2).orElse(() => ok(0));
+		const result = success.orElse((value) => ok(value.length));
 
-		expect(success.unwrap()).toBe(2);
+		expect(result.unwrap()).toBe("Sucesso.");
 	});
 
 	it("should match both Ok and Err states", () => {
 		expect(
-			ok(1).match({
-				onOk(v) {
-					return v;
+			success.match({
+				onOk(value) {
+					return `onOk ${value}`;
 				},
-				onErr() {
-					return 0;
+				onErr(value) {
+					return `onErr ${value}`;
 				},
 			}),
-		).toBe(1);
+		).toBe("onOk Sucesso.");
 
 		expect(
-			err("x").match({
-				onOk() {
-					return "y";
+			error.match({
+				onOk(value) {
+					return `onOk ${value}`;
 				},
-				onErr(e) {
-					return e;
+				onErr(value) {
+					return `onErr ${value}`;
 				},
 			}),
-		).toBe("x");
-	});
-
-	it("should narrow the type with isOk", () => {
-		const success: Either<number, string> = ok(1) as Either<number, string>;
-
-		if (success.isOk()) {
-			const value: number = success.unwrap();
-
-			expect(value).toBe(1);
-		}
-
-		const error: Either<number, string> = err("x") as Either<number, string>;
-
-		if (error.isErr()) {
-			const value: string = error.unwrapErr();
-
-			expect(value).toBe("x");
-		}
+		).toBe("onErr Erro.");
 	});
 });

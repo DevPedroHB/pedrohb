@@ -8,22 +8,22 @@
 		"email": "email@pedrohb.dev",
 		"url": "https://github.com/DevPedroHB/pedrohb/issues"
 	},
-	"description": "A type-safe, extensible error system for TypeScript applications.",
+	"description": "Um sistema de erros tipado para aplicações TypeScript.",
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.12",
+		"@biomejs/biome": "^2.5.15",
 		"@pedrohb/ts-config": "workspace:*",
 		"@pedrohb/tsdown-config": "workspace:*",
 		"@pedrohb/vitest-config": "workspace:*",
-		"@types/node": "^26.5.0",
-		"@vitest/coverage-v8": "^5.0.0",
-		"@vitest/ui": "^5.0.0",
+		"@types/node": "^26.6.4",
+		"@vitest/coverage-v8": "^5.0.3",
+		"@vitest/ui": "^5.0.3",
 		"tsdown": "^0.23.0",
 		"tsx": "^4.23.1",
 		"typescript": "^7.0.2",
-		"vitest": "^5.0.0"
+		"vitest": "^5.0.3"
 	},
 	"engines": {
-		"node": ">=20"
+		"node": ">=26"
 	},
 	"exports": {
 		".": {
@@ -35,6 +35,36 @@
 				"default": "./dist/index.cjs",
 				"types": "./dist/index.d.cts"
 			}
+		},
+		"./errors": {
+			"import": {
+				"default": "./dist/errors/index.mjs",
+				"types": "./dist/errors/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/errors/index.cjs",
+				"types": "./dist/errors/index.d.cts"
+			}
+		},
+		"./functions": {
+			"import": {
+				"default": "./dist/functions/index.mjs",
+				"types": "./dist/functions/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/functions/index.cjs",
+				"types": "./dist/functions/index.d.cts"
+			}
+		},
+		"./types": {
+			"import": {
+				"default": "./dist/types/index.mjs",
+				"types": "./dist/types/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/types/index.cjs",
+				"types": "./dist/types/index.d.cts"
+			}
 		}
 	},
 	"files": [
@@ -45,22 +75,33 @@
 	"imports": {
 		"#/*": [
 			"./src/*"
+		],
+		"#test/*": [
+			"./test/*"
 		]
 	},
 	"keywords": [
-		"errors"
+		"errors",
+		"error-handling",
+		"error-catalog",
+		"typed-errors",
+		"type-safe",
+		"either",
+		"result",
+		"functional-programming",
+		"serialization",
+		"typescript"
 	],
 	"license": "MIT",
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
 	"name": "@pedrohb/errors",
-	"packageManager": "pnpm@12.3.4",
+	"packageManager": "pnpm@12.8.1",
 	"publishConfig": {
 		"access": "public",
 		"provenance": true
 	},
 	"repository": {
-		"directory": "packages/errors",
 		"type": "git",
 		"url": "git+https://github.com/DevPedroHB/pedrohb.git"
 	},

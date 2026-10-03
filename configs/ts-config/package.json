@@ -1,21 +1,27 @@
 {
-  "author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
-  "description": "A collection of TypeScript configurations for different scenarios.",
-  "devDependencies": {
-    "@tsconfig/bases": "^1.0.27"
-  },
-  "exports": {
-    "./node26": "./node26.json"
-  },
-  "keywords": [
-    "config",
-    "ts-config",
-    "tsconfig",
-    "typescript"
-  ],
-  "license": "MIT",
-  "name": "@pedrohb/ts-config",
-  "private": true,
-  "type": "module",
-  "version": "1.0.0"
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "Shared TypeScript configurations for different scenarios.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
+		"@tsconfig/bases": "^1.0.28",
+		"@types/node": "^26.6.4",
+		"typescript": "^7.0.2"
+	},
+	"exports": {
+		"./node26": "./node26.json"
+	},
+	"keywords": [
+		"ts-config",
+		"typescript-configurations"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/ts-config",
+	"private": true,
+	"scripts": {
+		"check": "biome check --write",
+		"format": "biome format --write",
+		"lint": "biome lint --write"
+	},
+	"type": "module",
+	"version": "1.0.0"
 }

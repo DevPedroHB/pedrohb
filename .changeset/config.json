@@ -2,14 +2,21 @@
 	"$schema": "https://unpkg.com/@changesets/config@3.1.4/schema.json",
 	"access": "public",
 	"baseBranch": "main",
+	"bumpVersionsWithWorkspaceProtocolOnly": true,
+	"changedFilePatterns": ["**"],
 	"changelog": "@changesets/cli/changelog",
 	"commit": false,
 	"fixed": [],
 	"ignore": [
+		"@pedrohb/workspace",
 		"@pedrohb/ts-config",
 		"@pedrohb/tsdown-config",
 		"@pedrohb/vitest-config"
 	],
 	"linked": [],
+	"privatePackages": {
+		"tag": false,
+		"version": false
+	},
 	"updateInternalDependencies": "patch"
 }

@@ -1,4 +1,4 @@
-import { unitConfig } from "@pedrohb/vitest-config";
+import { config } from "@pedrohb/vitest-config";
 import { mergeConfig } from "vitest/config";
 
-export default mergeConfig(unitConfig, {});
+export default mergeConfig(config, {});

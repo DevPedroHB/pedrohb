@@ -1,12 +1,13 @@
 {
 	"_version": "26.0.0",
 	"$schema": "https://www.schemastore.org/tsconfig",
+	"extends": "@pedrohb/ts-config/node26",
 	"compilerOptions": {
+		"rootDir": ".",
 		"outDir": "./dist",
 		"paths": {
 			"#/*": ["./src/*"]
 		},
 		"types": ["node", "vitest/globals"]
-	},
-	"extends": "@pedrohb/ts-config/node26"
+	}
 }

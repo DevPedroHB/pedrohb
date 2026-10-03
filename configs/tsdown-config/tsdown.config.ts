@@ -1,12 +1,7 @@
 import { defineConfig } from "tsdown";
 
 export const config = defineConfig({
-	clean: true,
 	dts: true,
-	format: ["cjs", "esm"],
-	minify: false,
-	outDir: "dist",
+	format: ["esm", "cjs"],
 	sourcemap: true,
-	treeshake: true,
-	tsconfig: true,
 });

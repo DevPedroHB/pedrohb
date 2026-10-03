@@ -1,22 +1,31 @@
 {
-  "author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
-  "description": "A collection of vitest configurations for different scenarios.",
-  "exports": {
-    ".": "./vitest.config.ts",
-    "./e2e": "./vitest.config.e2e.ts"
-  },
-  "keywords": [
-    "vitest",
-    "config"
-  ],
-  "license": "MIT",
-  "name": "@pedrohb/vitest-config",
-  "peerDependencies": {
-    "@vitest/coverage-v8": "^5.0.0",
-    "@vitest/ui": "^5.0.0",
-    "vitest": "^5.0.0"
-  },
-  "private": true,
-  "type": "module",
-  "version": "1.0.0"
+	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
+	"description": "Shared Vitest configurations for different scenarios.",
+	"devDependencies": {
+		"@biomejs/biome": "^2.5.15",
+		"@pedrohb/ts-config": "workspace:*",
+		"@types/node": "^26.6.4",
+		"@vitest/coverage-v8": "^5.0.3",
+		"@vitest/ui": "^5.0.3",
+		"typescript": "^7.0.2",
+		"vitest": "^5.0.3"
+	},
+	"exports": {
+		".": "./vitest.config.ts",
+		"./e2e": "./vitest.config.e2e.ts"
+	},
+	"keywords": [
+		"vitest-config",
+		"vitest-configurations"
+	],
+	"license": "MIT",
+	"name": "@pedrohb/vitest-config",
+	"private": true,
+	"scripts": {
+		"check": "biome check --write",
+		"format": "biome format --write",
+		"lint": "biome lint --write"
+	},
+	"type": "module",
+	"version": "1.0.0"
 }
