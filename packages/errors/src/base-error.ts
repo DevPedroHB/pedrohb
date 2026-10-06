@@ -14,6 +14,7 @@ import type { CatalogDescriptor } from "./types/catalog-descriptor.js";
 import type { ErrorCatalog } from "./types/error-catalog.js";
 import type { ErrorParamDelimiters } from "./types/error-param-delimiters.js";
 import type { ErrorParams } from "./types/error-params.js";
+import type { ErrorTranslations } from "./types/error-translations.js";
 
 /**
  * Opções aceitas pelo construtor de {@link BaseError}.
@@ -118,6 +119,10 @@ export type BaseErrorOptionsArgs<
  * códigos do catálogo.
  * @template Delimiters - Tipo dos delimitadores dos placeholders. Por padrão,
  * {@link DefaultParamDelimiters}.
+ * @template Locale - União dos idiomas aceitos por {@link BaseError.translate}
+ * (ex.: `"en" | "es"`). Deve acompanhar o getter `translations` da subclasse
+ * e pode ser obtida com `ErrorTranslationLocale`. Por padrão, `never`: sem
+ * traduções, nenhum idioma é aceito.
  *
  * @example
  * ```ts
@@ -150,11 +155,38 @@ export type BaseErrorOptionsArgs<
  * JSON.stringify(erro);              // usa toJSON(), sem stack trace
  * erro.serialize(true);              // inclui o stack trace
  * ```
+ *
+ * @example
+ * Com traduções (veja {@link BaseError.translate}):
+ * ```ts
+ * const TEST_ERROR_TRANSLATIONS = defineErrorTranslations(TEST_ERROR_CODES, {
+ *   en: {
+ *     USER_NOT_FOUND: "User {id} not found",
+ *     INVALID_TOKEN: "Invalid token",
+ *   },
+ * });
+ *
+ * class TestError<Code extends CatalogCode<TestErrorCodes>> extends BaseError<
+ *   TestErrorCodes,
+ *   Code,
+ *   DefaultParamDelimiters,
+ *   ErrorTranslationLocale<typeof TEST_ERROR_TRANSLATIONS>
+ * > {
+ *   protected override get translations() {
+ *     return TEST_ERROR_TRANSLATIONS;
+ *   }
+ *   // ...
+ * }
+ *
+ * erro.message;         // "Usuário 42 não encontrado" (idioma do catálogo)
+ * erro.translate("en"); // "User 42 not found"
+ * ```
  */
 export abstract class BaseError<
 	Catalog extends ErrorCatalog = ErrorCatalog,
 	Code extends CatalogCode<Catalog> = CatalogCode<Catalog>,
 	Delimiters extends ErrorParamDelimiters = DefaultParamDelimiters,
+	Locale extends string = never,
 > extends Error {
 	/** Código do erro conforme o catálogo (ex.: `"USER_NOT_FOUND"`). */
 	public readonly code: Code;
@@ -163,15 +195,23 @@ export abstract class BaseError<
 	 * mensagem não possui placeholders (ou quando nenhum `params` foi informado).
 	 */
 	public readonly params?: ErrorParams<Catalog, Code, Delimiters>;
+	/**
+	 * Delimitadores usados na interpolação da mensagem, guardados para que
+	 * {@link BaseError.translate} interpole a tradução da mesma forma. É um
+	 * campo privado: não aparece em serializações nem em `Object.keys`.
+	 */
+	readonly #delimiters: Delimiters;
 
 	/**
 	 * Cria um erro a partir de um descritor do catálogo.
 	 *
 	 * A mensagem do descritor é interpolada com `options.params` usando os
 	 * delimitadores de `options.delimiters` (por padrão,
-	 * {@link DEFAULT_PARAM_DELIMITERS}). Os delimitadores são usados apenas na
-	 * interpolação e não são armazenados na instância. O objeto `options`
-	 * também é repassado ao construtor de `Error`, que utiliza `cause`.
+	 * {@link DEFAULT_PARAM_DELIMITERS}). Os delimitadores são guardados em um
+	 * campo privado, usado apenas para interpolar traduções em
+	 * {@link BaseError.translate}, e não são expostos na instância. O objeto
+	 * `options` também é repassado ao construtor de `Error`, que utiliza
+	 * `cause`.
 	 *
 	 * É `protected` então só pode ser chamado por subclasses.
 	 *
@@ -205,12 +245,35 @@ export abstract class BaseError<
 		this.name = new.target.name;
 		this.code = descriptor.code;
 		this.params = params;
+		this.#delimiters = delimiters;
 
 		Object.setPrototypeOf(this, new.target.prototype);
 
 		if (Error.captureStackTrace) {
 			Error.captureStackTrace(this, new.target);
 		}
+	}
+
+	/**
+	 * Traduções disponíveis para {@link BaseError.translate} criadas com
+	 * `defineErrorTranslations`.
+	 *
+	 * Por padrão é `undefined` (sem traduções). Subclasses que oferecem
+	 * traduções sobrescrevem este getter e o parâmetro de tipo `Locale` com
+	 * os mesmos idiomas:
+	 *
+	 * ```ts
+	 * protected override get translations() {
+	 *   return TEST_ERROR_TRANSLATIONS;
+	 * }
+	 * ```
+	 *
+	 * É um getter (definido no protótipo) e não um campo para que as
+	 * traduções não se tornem uma propriedade própria de cada instância, o que
+	 * poluiria `Object.keys`, `console.log` e comparações de igualdade.
+	 */
+	protected get translations(): ErrorTranslations<Catalog, Locale> | undefined {
+		return undefined;
 	}
 
 	/**
@@ -222,6 +285,51 @@ export abstract class BaseError<
 	 */
 	public get [BASE_ERROR_BRAND]() {
 		return true;
+	}
+
+	/**
+	 * Retorna a mensagem do erro no idioma informado.
+	 *
+	 * Busca o texto do `code` do erro nas traduções da classe (getter
+	 * `translations`) e o interpola com os mesmos `params` e delimitadores
+	 * usados na criação do erro. O erro em si não muda: `message`, `serialize`
+	 * e `toJSON` continuam no idioma do catálogo.
+	 *
+	 * Se não houver tradução para o idioma (ex.: classe sem `translations` ou
+	 * idioma passado sem checagem de tipos), retorna `message`, a mensagem no
+	 * idioma do catálogo, em vez de lançar.
+	 *
+	 * O idioma é restrito em tempo de compilação aos definidos em `Locale`.
+	 *
+	 * @param locale - Idioma desejado, entre os definidos em `translations`.
+	 * @returns A mensagem traduzida e interpolada, ou `message` como fallback.
+	 *
+	 * @example
+	 * ```ts
+	 * const erro = TestError.create("USER_NOT_FOUND", { params: { id: 42 } });
+	 *
+	 * erro.translate("en"); // "User 42 not found"
+	 * erro.translate("fr"); // erro de tipo: "fr" não está em `translations`
+	 * ```
+	 */
+	public translate(locale: Locale) {
+		const template: string | undefined =
+			this.translations?.[locale]?.[this.code];
+
+		if (typeof template !== "string") {
+			return this.message;
+		}
+
+		const params = this.params;
+
+		return interpolateErrorMessage(
+			{ code: this.code, message: template },
+			this.#delimiters,
+			...((params === undefined ? [] : [params]) as ErrorMessageArgs<
+				string,
+				Delimiters
+			>),
+		);
 	}
 
 	/**

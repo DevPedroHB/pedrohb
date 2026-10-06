@@ -1,5 +1,6 @@
 export * from "./base-error.js";
 export * from "./define-error-catalog.js";
+export * from "./define-error-translations.js";
 export * from "./either.js";
 export * from "./errors/index.js";
 export * from "./functions/index.js";

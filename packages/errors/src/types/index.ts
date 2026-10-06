@@ -4,6 +4,8 @@ export * from "./error-catalog.js";
 export * from "./error-descriptor.js";
 export * from "./error-param-delimiters.js";
 export * from "./error-params.js";
+export * from "./error-translations.js";
 export * from "./extract-placeholders.js";
 export * from "./params-from-message.js";
 export * from "./validate-error-definitions.js";
+export * from "./validate-error-translations.js";

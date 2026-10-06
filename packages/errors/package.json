@@ -96,14 +96,14 @@
 	"main": "./dist/index.cjs",
 	"module": "./dist/index.mjs",
 	"name": "@pedrohb/errors",
-	"packageManager": "pnpm@12.8.1",
+	"packageManager": "pnpm@12.9.1",
 	"publishConfig": {
-		"access": "public",
-		"provenance": true
+		"access": "public"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/DevPedroHB/pedrohb.git"
+		"url": "git+https://github.com/DevPedroHB/pedrohb.git",
+		"directory": "packages/errors"
 	},
 	"scripts": {
 		"build": "tsdown",

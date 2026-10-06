@@ -1,23 +1,30 @@
-name: Release
+name: Changesets
 
 on:
   push:
     branches:
       - main
 
+  workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-permissions:
-  contents: write
-  pull-requests: write
+permissions: {}
 
 jobs:
-  release:
+  version:
     name: Version Packages
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    env:
+      TURBO_TELEMETRY_DISABLED: 1
 
     steps:
       - name: Checkout
@@ -26,7 +33,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 12.3.4
+          version: 12.9.1
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -41,6 +48,6 @@ jobs:
         uses: changesets/action/version@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          version-script: pnpm version-packages
-          commit-message: "chore(release): version packages"
-          pr-title: "chore(release): version packages"
+          script: pnpm run changeset:version
+          commit-message: "🔧 chore: version packages"
+          pr-title: "🔧 chore: version packages"

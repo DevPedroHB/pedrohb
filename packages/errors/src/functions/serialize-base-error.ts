@@ -42,7 +42,7 @@ export type SerializedBaseError = Readonly<{
  * serialização e removido ao final (mesmo se ocorrer uma exceção). Assim se
  * alguma `cause` ou `params` apontar de volta para este mesmo erro, o ponto
  * de repetição é substituído por `"[Circular]"` em vez de causar recursão
- * infinita. Por ser removido ao terminar, o mesmo erro pode aparecer em
+ * infinita. Por ser removido ao terminar o mesmo erro pode aparecer em
  * lugares distintos (sem ciclo) e ser serializado por completo em cada um.
  *
  * @param error - `BaseError` a ser serializado.
@@ -78,7 +78,7 @@ export type SerializedBaseError = Readonly<{
  * ```
  */
 export function serializeBaseError(
-	error: BaseError,
+	error: Readonly<BaseError>,
 	includeStack = false,
 	seen: SeenReferences = new WeakSet(),
 ): SerializedBaseError {
