@@ -1,5 +1,11 @@
 # @pedrohb/errors
 
+## 1.1.1
+
+### Patch Changes
+
+- 6b1299a: Atualiza a documentação e os exemplos do pacote de erros.
+
 ## 1.1.0
 
 ### Minor Changes
