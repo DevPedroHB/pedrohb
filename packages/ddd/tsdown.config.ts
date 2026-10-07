@@ -4,5 +4,6 @@ import { mergeConfig } from "tsdown";
 export default mergeConfig(config, {
 	entry: {
 		index: "./src/index.ts",
+		"errors/index": "./src/errors/index.ts",
 	},
 });

@@ -1,4 +1,4 @@
-import type { BaseError } from "#/base-error.js";
+import { BaseError } from "#/base-error.js";
 
 /**
  * Símbolo usado como marca ("brand") para identificar instâncias de
@@ -21,7 +21,7 @@ export const BASE_ERROR_BRAND = Symbol.for("@pedrohb/errors/base-error");
  * usar a marca em vez de `instanceof BaseError`, o resultado é confiável
  * mesmo quando há múltiplas cópias do pacote carregadas na mesma aplicação.
  *
- * @param value - Valor a ser verificado.
+ * @param error - Erro a ser verificado.
  * @returns `true` se `value` for um `BaseError` (e nesse caso o TypeScript
  * restringe o tipo para `BaseError`); caso contrário `false`.
  *
@@ -42,9 +42,10 @@ export const BASE_ERROR_BRAND = Symbol.for("@pedrohb/errors/base-error");
  * isBaseError(null);               // false
  * ```
  */
-export function isBaseError(value: unknown): value is BaseError {
+export function isBaseError(error: unknown): error is BaseError {
 	return (
-		value instanceof Error &&
-		(value as { [BASE_ERROR_BRAND]?: unknown })[BASE_ERROR_BRAND] === true
+		error instanceof Error &&
+		error instanceof BaseError &&
+		(error as { [BASE_ERROR_BRAND]?: unknown })[BASE_ERROR_BRAND] === true
 	);
 }
