@@ -6,7 +6,8 @@
 		"rootDir": ".",
 		"outDir": "./dist",
 		"paths": {
-			"#/*": ["./src/*"]
+			"#/*": ["./src/*"],
+			"#test/*": ["./test/*"]
 		},
 		"types": ["node", "vitest/globals"]
 	}

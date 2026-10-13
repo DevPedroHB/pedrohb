@@ -11,6 +11,7 @@
 	"description": "A TypeScript package for implementing Domain-Driven Design (DDD) in Node.js applications.",
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
+		"@faker-js/faker": "^10.6.0",
 		"@pedrohb/ts-config": "workspace:*",
 		"@pedrohb/tsdown-config": "workspace:*",
 		"@pedrohb/vitest-config": "workspace:*",
@@ -35,6 +36,36 @@
 				"default": "./dist/index.cjs",
 				"types": "./dist/index.d.cts"
 			}
+		},
+		"./errors": {
+			"import": {
+				"default": "./dist/errors/index.mjs",
+				"types": "./dist/errors/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/errors/index.cjs",
+				"types": "./dist/errors/index.d.cts"
+			}
+		},
+		"./entity-ids": {
+			"import": {
+				"default": "./dist/entity-ids/index.mjs",
+				"types": "./dist/entity-ids/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/entity-ids/index.cjs",
+				"types": "./dist/entity-ids/index.d.cts"
+			}
+		},
+		"./entities": {
+			"import": {
+				"default": "./dist/entities/index.mjs",
+				"types": "./dist/entities/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/entities/index.cjs",
+				"types": "./dist/entities/index.d.cts"
+			}
 		}
 	},
 	"files": [
@@ -45,6 +76,9 @@
 	"imports": {
 		"#/*": [
 			"./src/*"
+		],
+		"#test/*": [
+			"./test/*"
 		]
 	},
 	"keywords": [

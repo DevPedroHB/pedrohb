@@ -19,6 +19,7 @@
 			"dependsOn": ["^typecheck"]
 		},
 		"start:dev": {
+			"dependsOn": ["^build"],
 			"cache": false,
 			"persistent": true
 		},
@@ -27,11 +28,11 @@
 			"persistent": true
 		},
 		"test": {
-			"dependsOn": ["^test"],
+			"dependsOn": ["^build", "^test"],
 			"outputs": ["coverage/**"]
 		},
 		"test:e2e": {
-			"dependsOn": ["^test:e2e"],
+			"dependsOn": ["^build", "^test"],
 			"outputs": ["coverage/**"]
 		}
 	},
