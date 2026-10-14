@@ -2,12 +2,13 @@ import {
 	createTimestamps,
 	type Optional,
 	TimestampedEntity,
-	type TimestampsEntity,
+	type TimestampedEntityProps,
 } from "#/index.js";
 import type { TestEntityProps } from "./test-entity.js";
 import { TestEntityId } from "./test-entity-id.js";
 
-export type TestTimestampedEntityProps = TestEntityProps & TimestampsEntity;
+export type TestTimestampedEntityProps = TestEntityProps &
+	TimestampedEntityProps;
 
 export class TestTimestampedEntity extends TimestampedEntity<
 	TestEntityId,
@@ -35,8 +36,11 @@ export class TestTimestampedEntity extends TimestampedEntity<
 
 	public toJSON() {
 		return {
-			...this.id.toJSON(),
-			...this.props,
+			id: this.id.id,
+			name: this.name,
+			age: this.age,
+			createdAt: this.createdAt.toISOString(),
+			updatedAt: this.updatedAt.toISOString(),
 		};
 	}
 

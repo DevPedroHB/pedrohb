@@ -101,9 +101,9 @@
 		"access": "public"
 	},
 	"repository": {
+		"directory": "packages/errors",
 		"type": "git",
-		"url": "git+https://github.com/DevPedroHB/pedrohb.git",
-		"directory": "packages/errors"
+		"url": "git+https://github.com/DevPedroHB/pedrohb.git"
 	},
 	"scripts": {
 		"build": "tsdown",

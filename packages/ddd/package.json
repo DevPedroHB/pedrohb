@@ -8,6 +8,9 @@
 		"email": "email@pedrohb.dev",
 		"url": "https://github.com/DevPedroHB/pedrohb/issues"
 	},
+	"dependencies": {
+		"@pedrohb/errors": "workspace:*"
+	},
 	"description": "A TypeScript package for implementing Domain-Driven Design (DDD) in Node.js applications.",
 	"devDependencies": {
 		"@biomejs/biome": "^2.5.15",
@@ -37,14 +40,14 @@
 				"types": "./dist/index.d.cts"
 			}
 		},
-		"./errors": {
+		"./entities": {
 			"import": {
-				"default": "./dist/errors/index.mjs",
-				"types": "./dist/errors/index.d.mts"
+				"default": "./dist/entities/index.mjs",
+				"types": "./dist/entities/index.d.mts"
 			},
 			"require": {
-				"default": "./dist/errors/index.cjs",
-				"types": "./dist/errors/index.d.cts"
+				"default": "./dist/entities/index.cjs",
+				"types": "./dist/entities/index.d.cts"
 			}
 		},
 		"./entity-ids": {
@@ -57,14 +60,44 @@
 				"types": "./dist/entity-ids/index.d.cts"
 			}
 		},
-		"./entities": {
+		"./errors": {
 			"import": {
-				"default": "./dist/entities/index.mjs",
-				"types": "./dist/entities/index.d.mts"
+				"default": "./dist/errors/index.mjs",
+				"types": "./dist/errors/index.d.mts"
 			},
 			"require": {
-				"default": "./dist/entities/index.cjs",
-				"types": "./dist/entities/index.d.cts"
+				"default": "./dist/errors/index.cjs",
+				"types": "./dist/errors/index.d.cts"
+			}
+		},
+		"./functions": {
+			"import": {
+				"default": "./dist/functions/index.mjs",
+				"types": "./dist/functions/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/functions/index.cjs",
+				"types": "./dist/functions/index.d.cts"
+			}
+		},
+		"./types": {
+			"import": {
+				"default": "./dist/types/index.mjs",
+				"types": "./dist/types/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/types/index.cjs",
+				"types": "./dist/types/index.d.cts"
+			}
+		},
+		"./value-objects": {
+			"import": {
+				"default": "./dist/value-objects/index.mjs",
+				"types": "./dist/value-objects/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/value-objects/index.cjs",
+				"types": "./dist/value-objects/index.d.cts"
 			}
 		}
 	},
@@ -94,9 +127,9 @@
 		"access": "public"
 	},
 	"repository": {
+		"directory": "packages/ddd",
 		"type": "git",
-		"url": "git+https://github.com/DevPedroHB/pedrohb.git",
-		"directory": "packages/ddd"
+		"url": "git+https://github.com/DevPedroHB/pedrohb.git"
 	},
 	"scripts": {
 		"build": "tsdown",
@@ -110,8 +143,5 @@
 	"sideEffects": false,
 	"type": "module",
 	"types": "./dist/index.d.mts",
-	"version": "1.0.0",
-	"dependencies": {
-		"@pedrohb/errors": "workspace:*"
-	}
+	"version": "1.0.0"
 }
