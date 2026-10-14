@@ -1,3 +1,4 @@
+import { makeTestEntity } from "#test/factories/make-test-entity.js";
 import { TestEntity, type TestEntityProps } from "#test/test-entity.js";
 import { TestEntityId } from "#test/test-entity-id.js";
 import { Entity } from "./entity.js";
@@ -13,41 +14,38 @@ describe("Entity", () => {
 	}
 
 	it("should create an entity with id and props", () => {
-		const id = TestEntityId.create();
-		const entity = TestEntity.create({ name: "Pedro", age: 26 }, id);
+		const { id, props, entity } = makeTestEntity();
 
 		expect(entity).toBeInstanceOf(Entity);
 		expect(entity.id).toBe(id);
-		expect(entity.name).toBe("Pedro");
-		expect(entity.age).toBe(26);
-		expect(entity.toJSON()).toEqual({ ...id.toJSON(), name: "Pedro", age: 26 });
+		expect(entity.name).toBe(props.name);
+		expect(entity.age).toBe(props.age);
+		expect(entity.toJSON()).toEqual({ ...id.toJSON(), ...props });
 	});
 
 	it("should be equal to itself", () => {
-		const entity = TestEntity.create({ name: "Pedro", age: 26 });
+		const { entity } = makeTestEntity();
 
 		expect(entity.equals(entity)).toBe(true);
 	});
 
 	it("should be equal to another entity with the same id", () => {
-		const id = TestEntityId.create();
-		const first = TestEntity.create({ name: "Pedro", age: 26 }, id);
-		const second = TestEntity.create({ name: "Outro", age: 27 }, id);
+		const { id, entity: first } = makeTestEntity();
+		const { entity: second } = makeTestEntity({}, id);
 
 		expect(first.equals(second)).toBe(true);
 	});
 
 	it("should not be equal to an entity with a different id", () => {
-		const first = TestEntity.create({ name: "Pedro", age: 26 });
-		const second = TestEntity.create({ name: "Pedro", age: 26 });
+		const { props, entity: first } = makeTestEntity();
+		const { entity: second } = makeTestEntity(props);
 
 		expect(first.equals(second)).toBe(false);
 	});
 
 	it("should not be equal to an entity of a different class", () => {
-		const id = TestEntityId.create();
-		const first = TestEntity.create({ name: "Pedro", age: 26 }, id);
-		const second = OtherEntity.create({ name: "Pedro", age: 26 }, id);
+		const { id, props, entity: first } = makeTestEntity();
+		const second = OtherEntity.create(props, id);
 
 		expect(first.equals(second)).toBe(false);
 	});

@@ -4,6 +4,7 @@ export const config = defineConfig({
 	test: {
 		coverage: {
 			enabled: true,
+			exclude: ["**/test/**"],
 		},
 		exclude: [
 			"**/.git/**",

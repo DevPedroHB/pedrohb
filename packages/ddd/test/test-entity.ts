@@ -11,8 +11,16 @@ export class TestEntity extends Entity<TestEntityId, TestEntityProps> {
 		return this.props.name;
 	}
 
+	public set name(name) {
+		this.props.name = name;
+	}
+
 	public get age() {
 		return this.props.age;
+	}
+
+	public set age(age) {
+		this.props.age = age;
 	}
 
 	public toJSON() {
