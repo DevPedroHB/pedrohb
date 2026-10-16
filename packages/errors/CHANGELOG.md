@@ -1,5 +1,11 @@
 # @pedrohb/errors
 
+## 1.2.0
+
+### Minor Changes
+
+- 6369e99: Torna públicos os construtores de `BaseError`, `Ok` e `Err`, permitindo instanciar essas classes diretamente.
+
 ## 1.1.1
 
 ### Patch Changes
