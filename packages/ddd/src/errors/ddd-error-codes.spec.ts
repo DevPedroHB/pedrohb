@@ -7,31 +7,31 @@ import {
 
 describe("DDD_ERROR_CODES", () => {
 	it("should define a descriptor for each code", () => {
-		expect(DDD_ERROR_CODES.INTERNAL_SERVER_ERROR).toEqual({
-			code: "INTERNAL_SERVER_ERROR",
-			message: "Ocorreu um erro interno no servidor.",
-		});
-		expect(DDD_ERROR_CODES.METHOD_NOT_IMPLEMENTED).toEqual({
-			code: "METHOD_NOT_IMPLEMENTED",
-			message: "O método '{method}' não está implementado.",
-		});
+		for (const [key, descriptor] of Object.entries(DDD_ERROR_CODES)) {
+			expect(descriptor).toEqual({ code: key, message: expect.any(String) });
+		}
 	});
 
 	it("should freeze the catalog and its descriptors", () => {
 		expect(Object.isFrozen(DDD_ERROR_CODES)).toBe(true);
-		expect(Object.isFrozen(DDD_ERROR_CODES.INTERNAL_SERVER_ERROR)).toBe(true);
-		expect(Object.isFrozen(DDD_ERROR_CODES.METHOD_NOT_IMPLEMENTED)).toBe(true);
+
+		for (const descriptor of Object.values(DDD_ERROR_CODES)) {
+			expect(Object.isFrozen(descriptor)).toBe(true);
+		}
 	});
 });
 
 describe("DDD_ERROR_TRANSLATIONS", () => {
 	it("should translate every code to english keeping the placeholders", () => {
-		expect(DDD_ERROR_TRANSLATIONS.en.INTERNAL_SERVER_ERROR).toBe(
-			"An internal server error has occurred.",
-		);
-		expect(DDD_ERROR_TRANSLATIONS.en.METHOD_NOT_IMPLEMENTED).toBe(
-			"The method '{method}' is not implemented.",
-		);
+		for (const [key, descriptor] of Object.entries(DDD_ERROR_CODES)) {
+			const translated = DDD_ERROR_TRANSLATIONS.en[key as DDDErrorCatalogCode];
+
+			expect(translated).toEqual(expect.any(String));
+
+			for (const placeholder of descriptor.message.match(/\{\w+\}/g) ?? []) {
+				expect(translated).toContain(placeholder);
+			}
+		}
 	});
 
 	it("should freeze the translations and each locale", () => {
@@ -43,7 +43,13 @@ describe("DDD_ERROR_TRANSLATIONS", () => {
 describe("inferred types", () => {
 	it("should infer the catalog codes and the available locales", () => {
 		expectTypeOf<DDDErrorCatalogCode>().toEqualTypeOf<
-			"INTERNAL_SERVER_ERROR" | "METHOD_NOT_IMPLEMENTED"
+			| "INTERNAL_SERVER_ERROR"
+			| "METHOD_NOT_IMPLEMENTED"
+			| "INVALID_ENTITY_ID"
+			| "INVALID_TIMESTAMPS"
+			| "DOMAIN_EVENT_DISPATCH_FAILED"
+			| "DOMAIN_EVENTS_DISPATCH_FAILED"
+			| "DOMAIN_EVENT_NOT_FOUND"
 		>();
 		expectTypeOf<DDDErrorLocale>().toEqualTypeOf<"en">();
 	});

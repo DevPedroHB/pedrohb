@@ -177,8 +177,6 @@ type UserNotFoundArgs = BaseErrorOptionsArgs<
 
 ## Criando classes de erro
 
-O construtor de `BaseError` é `protected`: estenda a classe para escolher o descritor e repassar as opções. A assinatura da subclasse pode ser adaptada à API da sua aplicação:
-
 ```ts
 class MethodNotImplementedError extends BaseError<
   typeof ERROR_CODES,

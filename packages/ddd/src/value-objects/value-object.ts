@@ -3,7 +3,7 @@ import { valuesAreEqual } from "#/functions/values-are-equal.js";
 export abstract class ValueObject<Props extends object = object> {
 	protected readonly props: Props;
 
-	protected constructor(props: Props) {
+	public constructor(props: Props) {
 		this.props = Object.freeze({ ...props });
 	}
 

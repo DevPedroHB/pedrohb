@@ -241,6 +241,9 @@ importers:
       '@pedrohb/errors':
         specifier: workspace:*
         version: link:../errors
+      uuid:
+        specifier: ^14.0.3
+        version: 14.0.3
     devDependencies:
       '@biomejs/biome':
         specifier: ^2.5.15
@@ -1460,6 +1463,10 @@ packages:
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
 
+  uuid@14.0.3:
+    resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
+    hasBin: true
+
   verkit@0.4.1:
     resolution: {integrity: sha512-mMVzj0TXExtVdlDEq+Mzp0eyOuyznNpFobNM3uAqe3HVm/Ps2c+u17BligMkZjZCA6EiXpoon8iRTer3iu40SQ==}
     engines: {node: '>=18.12.0'}
@@ -2436,6 +2443,8 @@ snapshots:
       quansync: 1.0.0
 
   undici-types@8.9.0: {}
+
+  uuid@14.0.3: {}
 
   verkit@0.4.1: {}
 

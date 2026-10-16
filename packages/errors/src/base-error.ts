@@ -97,10 +97,6 @@ export type BaseErrorOptionsArgs<
  * derivado dos placeholders da mensagem, de modo que o compilador exige
  * exatamente os parâmetros necessários.
  *
- * O construtor é `protected`: a classe não pode ser instanciada diretamente e
- * deve ser estendida por classes que escolhem o descritor e repassam as
- * opções.
- *
  * Além de `message`, `cause`, `stack` e `name` herdados de `Error`, a
  * instância expõe:
  * - `code`: o código do erro, com tipo literal;
@@ -213,8 +209,6 @@ export abstract class BaseError<
 	 * `options` também é repassado ao construtor de `Error`, que utiliza
 	 * `cause`.
 	 *
-	 * É `protected` então só pode ser chamado por subclasses.
-	 *
 	 * @param descriptor - Descritor do erro no catálogo com `code` e `message`.
 	 * @param args - Opções do erro ({@link BaseErrorOptions}). São obrigatórias
 	 * se a mensagem tiver placeholders (por conter `params`) e opcionais caso
@@ -222,7 +216,7 @@ export abstract class BaseError<
 	 * @throws {InvalidParamDelimitersError} Se algum dos delimitadores for uma
 	 * string vazia (lançado durante a interpolação).
 	 */
-	protected constructor(
+	public constructor(
 		descriptor: CatalogDescriptor<Catalog, Code>,
 		...args: BaseErrorOptionsArgs<Catalog, Code, Delimiters>
 	) {

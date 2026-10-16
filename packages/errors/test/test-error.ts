@@ -19,7 +19,7 @@ export class TestError<
 	DefaultParamDelimiters,
 	TestErrorLocale
 > {
-	protected constructor(
+	public constructor(
 		code: Code,
 		...args: BaseErrorOptionsArgs<TestErrorCodes, Code>
 	) {

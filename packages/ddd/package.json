@@ -9,7 +9,8 @@
 		"url": "https://github.com/DevPedroHB/pedrohb/issues"
 	},
 	"dependencies": {
-		"@pedrohb/errors": "workspace:*"
+		"@pedrohb/errors": "workspace:*",
+		"uuid": "^14.0.3"
 	},
 	"description": "A TypeScript package for implementing Domain-Driven Design (DDD) in Node.js applications.",
 	"devDependencies": {
@@ -68,6 +69,16 @@
 			"require": {
 				"default": "./dist/errors/index.cjs",
 				"types": "./dist/errors/index.d.cts"
+			}
+		},
+		"./events": {
+			"import": {
+				"default": "./dist/events/index.mjs",
+				"types": "./dist/events/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/events/index.cjs",
+				"types": "./dist/events/index.d.cts"
 			}
 		},
 		"./functions": {

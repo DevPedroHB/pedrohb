@@ -26,4 +26,16 @@ describe("TimestampedEntity", () => {
 		expect(entity.createdAt).toBe(createdAt);
 		expect(entity.updatedAt.getTime()).toBeGreaterThan(createdAt.getTime());
 	});
+
+	it("should serialize the id, props and timestamps to JSON", () => {
+		const { id, props, entity } = makeTestTimestampedEntity();
+
+		expect(entity.toJSON()).toEqual({
+			id: id.id,
+			name: props.name,
+			age: props.age,
+			createdAt: props.createdAt.toISOString(),
+			updatedAt: props.updatedAt.toISOString(),
+		});
+	});
 });

@@ -7,7 +7,7 @@ export abstract class Entity<
 	public readonly id: Id;
 	protected readonly props: Props;
 
-	protected constructor(id: Id, props: Props) {
+	public constructor(id: Id, props: Props) {
 		this.id = id;
 		this.props = props;
 	}

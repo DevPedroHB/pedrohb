@@ -11,6 +11,10 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 	INVALID_ENTITY_ID: "O identificador '{id}' é inválido.",
 	INVALID_TIMESTAMPS:
 		"Timestamps inválidos: createdAt '{createdAt}' e updatedAt '{updatedAt}'. Ambos devem ser datas válidas, e updatedAt não pode ser anterior a createdAt.",
+	DOMAIN_EVENT_DISPATCH_FAILED:
+		"Falha ao despachar o evento '{event}' em {count} handler(s).",
+	DOMAIN_EVENTS_DISPATCH_FAILED: "Falha ao despachar {count} evento(s).",
+	DOMAIN_EVENT_NOT_FOUND: "O evento '{event}' não foi encontrado.",
 });
 
 export type DDDErrorCodes = typeof DDD_ERROR_CODES;
@@ -24,6 +28,10 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 		INVALID_ENTITY_ID: "The identifier '{id}' is invalid.",
 		INVALID_TIMESTAMPS:
 			"Invalid timestamps: createdAt '{createdAt}' and updatedAt '{updatedAt}'. Both must be valid dates, and updatedAt cannot be earlier than createdAt.",
+		DOMAIN_EVENT_DISPATCH_FAILED:
+			"Failed to dispatch the event '{event}' to {count} handler(s).",
+		DOMAIN_EVENTS_DISPATCH_FAILED: "Failed to dispatch {count} event(s).",
+		DOMAIN_EVENT_NOT_FOUND: "The event '{event}' was not found.",
 	},
 });
 

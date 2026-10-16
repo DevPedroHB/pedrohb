@@ -5,7 +5,7 @@ export type EntityIdType = string | number | bigint;
 export abstract class EntityId<Id extends EntityIdType = string> {
 	public readonly id: Id;
 
-	protected constructor(id: Id) {
+	public constructor(id: Id) {
 		if (!this.isValid(id)) {
 			throw new DDDError("INVALID_ENTITY_ID", {
 				params: { id: String(id) },

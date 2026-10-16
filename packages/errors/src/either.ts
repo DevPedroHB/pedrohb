@@ -212,9 +212,6 @@ export abstract class Either<O, E> {
 /**
  * Variante de sucesso de {@link Either} que carrega um valor do tipo `O`.
  *
- * O construtor é `protected`; para criar uma instância use {@link Ok.create}
- * ou a função {@link ok}.
- *
  * @template O - Tipo do valor de sucesso. Por padrão, `never`.
  * @template E - Tipo do valor de erro usado apenas para compatibilidade com
  * {@link Either}. Por padrão, `never`.
@@ -228,7 +225,7 @@ export class Ok<O = never, E = never> extends Either<O, E> {
 	/**
 	 * @param value - Valor de sucesso a ser armazenado.
 	 */
-	protected constructor(value: O) {
+	public constructor(value: O) {
 		super();
 
 		this.value = value;
@@ -280,9 +277,6 @@ export class Ok<O = never, E = never> extends Either<O, E> {
 /**
  * Variante de erro de {@link Either} que carrega um valor do tipo `E`.
  *
- * O construtor é `protected`; para criar uma instância use {@link Err.create}
- * ou a função {@link err}.
- *
  * @template O - Tipo do valor de sucesso usado apenas para compatibilidade
  * com {@link Either}. Por padrão, `never`.
  * @template E - Tipo do valor de erro. Por padrão, `never`.
@@ -296,7 +290,7 @@ export class Err<O = never, E = never> extends Either<O, E> {
 	/**
 	 * @param value - Valor de erro a ser armazenado.
 	 */
-	protected constructor(value: E) {
+	public constructor(value: E) {
 		super();
 
 		this.value = value;
