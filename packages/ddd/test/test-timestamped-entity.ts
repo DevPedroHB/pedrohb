@@ -14,6 +14,10 @@ export class TestTimestampedEntity extends TimestampedEntity<
 	TestEntityId,
 	TestTimestampedEntityProps
 > {
+	protected constructor(id: TestEntityId, props: TestTimestampedEntityProps) {
+		super(id, props);
+	}
+
 	public get name() {
 		return this.props.name;
 	}

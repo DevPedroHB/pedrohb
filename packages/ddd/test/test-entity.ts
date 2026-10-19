@@ -7,6 +7,10 @@ export type TestEntityProps = {
 };
 
 export class TestEntity extends Entity<TestEntityId, TestEntityProps> {
+	protected constructor(id: TestEntityId, props: TestEntityProps) {
+		super(id, props);
+	}
+
 	public get name() {
 		return this.props.name;
 	}

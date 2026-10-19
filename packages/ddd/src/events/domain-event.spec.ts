@@ -1,12 +1,21 @@
+import { UUID } from "#/entity-ids/uuid.js";
+import { DomainEvent } from "#/index.js";
 import { makeTestAggregate } from "#test/factories/make-test-aggregate.js";
+import type { TestAggregate } from "#test/test-aggregate.js";
 import { TestEntityId } from "#test/test-entity-id.js";
 
 describe("DomainEvent", () => {
-	it("should create a domain event with the aggregate, a default id and occurredAt", () => {
+	class DefaultIdDomainEvent extends DomainEvent<TestAggregate> {
+		public toJSON() {
+			return {};
+		}
+	}
+
+	it("should create a domain event with its data, a default id and occurredAt", () => {
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
 
-		expect(domainEvent.aggregate).toBe(aggregate);
+		expect(domainEvent.data).toEqual(aggregate);
 		expect(domainEvent.id).toBeInstanceOf(TestEntityId);
 		expect(domainEvent.occurredAt.getTime()).toBeLessThanOrEqual(Date.now());
 	});
@@ -19,5 +28,13 @@ describe("DomainEvent", () => {
 
 		expect(domainEvent.occurredAt).toBe(occurredAt);
 		expect(domainEvent.id).toBe(id);
+	});
+
+	it("should create a domain event with a default UUID id from the base class", () => {
+		const { aggregate } = makeTestAggregate();
+		const domainEvent = new DefaultIdDomainEvent({ data: aggregate });
+
+		expect(domainEvent.id).toBeInstanceOf(UUID);
+		expect(domainEvent.data).toEqual(aggregate);
 	});
 });

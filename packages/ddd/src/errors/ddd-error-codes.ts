@@ -15,6 +15,8 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 		"Falha ao despachar o evento '{event}' em {count} handler(s).",
 	DOMAIN_EVENTS_DISPATCH_FAILED: "Falha ao despachar {count} evento(s).",
 	DOMAIN_EVENT_NOT_FOUND: "O evento '{event}' não foi encontrado.",
+	HANDLER_DISPOSED:
+		"O handler '{handler}' foi descartado e não pode ser reinscrito.",
 });
 
 export type DDDErrorCodes = typeof DDD_ERROR_CODES;
@@ -32,6 +34,8 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 			"Failed to dispatch the event '{event}' to {count} handler(s).",
 		DOMAIN_EVENTS_DISPATCH_FAILED: "Failed to dispatch {count} event(s).",
 		DOMAIN_EVENT_NOT_FOUND: "The event '{event}' was not found.",
+		HANDLER_DISPOSED:
+			"The handler '{handler}' has been dropped and cannot be re-registered.",
 	},
 });
 

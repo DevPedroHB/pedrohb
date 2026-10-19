@@ -7,17 +7,17 @@ export abstract class Aggregate<
 	Id extends EntityId = EntityId,
 	Props extends object = object,
 > extends Entity<Id, Props> {
-	private readonly domainEvents = new Set<DomainEvent<Aggregate<Id, Props>>>();
+	private readonly domainEvents = new Set<DomainEvent>();
 
 	public get events() {
 		return Object.freeze([...this.domainEvents]);
 	}
 
-	protected addDomainEvent(domainEvent: DomainEvent<Aggregate<Id, Props>>) {
+	protected addDomainEvent(domainEvent: DomainEvent) {
 		this.domainEvents.add(domainEvent);
 	}
 
-	public pullDomainEvent(domainEvent: DomainEvent<Aggregate<Id, Props>>) {
+	public pullDomainEvent(domainEvent: DomainEvent) {
 		if (!this.domainEvents.has(domainEvent)) {
 			throw new DDDError("DOMAIN_EVENT_NOT_FOUND", {
 				params: {
@@ -34,8 +34,20 @@ export abstract class Aggregate<
 	public pullDomainEvents() {
 		const events = [...this.domainEvents];
 
-		this.domainEvents.clear();
+		this.clearDomainEvents();
 
 		return events;
+	}
+
+	public clearDomainEvents(domainEvents?: Iterable<DomainEvent>) {
+		if (!domainEvents) {
+			this.domainEvents.clear();
+
+			return;
+		}
+
+		for (const domainEvent of domainEvents) {
+			this.domainEvents.delete(domainEvent);
+		}
 	}
 }

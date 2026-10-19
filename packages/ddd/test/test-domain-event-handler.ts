@@ -1,8 +1,8 @@
 import {
-	domainEventBus as bus,
 	type DomainEventBus,
 	type DomainEventClass,
 	DomainEventHandler,
+	defaultDomainEventBus,
 } from "#/index.js";
 import { TestDomainEvent } from "./test-domain-event.js";
 
@@ -11,7 +11,9 @@ export class TestDomainEventHandler extends DomainEventHandler<TestDomainEvent> 
 		TestDomainEvent;
 	public readonly handled: TestDomainEvent[] = [];
 
-	public constructor(domainEventBus: DomainEventBus = bus) {
+	public constructor(
+		domainEventBus: DomainEventBus = defaultDomainEventBus.parallel,
+	) {
 		super(domainEventBus);
 
 		this.subscribe();
@@ -20,10 +22,6 @@ export class TestDomainEventHandler extends DomainEventHandler<TestDomainEvent> 
 	public async handle(domainEvent: TestDomainEvent) {
 		await this.handled.push(domainEvent);
 
-		this.unsubscribe();
-	}
-
-	public static create(domainEventBus: DomainEventBus = bus) {
-		return new TestDomainEventHandler(domainEventBus);
+		this.dispose();
 	}
 }

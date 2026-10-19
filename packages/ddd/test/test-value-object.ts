@@ -14,6 +14,10 @@ export type TestValueObjectProps = {
 };
 
 export class TestValueObject extends ValueObject<TestValueObjectProps> {
+	protected constructor(props: TestValueObjectProps) {
+		super(props);
+	}
+
 	public toJSON() {
 		return {
 			...this.props,

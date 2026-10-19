@@ -1,20 +1,67 @@
+/** biome-ignore-all lint/suspicious/noExplicitAny: off */
+
 import { DDDError } from "#/errors/ddd-error.js";
 import type { DomainEvent } from "./domain-event.js";
+import type { DomainEventPublisher } from "./domain-event-publisher.js";
 
-export type DomainEventClass<D extends DomainEvent = DomainEvent> =
-	abstract new (
-		...args: never[]
-	) => D;
+export type DomainEventClass<D extends DomainEvent = DomainEvent> = new (
+	...args: never[]
+) => D;
 
 export type DomainEventListener<D extends DomainEvent = DomainEvent> = (
 	domainEvent: D,
 ) => void | Promise<void>;
 
-export class DomainEventBus {
+export type DispatchMode = "parallel" | "serial";
+
+export type DomainEventBusOptions = {
+	dispatchMode?: DispatchMode;
+};
+
+export class DomainEventBus implements DomainEventPublisher {
 	private readonly handlers = new Map<
-		DomainEventClass,
-		Set<DomainEventListener>
+		DomainEventClass<any>,
+		Set<DomainEventListener<any>>
 	>();
+	private readonly dispatchMode: DispatchMode;
+
+	public constructor({
+		dispatchMode = "parallel",
+	}: DomainEventBusOptions = {}) {
+		this.dispatchMode = dispatchMode;
+	}
+
+	private handlersFor<D extends DomainEvent>(
+		eventClass: DomainEventClass<D>,
+	): Set<DomainEventListener<D>> | undefined {
+		return this.handlers.get(eventClass) as
+			| Set<DomainEventListener<D>>
+			| undefined;
+	}
+
+	private async run(handlers: DomainEventListener[], domainEvent: DomainEvent) {
+		const errors: unknown[] = [];
+
+		if (this.dispatchMode === "serial") {
+			for (const handler of handlers) {
+				try {
+					await handler(domainEvent);
+				} catch (error) {
+					errors.push(error);
+				}
+			}
+
+			return errors;
+		}
+
+		const results = await Promise.allSettled(
+			handlers.map(async (handler) => await handler(domainEvent)),
+		);
+
+		return results.flatMap((result) =>
+			result.status === "rejected" ? [result.reason] : [],
+		);
+	}
 
 	public clearHandlers() {
 		this.handlers.clear();
@@ -24,10 +71,7 @@ export class DomainEventBus {
 		eventClass: DomainEventClass<D>,
 		handler: DomainEventListener<D>,
 	) {
-		return (
-			this.handlers.get(eventClass)?.has(handler as DomainEventListener) ??
-			false
-		);
+		return this.handlersFor(eventClass)?.has(handler) ?? false;
 	}
 
 	public register<D extends DomainEvent>(
@@ -35,11 +79,11 @@ export class DomainEventBus {
 		handler: DomainEventListener<D>,
 	) {
 		const handlers =
-			this.handlers.get(eventClass) ?? new Set<DomainEventListener<D>>();
+			this.handlersFor(eventClass) ?? new Set<DomainEventListener<D>>();
 
 		handlers.add(handler);
 
-		this.handlers.set(eventClass, handlers as Set<DomainEventListener>);
+		this.handlers.set(eventClass, handlers);
 
 		return this.unregister.bind(
 			this,
@@ -52,13 +96,13 @@ export class DomainEventBus {
 		eventClass: DomainEventClass<D>,
 		handler: DomainEventListener<D>,
 	) {
-		const handlers = this.handlers.get(eventClass);
+		const handlers = this.handlersFor(eventClass);
 
 		if (!handlers) {
 			return;
 		}
 
-		handlers.delete(handler as DomainEventListener);
+		handlers.delete(handler);
 
 		if (handlers.size === 0) {
 			this.handlers.delete(eventClass);
@@ -66,21 +110,15 @@ export class DomainEventBus {
 	}
 
 	public async dispatch(domainEvent: DomainEvent) {
-		const handlers = this.handlers.get(
-			domainEvent.constructor as DomainEventClass,
+		const handlers = Array.from(
+			this.handlersFor(domainEvent.constructor as DomainEventClass) ?? [],
 		);
 
-		if (!handlers || handlers.size === 0) {
+		if (handlers.length === 0) {
 			return;
 		}
 
-		const results = await Promise.allSettled(
-			Array.from(handlers, async (handler) => await handler(domainEvent)),
-		);
-
-		const errors = results.flatMap((result) =>
-			result.status === "rejected" ? [result.reason] : [],
-		);
+		const errors = await this.run(handlers, domainEvent);
 
 		if (errors.length > 0) {
 			throw new DDDError("DOMAIN_EVENT_DISPATCH_FAILED", {
@@ -94,16 +132,30 @@ export class DomainEventBus {
 	}
 
 	public async dispatchAll(domainEvents: Iterable<DomainEvent>) {
-		const results = await Promise.allSettled(
-			Array.from(
-				domainEvents,
-				async (domainEvent) => await this.dispatch(domainEvent),
-			),
-		);
+		const failures: unknown[] = [];
 
-		const failures = results.flatMap((result) =>
-			result.status === "rejected" ? [result.reason] : [],
-		);
+		if (this.dispatchMode === "serial") {
+			for (const domainEvent of domainEvents) {
+				try {
+					await this.dispatch(domainEvent);
+				} catch (error) {
+					failures.push(error);
+				}
+			}
+		} else {
+			const results = await Promise.allSettled(
+				Array.from(
+					domainEvents,
+					async (domainEvent) => await this.dispatch(domainEvent),
+				),
+			);
+
+			failures.push(
+				...results.flatMap((result) =>
+					result.status === "rejected" ? [result.reason] : [],
+				),
+			);
+		}
 
 		if (failures.length > 0) {
 			throw new DDDError("DOMAIN_EVENTS_DISPATCH_FAILED", {

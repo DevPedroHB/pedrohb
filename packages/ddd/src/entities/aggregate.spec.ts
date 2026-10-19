@@ -47,6 +47,26 @@ describe("Aggregate", () => {
 		expect(aggregate.events).toEqual([event2]);
 	});
 
+	it("should clear all domain events", () => {
+		const { aggregate } = makeTestAggregate();
+		aggregate.addNewDomainEvent();
+		aggregate.addNewDomainEvent();
+
+		aggregate.clearDomainEvents();
+
+		expect(aggregate.events).toEqual([]);
+	});
+
+	it("should clear only the specified domain events", () => {
+		const { aggregate } = makeTestAggregate();
+		const event1 = aggregate.addNewDomainEvent();
+		const event2 = aggregate.addNewDomainEvent();
+
+		aggregate.clearDomainEvents([event1]);
+
+		expect(aggregate.events).toEqual([event2]);
+	});
+
 	it("should throw a DDDError when pulling a domain event that was not added", () => {
 		const { aggregate } = makeTestAggregate();
 		const event = makeTestAggregate().aggregate.addNewDomainEvent();
