@@ -101,6 +101,16 @@
 				"types": "./dist/types/index.d.cts"
 			}
 		},
+		"./use-cases": {
+			"import": {
+				"default": "./dist/use-cases/index.mjs",
+				"types": "./dist/use-cases/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/use-cases/index.cjs",
+				"types": "./dist/use-cases/index.d.cts"
+			}
+		},
 		"./value-objects": {
 			"import": {
 				"default": "./dist/value-objects/index.mjs",

@@ -7,7 +7,7 @@ import {
 import type { TestEntityProps } from "./test-entity.js";
 import { TestEntityId } from "./test-entity-id.js";
 
-export type TestTimestampedEntityProps = TestEntityProps &
+export type TestTimestampedEntityProps = Omit<TestEntityProps, "timestamps"> &
 	TimestampedEntityProps;
 
 export class TestTimestampedEntity extends TimestampedEntity<

@@ -86,7 +86,6 @@
 		"error-catalog",
 		"typed-errors",
 		"type-safe",
-		"either",
 		"result",
 		"functional-programming",
 		"serialization",

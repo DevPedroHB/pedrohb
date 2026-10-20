@@ -1,10 +1,19 @@
 import { faker } from "@faker-js/faker";
-import { makeTestTimestampedEntity } from "#test/factories/make-test-timestamped-entity.js";
+import {
+	type MakeTestTimestampedEntity,
+	makeTestTimestampedEntity,
+} from "#test/factories/make-test-timestamped-entity.js";
 import { TimestampedEntity } from "./timestamped-entity.js";
 
+let testTimestampedEntity: MakeTestTimestampedEntity;
+
 describe("TimestampedEntity", () => {
+	beforeEach(() => {
+		testTimestampedEntity = makeTestTimestampedEntity();
+	});
+
 	it("should create an entity with id, props and timestamps", () => {
-		const { id, props, entity } = makeTestTimestampedEntity();
+		const { id, props, entity } = testTimestampedEntity;
 
 		expect(entity).toBeInstanceOf(TimestampedEntity);
 		expect(entity.id).toBe(id);
@@ -28,7 +37,7 @@ describe("TimestampedEntity", () => {
 	});
 
 	it("should serialize the id, props and timestamps to JSON", () => {
-		const { id, props, entity } = makeTestTimestampedEntity();
+		const { id, props, entity } = testTimestampedEntity;
 
 		expect(entity.toJSON()).toEqual({
 			id: id.id,

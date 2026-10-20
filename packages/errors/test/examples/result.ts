@@ -1,10 +1,10 @@
-import { Either, EitherUnwrapError, Err, err, Ok, ok } from "#/index.js";
+import { Err, err, Ok, ok, Result, ResultUnwrapError } from "#/index.js";
 
 // ---------------------------------------------------------------------------
 // Criação e leitura de resultados
 // ---------------------------------------------------------------------------
 
-// O Either sempre carrega os tipos de sucesso e de erro, mesmo que uma das
+// O Result sempre carrega os tipos de sucesso e de erro, mesmo que uma das
 // variantes ainda não seja conhecida naquele ponto do código.
 export const successfulResult = ok<number, string>(42);
 export const failedResult = err<number, string>("Algo deu errado");
@@ -16,14 +16,14 @@ export const errorTag = failedResult.tag; // "Err"
 
 // Os genéricos ausentes podem ser inferidos quando o tipo esperado está
 // explícito, como no retorno de uma função.
-export function parseCount(input: string): Either<number, string> {
+export function parseCount(input: string): Result<number, string> {
 	const value = Number(input);
 
 	return Number.isNaN(value) ? err("Valor não é um número") : ok(value);
 }
 
 // Também é possível criar diretamente as variantes, quando se quer manter o
-// tipo concreto Ok/Err em vez do tipo união Either.
+// tipo concreto Ok/Err em vez do tipo união Result.
 export const concreteOk = Ok.create<number, string>(7);
 export const concreteErr = Err.create<number, string>("indisponível");
 
@@ -31,7 +31,7 @@ export const concreteErr = Err.create<number, string>("indisponível");
 // Tratamento dos dois casos e narrowing com type guards
 // ---------------------------------------------------------------------------
 
-export function describeResult(result: Either<number, string>): string {
+export function describeResult(result: Result<number, string>): string {
 	if (result.isOk()) {
 		// Dentro deste bloco result é Ok<number, string>.
 		return `Sucesso: ${result.unwrap()}`;
@@ -52,7 +52,7 @@ export const matchedFailure = failedResult.match({
 });
 
 // O método isErr() também funciona como type guard.
-export function getErrorLength(result: Either<number, string>) {
+export function getErrorLength(result: Result<number, string>) {
 	if (result.isErr()) {
 		return result.unwrapErr().length;
 	}
@@ -86,13 +86,13 @@ export const preservedSuccess = ok<number, string>(1)
 // flatMap: encadear operações que podem falhar
 // ---------------------------------------------------------------------------
 
-export function toNumber(input: string): Either<number, string> {
+export function toNumber(input: string): Result<number, string> {
 	const value = Number(input);
 
 	return Number.isNaN(value) ? err("Não é número") : ok(value);
 }
 
-export function requirePositive(value: number): Either<number, string> {
+export function requirePositive(value: number): Result<number, string> {
 	return value > 0 ? ok(value) : err("O valor deve ser positivo");
 }
 
@@ -123,8 +123,8 @@ export const preservedResult = ok<number, string>(5)
 	.unwrap(); // 5; callback não é necessária para Ok
 
 export function recoverFromNumberError(
-	result: Either<number, string>,
-): Either<number, string> {
+	result: Result<number, string>,
+): Result<number, string> {
 	return result.orElse((error) =>
 		error === "cache miss" ? ok(0) : err(error),
 	);
@@ -134,7 +134,7 @@ export function recoverFromNumberError(
 // Composição de operações
 // ---------------------------------------------------------------------------
 
-export function divide(a: number, b: number): Either<number, string> {
+export function divide(a: number, b: number): Result<number, string> {
 	return b === 0 ? err("Divisão por zero") : ok(a / b);
 }
 
@@ -157,12 +157,12 @@ export const composedFailure = divide(10, 0)
 // ---------------------------------------------------------------------------
 
 // unwrap() na variante Err e unwrapErr() na variante Ok lançam
-// EitherUnwrapError. A causa (`cause`) contém o valor guardado no Either.
-export function getUnwrapFailureCause(result: Either<number, string>): unknown {
+// ResultUnwrapError. A causa (`cause`) contém o valor guardado no Result.
+export function getUnwrapFailureCause(result: Result<number, string>): unknown {
 	try {
 		return result.unwrap();
 	} catch (error) {
-		if (error instanceof EitherUnwrapError) {
+		if (error instanceof ResultUnwrapError) {
 			return error.cause;
 		}
 
@@ -170,8 +170,8 @@ export function getUnwrapFailureCause(result: Either<number, string>): unknown {
 	}
 }
 
-export function inspectEither(value: unknown) {
-	if (value instanceof Either) {
+export function inspectResult(value: unknown) {
+	if (value instanceof Result) {
 		return value.match<
 			{ tag: "Ok"; value: number } | { tag: "Err"; value: string }
 		>({

@@ -1,8 +1,8 @@
-import { Either } from "#/either.js";
+import { Result } from "#/result.js";
 
 /**
  * Erro lançado quando `unwrap()` é chamado em um `Err` ou `unwrapErr()` é
- * chamado em um `Ok`, ou seja, quando se tenta extrair de um {@link Either}
+ * chamado em um `Ok`, ou seja, quando se tenta extrair de um {@link Result}
  * o valor da variante que ele não possui.
  *
  * O valor contido na variante realmente presente é anexado como `cause`
@@ -19,21 +19,21 @@ import { Either } from "#/either.js";
  * try {
  *   err<number, string>("falhou").unwrap();
  * } catch (error) {
- *   if (error instanceof EitherUnwrapError) {
+ *   if (error instanceof ResultUnwrapError) {
  *     error.message; // "Chamado unwrap() em Err."
  *     error.cause;   // "falhou"
  *   }
  * }
  * ```
  */
-export class EitherUnwrapError extends Error {
+export class ResultUnwrapError extends Error {
 	/**
-	 * Cria o erro de extração inválida de um `Either`.
+	 * Cria o erro de extração inválida de um `Result`.
 	 *
 	 * @param message - Mensagem do erro. Por padrão, uma mensagem genérica
 	 * ("Chamado unwrap() ou unwrapErr() em resultado incompatível.").
 	 * @param options - Opções padrão de `Error` como `cause` que normalmente
-	 * carrega o valor contido no `Either`.
+	 * carrega o valor contido no `Result`.
 	 */
 	public constructor(
 		message = "Chamado unwrap() ou unwrapErr() em resultado incompatível.",

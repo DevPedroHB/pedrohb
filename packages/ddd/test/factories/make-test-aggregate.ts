@@ -15,3 +15,5 @@ export function makeTestAggregate(
 		aggregate: TestAggregate.create(props, id),
 	};
 }
+
+export type MakeTestAggregate = ReturnType<typeof makeTestAggregate>;

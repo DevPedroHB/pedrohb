@@ -2,78 +2,84 @@ import { TestDomainEventHandler } from "#test/test-domain-event-handler.js";
 import { DomainEventBus } from "./domain-event-bus.js";
 import { DomainEventHandlerGroup } from "./domain-event-handler-group.js";
 
+let domainEventBus: DomainEventBus;
+let testDomainEventHandler: TestDomainEventHandler;
+let otherTestDomainEventHandler: TestDomainEventHandler;
+let domainEventHandlerGroup: DomainEventHandlerGroup;
+
 describe("DomainEventHandlerGroup", () => {
+	beforeEach(() => {
+		domainEventBus = new DomainEventBus({ dispatchMode: "parallel" });
+		testDomainEventHandler = new TestDomainEventHandler(domainEventBus);
+		otherTestDomainEventHandler = new TestDomainEventHandler(domainEventBus);
+		domainEventHandlerGroup = new DomainEventHandlerGroup([
+			testDomainEventHandler,
+			otherTestDomainEventHandler,
+		]);
+	});
+
 	it("should add and subscribe handlers", () => {
-		const bus = new DomainEventBus();
-		const handler = new TestDomainEventHandler(bus);
-		const otherHandler = new TestDomainEventHandler(bus);
+		otherTestDomainEventHandler.unsubscribe();
 
-		otherHandler.unsubscribe();
+		const group = new DomainEventHandlerGroup([testDomainEventHandler]);
 
-		const group = new DomainEventHandlerGroup([handler]);
+		expect(testDomainEventHandler.isSubscribed).toBe(true);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(false);
 
-		expect(handler.isSubscribed).toBe(true);
-		expect(otherHandler.isSubscribed).toBe(false);
+		const added = group.add(otherTestDomainEventHandler);
 
-		const added = group.add(otherHandler);
-
-		expect(added).toBe(otherHandler);
-		expect(otherHandler.isSubscribed).toBe(true);
+		expect(added).toBe(otherTestDomainEventHandler);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(true);
 	});
 
 	it("should subscribe all handlers", () => {
-		const bus = new DomainEventBus();
-		const handler = new TestDomainEventHandler(bus);
-		const otherHandler = new TestDomainEventHandler(bus);
-		const group = new DomainEventHandlerGroup([handler, otherHandler]);
+		testDomainEventHandler.unsubscribe();
+		otherTestDomainEventHandler.unsubscribe();
 
-		handler.unsubscribe();
-		otherHandler.unsubscribe();
+		expect(testDomainEventHandler.isSubscribed).toBe(false);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(false);
 
-		expect(handler.isSubscribed).toBe(false);
-		expect(otherHandler.isSubscribed).toBe(false);
+		domainEventHandlerGroup.subscribeAll();
 
-		group.subscribeAll();
-
-		expect(handler.isSubscribed).toBe(true);
-		expect(otherHandler.isSubscribed).toBe(true);
+		expect(testDomainEventHandler.isSubscribed).toBe(true);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(true);
 	});
 
-	it("should continue subscribing when a handler has already been disposed", () => {
-		const bus = new DomainEventBus();
-		const disposedHandler = new TestDomainEventHandler(bus);
-		const activeHandler = new TestDomainEventHandler(bus);
-		const group = new DomainEventHandlerGroup([disposedHandler, activeHandler]);
+	it("should skip disposed handlers when subscribing all", () => {
+		testDomainEventHandler.dispose();
 
-		disposedHandler.dispose();
-
-		expect(() => group.subscribeAll()).not.toThrow();
-		expect(activeHandler.isSubscribed).toBe(true);
+		expect(() => domainEventHandlerGroup.subscribeAll()).not.toThrow();
+		expect(testDomainEventHandler.isSubscribed).toBe(false);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(true);
 	});
 
 	it("should unsubscribe all handlers", () => {
-		const bus = new DomainEventBus();
-		const handler = new TestDomainEventHandler(bus);
-		const otherHandler = new TestDomainEventHandler(bus);
-		const group = new DomainEventHandlerGroup([handler, otherHandler]);
+		domainEventHandlerGroup.unsubscribeAll();
 
-		group.unsubscribeAll();
-
-		expect(handler.isSubscribed).toBe(false);
-		expect(otherHandler.isSubscribed).toBe(false);
+		expect(testDomainEventHandler.isSubscribed).toBe(false);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(false);
 	});
 
 	it("should dispose all handlers", () => {
-		const bus = new DomainEventBus();
-		const handler = new TestDomainEventHandler(bus);
-		const otherHandler = new TestDomainEventHandler(bus);
-		const group = new DomainEventHandlerGroup([handler, otherHandler]);
+		domainEventHandlerGroup.disposeAll();
 
-		group.disposeAll();
-
-		expect(handler.isDisposed).toBe(true);
-		expect(handler.isSubscribed).toBe(false);
-		expect(otherHandler.isDisposed).toBe(true);
-		expect(otherHandler.isSubscribed).toBe(false);
+		expect(testDomainEventHandler.isDisposed).toBe(true);
+		expect(testDomainEventHandler.isSubscribed).toBe(false);
+		expect(otherTestDomainEventHandler.isDisposed).toBe(true);
+		expect(otherTestDomainEventHandler.isSubscribed).toBe(false);
 	});
+
+	it.each(["unsubscribeAll", "disposeAll"] as const)(
+		"should continue %s when a handler has already been disposed",
+		(operation) => {
+			testDomainEventHandler.dispose();
+
+			expect(() => domainEventHandlerGroup[operation]()).not.toThrow();
+			expect(otherTestDomainEventHandler.isSubscribed).toBe(false);
+
+			if (operation === "disposeAll") {
+				expect(otherTestDomainEventHandler.isDisposed).toBe(true);
+			}
+		},
+	);
 });

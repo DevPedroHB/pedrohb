@@ -1,16 +1,25 @@
 import { DDDError } from "#/errors/ddd-error.js";
-import { makeTestAggregate } from "#test/factories/make-test-aggregate.js";
+import {
+	type MakeTestAggregate,
+	makeTestAggregate,
+} from "#test/factories/make-test-aggregate.js";
+
+let testAggregate: MakeTestAggregate;
 
 describe("Aggregate", () => {
+	beforeEach(() => {
+		testAggregate = makeTestAggregate();
+	});
+
 	it("should not have domain events when created with an existing id", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 
 		expect(aggregate.events.length).toBe(0);
 		expect(aggregate.pullDomainEvents()).toEqual([]);
 	});
 
 	it("should collect added domain events", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 		const event1 = aggregate.addNewDomainEvent();
 		const event2 = aggregate.addNewDomainEvent();
 
@@ -18,7 +27,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should return a frozen snapshot of the domain events", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 
 		aggregate.addNewDomainEvent();
 
@@ -27,7 +36,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should pull domain events and clear them", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 		const event1 = aggregate.addNewDomainEvent();
 		const event2 = aggregate.addNewDomainEvent();
 		const events = aggregate.pullDomainEvents();
@@ -38,7 +47,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should pull a single domain event and keep the others", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 		const event1 = aggregate.addNewDomainEvent();
 		const event2 = aggregate.addNewDomainEvent();
 		const pulledEvent = aggregate.pullDomainEvent(event1);
@@ -48,7 +57,8 @@ describe("Aggregate", () => {
 	});
 
 	it("should clear all domain events", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
+
 		aggregate.addNewDomainEvent();
 		aggregate.addNewDomainEvent();
 
@@ -58,7 +68,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should clear only the specified domain events", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 		const event1 = aggregate.addNewDomainEvent();
 		const event2 = aggregate.addNewDomainEvent();
 
@@ -68,7 +78,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should throw a DDDError when pulling a domain event that was not added", () => {
-		const { aggregate } = makeTestAggregate();
+		const { aggregate } = testAggregate;
 		const event = makeTestAggregate().aggregate.addNewDomainEvent();
 		const pull = () => aggregate.pullDomainEvent(event);
 

@@ -3,18 +3,23 @@ import { makeTestAggregate } from "#test/factories/make-test-aggregate.js";
 import { TestDomainEventHandler } from "#test/test-domain-event-handler.js";
 import { DomainEventBus } from "./domain-event-bus.js";
 
-describe("DomainEventHandler", () => {
-	it("should handle dispatched domain events", async () => {
-		const bus = new DomainEventBus();
-		const testDomainEventHandler = new TestDomainEventHandler(bus);
+let domainEventBus: DomainEventBus;
+let testDomainEventHandler: TestDomainEventHandler;
 
+describe("DomainEventHandler", () => {
+	beforeEach(() => {
+		domainEventBus = new DomainEventBus();
+		testDomainEventHandler = new TestDomainEventHandler(domainEventBus);
+	});
+
+	it("should handle dispatched domain events", async () => {
 		expect(testDomainEventHandler.isSubscribed).toBe(true);
 		expect(testDomainEventHandler.handled).toHaveLength(0);
 
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
 
-		await bus.dispatchAll(aggregate.pullDomainEvents());
+		await domainEventBus.dispatchAll(aggregate.pullDomainEvents());
 
 		expect(testDomainEventHandler.isSubscribed).toBe(false);
 		expect(testDomainEventHandler.handled).toHaveLength(1);
@@ -22,9 +27,6 @@ describe("DomainEventHandler", () => {
 	});
 
 	it("should unsubscribe on dispose and throw a DDDError when subscribing after disposal", () => {
-		const bus = new DomainEventBus();
-		const testDomainEventHandler = new TestDomainEventHandler(bus);
-
 		expect(testDomainEventHandler.isDisposed).toBe(false);
 
 		testDomainEventHandler.dispose();
@@ -41,9 +43,6 @@ describe("DomainEventHandler", () => {
 	});
 
 	it("should ignore unsubscribing when not subscribed and unsubscribe via the returned callback", () => {
-		const bus = new DomainEventBus();
-		const testDomainEventHandler = new TestDomainEventHandler(bus);
-
 		testDomainEventHandler.unsubscribe();
 
 		expect(testDomainEventHandler.isSubscribed).toBe(false);

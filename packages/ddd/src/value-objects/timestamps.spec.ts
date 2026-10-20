@@ -57,8 +57,11 @@ describe("Timestamps", () => {
 	it("should touch updatedAt keeping createdAt", () => {
 		const past = faker.date.past();
 		const now = new Date();
-		const timestamps = Timestamps.create(past).touch(now);
+		const original = Timestamps.create(past);
+		const timestamps = original.touch(now);
 
+		expect(timestamps).not.toBe(original);
+		expect(original.updatedAt).toEqual(past);
 		expect(timestamps.createdAt).toEqual(past);
 		expect(timestamps.updatedAt).toEqual(now);
 	});
@@ -66,8 +69,10 @@ describe("Timestamps", () => {
 	it("should not move updatedAt backwards when touching with a past date", () => {
 		const now = faker.date.recent();
 		const past = faker.date.past();
-		const timestamps = Timestamps.create(now).touch(past);
+		const original = Timestamps.create(now);
+		const timestamps = original.touch(past);
 
+		expect(timestamps).not.toBe(original);
 		expect(timestamps.updatedAt).toEqual(now);
 	});
 

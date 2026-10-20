@@ -1,6 +1,6 @@
 # @pedrohb/errors
 
-Um pacote TypeScript para modelar erros de aplicação com códigos tipados, mensagens parametrizadas, traduções e serialização segura. Também inclui `Either` para representar resultados de sucesso ou falha sem depender de exceções.
+Um pacote TypeScript para modelar erros de aplicação com códigos tipados, mensagens parametrizadas, traduções e serialização segura. Também inclui `Result` para representar resultados de sucesso ou falha sem depender de exceções.
 
 ## Sumário
 
@@ -16,7 +16,7 @@ Um pacote TypeScript para modelar erros de aplicação com códigos tipados, men
   - [Delimitadores personalizados](#delimitadores-personalizados)
   - [Type guards e identificação](#type-guards-e-identificação)
   - [Serialização](#serialização)
-  - [Resultados com Either](#resultados-com-either)
+  - [Resultados com Result](#resultados-com-result)
     - [Criação, leitura e narrowing](#criação-leitura-e-narrowing)
     - [Transformações e composição](#transformações-e-composição)
     - [Extração inválida](#extração-inválida)
@@ -407,14 +407,14 @@ const json = JSON.stringify(error); // sem stack trace
 
 As causas e os parâmetros passam por uma serialização segura que trata erros nativos e da biblioteca, datas, arrays, objetos, funções, `bigint`, `symbol` e referências circulares. Para serializar isoladamente o valor de uma causa, use `BaseError.serializeCauseError(cause, includeStack?)`.
 
-## Resultados com Either
+## Resultados com Result
 
-`Either<OkValue, ErrValue>` representa uma operação com dois resultados possíveis sem lançar exceções para comunicar falhas. Use `ok` e `err` para criar os valores; os métodos de transformação retornam novos `Either` e não modificam a instância original.
+`Result<OkValue, ErrValue>` representa uma operação com dois resultados possíveis sem lançar exceções para comunicar falhas. Use `ok` e `err` para criar os valores; os métodos de transformação retornam novos `Result` e não modificam a instância original.
 
 ```ts
-import { type Either, err, ok } from "@pedrohb/errors";
+import { type Result, err, ok } from "@pedrohb/errors";
 
-function divide(a: number, b: number): Either<number, string> {
+function divide(a: number, b: number): Result<number, string> {
   return b === 0 ? err("Divisão por zero") : ok(a / b);
 }
 
@@ -430,10 +430,10 @@ message; // "Resultado: 15"
 
 ### Criação, leitura e narrowing
 
-`ok<O, E>(value)` e `err<O, E>(value)` retornam o tipo união `Either<O, E>`. Informe os genéricos quando não puderem ser inferidos do contexto, por exemplo, `ok<number, string>(42)`. Quando há um tipo de retorno explícito, TypeScript pode inferi-los:
+`ok<O, E>(value)` e `err<O, E>(value)` retornam o tipo união `Result<O, E>`. Informe os genéricos quando não puderem ser inferidos do contexto, por exemplo, `ok<number, string>(42)`. Quando há um tipo de retorno explícito, TypeScript pode inferi-los:
 
 ```ts
-function parseCount(input: string): Either<number, string> {
+function parseCount(input: string): Result<number, string> {
   const value = Number(input);
 
   return Number.isNaN(value) ? err("Valor inválido") : ok(value);
@@ -453,7 +453,7 @@ failure.unwrapErr(); // "Não encontrado"
 `isOk()` e `isErr()` funcionam como type guards. `match` chama exatamente o handler da variante presente e combina os dois caminhos em um único valor:
 
 ```ts
-function describe(result: Either<number, string>): string {
+function describe(result: Result<number, string>): string {
   if (result.isOk()) {
     return `Sucesso: ${result.unwrap()}`;
   }
@@ -473,7 +473,7 @@ const text = failure.match({
 | ----------------- | -------------------------------------------------- | ------------------------------ |
 | `map(fn)`         | valor de sucesso (`Ok`)                            | erro (`Err`)                   |
 | `mapErr(fn)`      | valor de erro (`Err`)                              | sucesso (`Ok`)                 |
-| `flatMap(fn)`     | valor de sucesso (`Ok`), encadeando outro `Either` | erro anterior                  |
+| `flatMap(fn)`     | valor de sucesso (`Ok`), encadeando outro `Result` | erro anterior                  |
 | `orElse(fn)`      | valor de erro (`Err`), tentando recuperação        | sucesso (`Ok`)                 |
 | `match(handlers)` | handler da variante atual                          | retorna o resultado do handler |
 
@@ -486,7 +486,7 @@ const errorLength = err<number, string>("falhou")
   .mapErr((error) => error.length)
   .unwrapErr(); // 7
 
-function toNumber(input: string): Either<number, string> {
+function toNumber(input: string): Result<number, string> {
   const value = Number(input);
   return Number.isNaN(value) ? err("Não é número") : ok(value);
 }
@@ -498,19 +498,19 @@ const recovered = err<number, string>("cache miss")
   .unwrap(); // 0
 ```
 
-`flatMap` une os tipos de erro dos passos encadeados (`E | E2`); `orElse` une os tipos de sucesso (`O | O2`). Exceções lançadas pelas funções passadas a `map`, `mapErr`, `flatMap` ou `orElse` não são capturadas pelo `Either`.
+`flatMap` une os tipos de erro dos passos encadeados (`E | E2`); `orElse` une os tipos de sucesso (`O | O2`). Exceções lançadas pelas funções passadas a `map`, `mapErr`, `flatMap` ou `orElse` não são capturadas pelo `Result`.
 
 ### Extração inválida
 
-`unwrap()` em um `Err` ou `unwrapErr()` em um `Ok` lança `EitherUnwrapError`. A causa (`cause`) contém o valor disponível na variante, independentemente de ser uma instância de `Error`:
+`unwrap()` em um `Err` ou `unwrapErr()` em um `Ok` lança `ResultUnwrapError`. A causa (`cause`) contém o valor disponível na variante, independentemente de ser uma instância de `Error`:
 
 ```ts
-import { EitherUnwrapError } from "@pedrohb/errors";
+import { ResultUnwrapError } from "@pedrohb/errors";
 
 try {
   err<number, string>("falhou").unwrap();
 } catch (error) {
-  if (error instanceof EitherUnwrapError) {
+  if (error instanceof ResultUnwrapError) {
     error.message; // "Chamado unwrap() em Err."
     error.cause; // "falhou"
   }
@@ -529,7 +529,7 @@ O ponto de entrada principal exporta:
 - **Catálogos e tipos:** `defineErrorCatalog`, `CatalogCode`, `ErrorCatalog`, `ErrorDescriptor`.
 - **Traduções e tipos:** `defineErrorTranslations`, `ErrorTranslationLocale`, `ErrorTranslations`.
 - **Placeholders:** `DefaultParamDelimiters`, `ErrorParamDelimiters`, `ErrorParams`.
-- **Resultados:** `Either`, `Ok`, `Err`, `ok`, `err`, `EitherUnwrapError`.
+- **Resultados:** `Result`, `Ok`, `Err`, `ok`, `err`, `ResultUnwrapError`.
 - **Utilitários e erros específicos:** exports de `errors`, `functions` e `types`.
 
 ## Imports por subpath

@@ -10,7 +10,15 @@ import {
 	type DomainEventListener,
 } from "./domain-event-bus.js";
 
+let busParallel: DomainEventBus;
+let busSerial: DomainEventBus;
+
 describe("DomainEventBus", () => {
+	beforeEach(() => {
+		busParallel = new DomainEventBus({ dispatchMode: "parallel" });
+		busSerial = new DomainEventBus({ dispatchMode: "serial" });
+	});
+
 	class OtherDomainEvent extends DomainEvent<
 		ReturnType<TestAggregate["toJSON"]>,
 		TestEntityId
@@ -25,86 +33,88 @@ describe("DomainEventBus", () => {
 	}
 
 	it("should register and unregister listeners for a domain event class", () => {
-		const bus = new DomainEventBus();
 		const listener = vi.fn();
 
-		expect(bus.isHandlerSubscribed(TestDomainEvent, listener)).toBe(false);
+		expect(busParallel.isHandlerSubscribed(TestDomainEvent, listener)).toBe(
+			false,
+		);
 
-		const unregister = bus.register(TestDomainEvent, listener);
+		const unregister = busParallel.register(TestDomainEvent, listener);
 
-		expect(bus.isHandlerSubscribed(TestDomainEvent, listener)).toBe(true);
+		expect(busParallel.isHandlerSubscribed(TestDomainEvent, listener)).toBe(
+			true,
+		);
 
 		unregister();
 
-		expect(bus.isHandlerSubscribed(TestDomainEvent, listener)).toBe(false);
+		expect(busParallel.isHandlerSubscribed(TestDomainEvent, listener)).toBe(
+			false,
+		);
 	});
 
 	it("should ignore unregistering listeners that were not registered", () => {
-		const bus = new DomainEventBus();
 		const listener = vi.fn();
 
-		expect(() => bus.unregister(TestDomainEvent, listener)).not.toThrow();
+		expect(() =>
+			busParallel.unregister(TestDomainEvent, listener),
+		).not.toThrow();
 	});
 
 	it("should dispatch the domain event to its registered listeners", async () => {
-		const bus = new DomainEventBus();
 		const listener = vi.fn();
 		const otherListener = vi.fn();
 
-		bus.register(TestDomainEvent, listener);
-		bus.register(OtherDomainEvent, otherListener);
+		busParallel.register(TestDomainEvent, listener);
+		busParallel.register(OtherDomainEvent, otherListener);
 
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
 
-		await bus.dispatch(domainEvent);
+		await busParallel.dispatch(domainEvent);
 
 		expect(listener).toHaveBeenCalledWith(domainEvent);
 		expect(otherListener).not.toHaveBeenCalled();
 	});
 
 	it("should type handlers for events with custom constructors", () => {
-		const bus = new DomainEventBus();
 		const listener: DomainEventListener<TestDomainEvent> = (event) => {
 			expectTypeOf(event).toEqualTypeOf<TestDomainEvent>();
 		};
 
-		bus.register(TestDomainEvent, listener);
+		busParallel.register(TestDomainEvent, listener);
 	});
 
 	it("should not dispatch subclass events to a base-class handler", async () => {
 		class DerivedDomainEvent extends TestDomainEvent {}
-		const bus = new DomainEventBus();
+
 		const listener = vi.fn();
 
-		bus.register(TestDomainEvent, listener);
+		busParallel.register(TestDomainEvent, listener);
 
 		const { aggregate } = makeTestAggregate();
 
-		await bus.dispatch(new DerivedDomainEvent(aggregate));
+		await busParallel.dispatch(new DerivedDomainEvent(aggregate));
 
 		expect(listener).not.toHaveBeenCalled();
 	});
 
 	it("should not throw when dispatching a domain event without listeners", async () => {
-		const bus = new DomainEventBus();
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
 
-		await expect(bus.dispatch(domainEvent)).resolves.toBeUndefined();
+		await expect(busParallel.dispatch(domainEvent)).resolves.toBeUndefined();
 	});
 
 	it("should throw a DDDError when a listener fails but still call the other listeners", async () => {
-		const bus = new DomainEventBus();
 		const failingListener = vi.fn().mockRejectedValue(new Error("boom"));
 		const listener = vi.fn().mockResolvedValue(undefined);
 
-		bus.register(TestDomainEvent, failingListener);
-		bus.register(TestDomainEvent, listener);
+		busParallel.register(TestDomainEvent, failingListener);
+		busParallel.register(TestDomainEvent, listener);
 
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
-		const dispatch = bus.dispatch(domainEvent);
+		const dispatch = busParallel.dispatch(domainEvent);
 
 		await expect(dispatch).rejects.toThrow(DDDError);
 		await expect(dispatch).rejects.toThrow(
@@ -114,16 +124,15 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should dispatch every domain event to its registered listeners", async () => {
-		const bus = new DomainEventBus();
 		const listener = vi.fn();
 
-		bus.register(TestDomainEvent, listener);
+		busParallel.register(TestDomainEvent, listener);
 
 		const { aggregate } = makeTestAggregate();
 		const event1 = aggregate.addNewDomainEvent();
 		const event2 = aggregate.addNewDomainEvent();
 
-		await bus.dispatchAll(aggregate.pullDomainEvents());
+		await busParallel.dispatchAll(aggregate.pullDomainEvents());
 
 		expect(listener).toHaveBeenCalledTimes(2);
 		expect(listener).toHaveBeenNthCalledWith(1, event1);
@@ -131,17 +140,16 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should throw a DDDError when dispatching events whose listeners fail", async () => {
-		const bus = new DomainEventBus();
 		const failingListener = vi.fn().mockRejectedValue(new Error("boom"));
 
-		bus.register(TestDomainEvent, failingListener);
+		busParallel.register(TestDomainEvent, failingListener);
 
 		const { aggregate } = makeTestAggregate();
 
 		aggregate.addNewDomainEvent();
 		aggregate.addNewDomainEvent();
 
-		const dispatchAll = bus.dispatchAll(aggregate.pullDomainEvents());
+		const dispatchAll = busParallel.dispatchAll(aggregate.pullDomainEvents());
 
 		await expect(dispatchAll).rejects.toThrow(DDDError);
 		await expect(dispatchAll).rejects.toThrow(
@@ -150,7 +158,6 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should run listeners concurrently in parallel mode without guaranteeing completion order", async () => {
-		const bus = new DomainEventBus({ dispatchMode: "parallel" });
 		const started: Array<() => void> = [];
 		const completed: string[] = [];
 		const startSignals = [0, 1].map(
@@ -162,7 +169,7 @@ describe("DomainEventBus", () => {
 		);
 
 		for (const index of [0, 1]) {
-			bus.register(TestDomainEvent, async () => {
+			busParallel.register(TestDomainEvent, async () => {
 				started[index]();
 
 				await gates[index];
@@ -172,7 +179,7 @@ describe("DomainEventBus", () => {
 		}
 
 		const { aggregate } = makeTestAggregate();
-		const dispatch = bus.dispatch(aggregate.addNewDomainEvent());
+		const dispatch = busParallel.dispatch(aggregate.addNewDomainEvent());
 
 		await Promise.all(startSignals);
 
@@ -185,18 +192,18 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should clear all registered listeners", () => {
-		const bus = new DomainEventBus();
 		const listener = vi.fn();
 
-		bus.register(TestDomainEvent, listener);
+		busParallel.register(TestDomainEvent, listener);
 
-		bus.clearHandlers();
+		busParallel.clearHandlers();
 
-		expect(bus.isHandlerSubscribed(TestDomainEvent, listener)).toBe(false);
+		expect(busParallel.isHandlerSubscribed(TestDomainEvent, listener)).toBe(
+			false,
+		);
 	});
 
 	it("should run listeners in order in serial mode and still call the next listener after a failure", async () => {
-		const bus = new DomainEventBus({ dispatchMode: "serial" });
 		const calls: string[] = [];
 		const failingListener = vi.fn(() => {
 			calls.push("failing");
@@ -207,12 +214,12 @@ describe("DomainEventBus", () => {
 			calls.push("listener");
 		});
 
-		bus.register(TestDomainEvent, failingListener);
-		bus.register(TestDomainEvent, listener);
+		busSerial.register(TestDomainEvent, failingListener);
+		busSerial.register(TestDomainEvent, listener);
 
 		const { aggregate } = makeTestAggregate();
 		const domainEvent = aggregate.addNewDomainEvent();
-		const dispatch = bus.dispatch(domainEvent);
+		const dispatch = busSerial.dispatch(domainEvent);
 
 		await expect(dispatch).rejects.toThrow(
 			expect.objectContaining({ code: "DOMAIN_EVENT_DISPATCH_FAILED" }),
@@ -221,7 +228,6 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should dispatch domain events one at a time in serial mode", async () => {
-		const bus = new DomainEventBus({ dispatchMode: "serial" });
 		const calls: string[] = [];
 		const listener = vi.fn(async () => {
 			calls.push("start");
@@ -231,20 +237,19 @@ describe("DomainEventBus", () => {
 			calls.push("end");
 		});
 
-		bus.register(TestDomainEvent, listener);
+		busSerial.register(TestDomainEvent, listener);
 
 		const { aggregate } = makeTestAggregate();
 
 		aggregate.addNewDomainEvent();
 		aggregate.addNewDomainEvent();
 
-		await bus.dispatchAll(aggregate.pullDomainEvents());
+		await busSerial.dispatchAll(aggregate.pullDomainEvents());
 
 		expect(calls).toEqual(["start", "end", "start", "end"]);
 	});
 
 	it("should dispatch events concurrently in parallel mode without guaranteeing completion order", async () => {
-		const bus = new DomainEventBus({ dispatchMode: "parallel" });
 		const started: Array<() => void> = [];
 		const completed: DomainEvent[] = [];
 		const startSignals = [0, 1].map(
@@ -256,7 +261,7 @@ describe("DomainEventBus", () => {
 		);
 		let eventIndex = 0;
 
-		bus.register(TestDomainEvent, async (event) => {
+		busParallel.register(TestDomainEvent, async (event) => {
 			const index = eventIndex++;
 
 			started[index]();
@@ -269,7 +274,7 @@ describe("DomainEventBus", () => {
 		const { aggregate } = makeTestAggregate();
 		const firstEvent = aggregate.addNewDomainEvent();
 		const secondEvent = aggregate.addNewDomainEvent();
-		const dispatch = bus.dispatchAll([firstEvent, secondEvent]);
+		const dispatch = busParallel.dispatchAll([firstEvent, secondEvent]);
 
 		await Promise.all(startSignals);
 
@@ -282,17 +287,16 @@ describe("DomainEventBus", () => {
 	});
 
 	it("should throw a DDDError when dispatching events whose listeners fail in serial mode", async () => {
-		const bus = new DomainEventBus({ dispatchMode: "serial" });
 		const failingListener = vi.fn().mockRejectedValue(new Error("boom"));
 
-		bus.register(TestDomainEvent, failingListener);
+		busSerial.register(TestDomainEvent, failingListener);
 
 		const { aggregate } = makeTestAggregate();
 
 		aggregate.addNewDomainEvent();
 		aggregate.addNewDomainEvent();
 
-		const dispatchAll = bus.dispatchAll(aggregate.pullDomainEvents());
+		const dispatchAll = busSerial.dispatchAll(aggregate.pullDomainEvents());
 
 		await expect(dispatchAll).rejects.toThrow(DDDError);
 		await expect(dispatchAll).rejects.toThrow(

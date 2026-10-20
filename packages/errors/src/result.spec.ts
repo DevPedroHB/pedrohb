@@ -1,9 +1,9 @@
-import { type Either, err, ok } from "./either.js";
-import { EitherUnwrapError } from "./errors/either-unwrap-error.js";
+import { ResultUnwrapError } from "./errors/result-unwrap-error.js";
+import { err, ok, type Result } from "./result.js";
 
-describe("Either", () => {
-	const success: Either<string, string> = ok("Sucesso.");
-	const error: Either<string, string> = err("Erro.");
+describe("Result", () => {
+	const success: Result<string, string> = ok("Sucesso.");
+	const error: Result<string, string> = err("Erro.");
 
 	it("should create an Ok with a value", () => {
 		expect(success.tag).toBe("Ok");
@@ -20,11 +20,11 @@ describe("Either", () => {
 	});
 
 	it("should throw when unwrapping an Err", () => {
-		expect(() => error.unwrap()).toThrow(EitherUnwrapError);
+		expect(() => error.unwrap()).toThrow(ResultUnwrapError);
 	});
 
 	it("should throw when unwrapping an error from an Ok", () => {
-		expect(() => success.unwrapErr()).toThrow(EitherUnwrapError);
+		expect(() => success.unwrapErr()).toThrow(ResultUnwrapError);
 	});
 
 	it("should map the value of an Ok", () => {

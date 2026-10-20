@@ -10,6 +10,7 @@ export default mergeConfig(config, {
 		"events/index": "./src/events/index.ts",
 		"functions/index": "./src/functions/index.ts",
 		"types/index": "./src/types/index.ts",
+		"use-cases/index": "./src/use-cases/index.ts",
 		"value-objects/index": "./src/value-objects/index.ts",
 	},
 });

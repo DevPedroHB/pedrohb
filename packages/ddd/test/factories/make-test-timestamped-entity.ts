@@ -27,3 +27,7 @@ export function makeTestTimestampedEntity(
 		entity: TestTimestampedEntity.create(props, id),
 	};
 }
+
+export type MakeTestTimestampedEntity = ReturnType<
+	typeof makeTestTimestampedEntity
+>;

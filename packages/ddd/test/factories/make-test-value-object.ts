@@ -31,3 +31,5 @@ export function makeTestValueObject(
 		valueObject: TestValueObject.create(props),
 	};
 }
+
+export type MakeTestValueObject = ReturnType<typeof makeTestValueObject>;

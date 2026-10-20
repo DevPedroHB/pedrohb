@@ -1,25 +1,27 @@
-import { EitherUnwrapError } from "./errors/either-unwrap-error.js";
+/** biome-ignore-all lint/suspicious/noExplicitAny: off */
+
+import { ResultUnwrapError } from "./errors/result-unwrap-error.js";
 
 /**
  * Representa o resultado de uma operação que pode ter sucesso (`Ok`) ou
  * falhar (`Err`), tornando o erro parte explícita do tipo de retorno em vez
  * de depender de exceções.
  *
- * Um `Either<O, E>` é sempre uma instância de {@link Ok} que carrega um
+ * Um `Result<O, E>` é sempre uma instância de {@link Ok} que carrega um
  * valor de sucesso do tipo `O`, ou de {@link Err} que carrega um valor de
  * erro do tipo `E`. Use {@link ok} e {@link err} para criá-los.
  *
- * Os métodos {@link Either.map}, {@link Either.mapErr}, {@link Either.flatMap}
- * e {@link Either.orElse} retornam um novo `Either` e não alteram o original.
- * Para tratar os dois casos use {@link Either.match}, ou os type guards
- * {@link Either.isOk} e {@link Either.isErr}.
+ * Os métodos {@link Result.map}, {@link Result.mapErr}, {@link Result.flatMap}
+ * e {@link Result.orElse} retornam um novo `Result` e não alteram o original.
+ * Para tratar os dois casos use {@link Result.match}, ou os type guards
+ * {@link Result.isOk} e {@link Result.isErr}.
  *
  * @template O - Tipo do valor de sucesso.
  * @template E - Tipo do valor de erro.
  *
  * @example
  * ```ts
- * function toDivide(a: number, b: number): Either<number, string> {
+ * function toDivide(a: number, b: number): Result<number, string> {
  *   return b === 0 ? err("Divisão por zero") : ok(a / b);
  * }
  *
@@ -32,7 +34,7 @@ import { EitherUnwrapError } from "./errors/either-unwrap-error.js";
  * // "Resultado: 15"
  * ```
  */
-export abstract class Either<O, E> {
+export abstract class Result<O = any, E = any> {
 	/** Discriminante da variante: `"Ok"` para sucesso e `"Err"` para erro. */
 	public abstract readonly tag: "Ok" | "Err";
 
@@ -40,7 +42,7 @@ export abstract class Either<O, E> {
 	 * Retorna o valor de sucesso.
 	 *
 	 * @returns O valor contido em `Ok`.
-	 * @throws {EitherUnwrapError} Se for um `Err`. A `cause` do erro é o valor
+	 * @throws {ResultUnwrapError} Se for um `Err`. A `cause` do erro é o valor
 	 * de erro contido.
 	 */
 	public abstract unwrap(): O;
@@ -49,7 +51,7 @@ export abstract class Either<O, E> {
 	 * Retorna o valor de erro.
 	 *
 	 * @returns O valor contido em `Err`.
-	 * @throws {EitherUnwrapError} Se for um `Ok`. A `cause` do erro é o valor
+	 * @throws {ResultUnwrapError} Se for um `Ok`. A `cause` do erro é o valor
 	 * de sucesso contido.
 	 */
 	public abstract unwrapErr(): E;
@@ -79,7 +81,7 @@ export abstract class Either<O, E> {
 	 *
 	 * @template O2 - Tipo do novo valor de sucesso.
 	 * @param fn - Função que converte o valor de sucesso.
-	 * @returns Um `Either` com o valor transformado ou o erro original.
+	 * @returns Um `Result` com o valor transformado ou o erro original.
 	 *
 	 * @example
 	 * ```ts
@@ -87,7 +89,7 @@ export abstract class Either<O, E> {
 	 * err<number, string>("falhou").map((n) => n * 2).unwrapErr(); // "falhou"
 	 * ```
 	 */
-	public map<O2>(fn: (value: O) => O2): Either<O2, E> {
+	public map<O2>(fn: (value: O) => O2): Result<O2, E> {
 		if (this.isOk()) {
 			return ok(fn(this.unwrap()));
 		}
@@ -104,7 +106,7 @@ export abstract class Either<O, E> {
 	 *
 	 * @template E2 - Tipo do novo valor de erro.
 	 * @param fn - Função que converte o valor de erro.
-	 * @returns Um `Either` com o erro transformado ou o valor original.
+	 * @returns Um `Result` com o erro transformado ou o valor original.
 	 *
 	 * @example
 	 * ```ts
@@ -112,7 +114,7 @@ export abstract class Either<O, E> {
 	 * ok<number, string>(1).mapErr((e) => e.length).unwrap(); // 1
 	 * ```
 	 */
-	public mapErr<E2>(fn: (value: E) => E2): Either<O, E2> {
+	public mapErr<E2>(fn: (value: E) => E2): Result<O, E2> {
 		if (this.isErr()) {
 			return err(fn(this.unwrapErr()));
 		}
@@ -121,22 +123,22 @@ export abstract class Either<O, E> {
 	}
 
 	/**
-	 * Encadeia uma operação que também retorna um `Either` usada quando o
+	 * Encadeia uma operação que também retorna um `Result` usada quando o
 	 * próximo passo também pode falhar.
 	 *
-	 * Se for `Ok`, retorna diretamente o `Either` produzido por `fn` (sem
+	 * Se for `Ok`, retorna diretamente o `Result` produzido por `fn` (sem
 	 * aninhamento). Se for `Err` `fn` não é chamada e o erro é propagado.
 	 * O tipo de erro resultante é a união `E | E2`. Exceções lançadas por `fn`
 	 * não são capturadas.
 	 *
 	 * @template O2 - Tipo do valor de sucesso retornado por `fn`.
 	 * @template E2 - Tipo do valor de erro retornado por `fn`.
-	 * @param fn - Função que recebe o valor de sucesso e retorna um `Either`.
-	 * @returns O `Either` retornado por `fn`, ou o erro original.
+	 * @param fn - Função que recebe o valor de sucesso e retorna um `Result`.
+	 * @returns O `Result` retornado por `fn`, ou o erro original.
 	 *
 	 * @example
 	 * ```ts
-	 * const forNumber = (s: string): Either<number, string> => {
+	 * const forNumber = (s: string): Result<number, string> => {
 	 *   const n = Number(s);
 	 *   return Number.isNaN(n) ? err("Não é número") : ok(n);
 	 * };
@@ -145,7 +147,7 @@ export abstract class Either<O, E> {
 	 * ok<string, string>("abc").flatMap(forNumber).unwrapErr(); // "Não é número"
 	 * ```
 	 */
-	public flatMap<O2, E2>(fn: (value: O) => Either<O2, E2>): Either<O2, E | E2> {
+	public flatMap<O2, E2>(fn: (value: O) => Result<O2, E2>): Result<O2, E | E2> {
 		if (this.isOk()) {
 			return fn(this.unwrap());
 		}
@@ -155,17 +157,17 @@ export abstract class Either<O, E> {
 
 	/**
 	 * Tenta se recuperar de um erro encadeando uma operação alternativa que
-	 * também retorna um `Either`. É o oposto de {@link Either.flatMap}.
+	 * também retorna um `Result`. É o oposto de {@link Result.flatMap}.
 	 *
-	 * Se for `Err` retorna diretamente o `Either` produzido por `fn`. Se for
+	 * Se for `Err` retorna diretamente o `Result` produzido por `fn`. Se for
 	 * `Ok` `fn` não é chamada e o valor é mantido. O tipo de sucesso
 	 * resultante é a união `O | O2`. Exceções lançadas por `fn` não são
 	 * capturadas.
 	 *
 	 * @template O2 - Tipo do valor de sucesso retornado por `fn`.
 	 * @template E2 - Tipo do valor de erro retornado por `fn`.
-	 * @param fn - Função que recebe o valor de erro e retorna um `Either`.
-	 * @returns O `Either` retornado por `fn`, ou o valor de sucesso original.
+	 * @param fn - Função que recebe o valor de erro e retorna um `Result`.
+	 * @returns O `Result` retornado por `fn`, ou o valor de sucesso original.
 	 *
 	 * @example
 	 * ```ts
@@ -173,7 +175,7 @@ export abstract class Either<O, E> {
 	 * ok<number, string>(5).orElse(() => ok(0)).unwrap(); // 5
 	 * ```
 	 */
-	public orElse<O2, E2>(fn: (value: E) => Either<O2, E2>): Either<O | O2, E2> {
+	public orElse<O2, E2>(fn: (value: E) => Result<O2, E2>): Result<O | O2, E2> {
 		if (this.isErr()) {
 			return fn(this.unwrapErr());
 		}
@@ -210,13 +212,13 @@ export abstract class Either<O, E> {
 }
 
 /**
- * Variante de sucesso de {@link Either} que carrega um valor do tipo `O`.
+ * Variante de sucesso de {@link Result} que carrega um valor do tipo `O`.
  *
  * @template O - Tipo do valor de sucesso. Por padrão, `never`.
  * @template E - Tipo do valor de erro usado apenas para compatibilidade com
- * {@link Either}. Por padrão, `never`.
+ * {@link Result}. Por padrão, `never`.
  */
-export class Ok<O = never, E = never> extends Either<O, E> {
+export class Ok<O = never, E = never> extends Result<O, E> {
 	/** Discriminante da variante sempre `"Ok"`. */
 	public readonly tag = "Ok" as const;
 	/** Valor de sucesso armazenado. */
@@ -243,10 +245,10 @@ export class Ok<O = never, E = never> extends Either<O, E> {
 	/**
 	 * Sempre lança um erro pois um `Ok` não possui valor de erro.
 	 *
-	 * @throws {EitherUnwrapError} Sempre. A `cause` é o valor de sucesso contido.
+	 * @throws {ResultUnwrapError} Sempre. A `cause` é o valor de sucesso contido.
 	 */
 	public unwrapErr(): E {
-		throw new EitherUnwrapError("Chamado unwrapErr() em Ok.", {
+		throw new ResultUnwrapError("Chamado unwrapErr() em Ok.", {
 			cause: this.value,
 		});
 	}
@@ -275,13 +277,13 @@ export class Ok<O = never, E = never> extends Either<O, E> {
 }
 
 /**
- * Variante de erro de {@link Either} que carrega um valor do tipo `E`.
+ * Variante de erro de {@link Result} que carrega um valor do tipo `E`.
  *
  * @template O - Tipo do valor de sucesso usado apenas para compatibilidade
- * com {@link Either}. Por padrão, `never`.
+ * com {@link Result}. Por padrão, `never`.
  * @template E - Tipo do valor de erro. Por padrão, `never`.
  */
-export class Err<O = never, E = never> extends Either<O, E> {
+export class Err<O = never, E = never> extends Result<O, E> {
 	/** Discriminante da variante sempre `"Err"`. */
 	public readonly tag = "Err" as const;
 	/** Valor de erro armazenado. */
@@ -299,10 +301,10 @@ export class Err<O = never, E = never> extends Either<O, E> {
 	/**
 	 * Sempre lança um erro pois um `Err` não possui valor de sucesso.
 	 *
-	 * @throws {EitherUnwrapError} Sempre. A `cause` é o valor de erro contido.
+	 * @throws {ResultUnwrapError} Sempre. A `cause` é o valor de erro contido.
 	 */
 	public unwrap(): O {
-		throw new EitherUnwrapError("Chamado unwrap() em Err.", {
+		throw new ResultUnwrapError("Chamado unwrap() em Err.", {
 			cause: this.value,
 		});
 	}
@@ -340,16 +342,16 @@ export class Err<O = never, E = never> extends Either<O, E> {
 }
 
 /**
- * Cria um {@link Either} de sucesso (`Ok`) com o valor informado.
+ * Cria um {@link Result} de sucesso (`Ok`) com o valor informado.
  *
- * O retorno é tipado como `Either<O, E>` e não como `Ok` para que possa ser
+ * O retorno é tipado como `Result<O, E>` e não como `Ok` para que possa ser
  * usado onde se espera qualquer variante. Como `E` não pode ser inferido a
  * partir do argumento, informe-o explicitamente quando necessário.
  *
  * @template O - Tipo do valor de sucesso. Por padrão, `never`.
  * @template E - Tipo do valor de erro. Por padrão, `never`.
  * @param value - Valor de sucesso.
- * @returns Um `Either` que é um `Ok` contendo `value`.
+ * @returns Um `Result` que é um `Ok` contendo `value`.
  *
  * @example
  * ```ts
@@ -358,21 +360,21 @@ export class Err<O = never, E = never> extends Either<O, E> {
  * result.unwrap(); // 42
  * ```
  */
-export function ok<O = never, E = never>(value: O): Either<O, E> {
+export function ok<O = never, E = never>(value: O): Result<O, E> {
 	return Ok.create(value);
 }
 
 /**
- * Cria um {@link Either} de erro (`Err`) com o valor informado.
+ * Cria um {@link Result} de erro (`Err`) com o valor informado.
  *
- * O retorno é tipado como `Either<O, E>` e não como `Err` para que possa ser
+ * O retorno é tipado como `Result<O, E>` e não como `Err` para que possa ser
  * usado onde se espera qualquer variante. Como `O` não pode ser inferido a
  * partir do argumento, informe-o explicitamente quando necessário.
  *
  * @template O - Tipo do valor de sucesso. Por padrão, `never`.
  * @template E - Tipo do valor de erro. Por padrão, `never`.
  * @param value - Valor de erro.
- * @returns Um `Either` que é um `Err` contendo `value`.
+ * @returns Um `Result` que é um `Err` contendo `value`.
  *
  * @example
  * ```ts
@@ -381,6 +383,6 @@ export function ok<O = never, E = never>(value: O): Either<O, E> {
  * result.unwrapErr();  // "Algo deu errado"
  * ```
  */
-export function err<O = never, E = never>(value: E): Either<O, E> {
+export function err<O = never, E = never>(value: E): Result<O, E> {
 	return Err.create(value);
 }
