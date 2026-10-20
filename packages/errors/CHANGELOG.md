@@ -1,5 +1,11 @@
 # @pedrohb/errors
 
+## 2.0.0
+
+### Major Changes
+
+- 0e9fefe: Renomeia `Either` para `Result` e atualiza os exports e exemplos correspondentes.
+
 ## 1.2.0
 
 ### Minor Changes
