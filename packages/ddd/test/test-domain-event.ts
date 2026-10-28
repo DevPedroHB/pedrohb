@@ -13,7 +13,7 @@ export class TestDomainEvent extends DomainEvent<TestAggregate, TestEntityId> {
 
 	public toJSON() {
 		return {
-			id: this.id.toJSON().id,
+			...this.id.toJSON(),
 			data: this.data.toJSON(),
 			occurredAt: this.occurredAt.toISOString(),
 		};

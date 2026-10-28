@@ -1,5 +1,3 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: off */
-
 import { ResultUnwrapError } from "./errors/result-unwrap-error.js";
 
 /**
@@ -34,7 +32,7 @@ import { ResultUnwrapError } from "./errors/result-unwrap-error.js";
  * // "Resultado: 15"
  * ```
  */
-export abstract class Result<O = any, E = any> {
+export abstract class Result<O = unknown, E = unknown> {
 	/** Discriminante da variante: `"Ok"` para sucesso e `"Err"` para erro. */
 	public abstract readonly tag: "Ok" | "Err";
 

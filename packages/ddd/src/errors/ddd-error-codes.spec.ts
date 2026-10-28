@@ -51,6 +51,9 @@ describe("inferred types", () => {
 			| "DOMAIN_EVENTS_DISPATCH_FAILED"
 			| "DOMAIN_EVENT_NOT_FOUND"
 			| "HANDLER_DISPOSED"
+			| "ITEM_ALREADY_EXISTS"
+			| "ITEM_NOT_FOUND"
+			| "INVALID_TTL"
 		>();
 		expectTypeOf<DDDErrorLocale>().toEqualTypeOf<"en">();
 	});

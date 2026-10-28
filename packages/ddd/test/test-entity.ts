@@ -42,11 +42,10 @@ export class TestEntity extends Entity<TestEntityId, TestEntityProps> {
 
 	public toJSON() {
 		return {
-			id: this.id.id,
+			...this.id.toJSON(),
 			name: this.name,
 			age: this.age,
-			createdAt: this.createdAt,
-			updatedAt: this.updatedAt,
+			...this.props.timestamps.toJSON(),
 		};
 	}
 

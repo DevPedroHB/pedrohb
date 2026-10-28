@@ -10,6 +10,7 @@
 	},
 	"dependencies": {
 		"@pedrohb/errors": "workspace:*",
+		"argon2": "^0.45.1",
 		"uuid": "^14.0.3"
 	},
 	"description": "A TypeScript package for implementing Domain-Driven Design (DDD) in Node.js applications.",
@@ -49,6 +50,16 @@
 			"require": {
 				"default": "./dist/entities/index.cjs",
 				"types": "./dist/entities/index.d.cts"
+			}
+		},
+		"./contracts": {
+			"import": {
+				"default": "./dist/contracts/index.mjs",
+				"types": "./dist/contracts/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/contracts/index.cjs",
+				"types": "./dist/contracts/index.d.cts"
 			}
 		},
 		"./entity-ids": {

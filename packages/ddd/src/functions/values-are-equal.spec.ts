@@ -1,4 +1,3 @@
-import { makeTestValueObject } from "#test/factories/make-test-value-object.js";
 import { valuesAreEqual } from "./values-are-equal.js";
 
 describe("valuesAreEqual", () => {
@@ -12,17 +11,6 @@ describe("valuesAreEqual", () => {
 		expect(valuesAreEqual(1, 2)).toBe(false);
 		expect(valuesAreEqual("a", "b")).toBe(false);
 		expect(valuesAreEqual(null, {})).toBe(false);
-	});
-
-	it("should compare value objects by props", () => {
-		const { props, valueObject } = makeTestValueObject();
-
-		expect(
-			valuesAreEqual(valueObject, makeTestValueObject(props).valueObject),
-		).toBe(true);
-		expect(valuesAreEqual(valueObject, makeTestValueObject().valueObject)).toBe(
-			false,
-		);
 	});
 
 	it("should compare dates by time", () => {

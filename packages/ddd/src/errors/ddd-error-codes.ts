@@ -17,6 +17,10 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 	DOMAIN_EVENT_NOT_FOUND: "O evento '{event}' não foi encontrado.",
 	HANDLER_DISPOSED:
 		"O handler '{handler}' foi descartado e não pode ser reinscrito.",
+	ITEM_ALREADY_EXISTS: "Já existe um item com {field} '{value}'.",
+	ITEM_NOT_FOUND: "Nenhum item encontrado com {field} '{value}'.",
+	INVALID_TTL:
+		"O TTL '{ttl}' é inválido. Deve ser um número positivo de segundos.",
 });
 
 export type DDDErrorCodes = typeof DDD_ERROR_CODES;
@@ -36,6 +40,10 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 		DOMAIN_EVENT_NOT_FOUND: "The event '{event}' was not found.",
 		HANDLER_DISPOSED:
 			"The handler '{handler}' has been dropped and cannot be re-registered.",
+		ITEM_ALREADY_EXISTS: "An item with {field} '{value}' already exists.",
+		ITEM_NOT_FOUND: "No item found with {field} '{value}'.",
+		INVALID_TTL:
+			"The TTL '{ttl}' is invalid. It must be a positive number of seconds.",
 	},
 });
 

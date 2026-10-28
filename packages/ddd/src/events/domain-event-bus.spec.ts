@@ -134,9 +134,9 @@ describe("DomainEventBus", () => {
 
 		await busParallel.dispatchAll(aggregate.pullDomainEvents());
 
-		expect(listener).toHaveBeenCalledTimes(2);
-		expect(listener).toHaveBeenNthCalledWith(1, event1);
-		expect(listener).toHaveBeenNthCalledWith(2, event2);
+		expect(listener).toHaveBeenCalledTimes(3);
+		expect(listener).toHaveBeenNthCalledWith(2, event1);
+		expect(listener).toHaveBeenNthCalledWith(3, event2);
 	});
 
 	it("should throw a DDDError when dispatching events whose listeners fail", async () => {
@@ -241,7 +241,6 @@ describe("DomainEventBus", () => {
 
 		const { aggregate } = makeTestAggregate();
 
-		aggregate.addNewDomainEvent();
 		aggregate.addNewDomainEvent();
 
 		await busSerial.dispatchAll(aggregate.pullDomainEvents());

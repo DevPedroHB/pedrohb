@@ -38,11 +38,10 @@ export class TestAggregate extends Aggregate<TestEntityId, TestEntityProps> {
 
 	public toJSON() {
 		return {
-			id: this.id.toJSON().id,
+			...this.id.toJSON(),
 			name: this.name,
 			age: this.age,
-			createdAt: this.createdAt,
-			updatedAt: this.updatedAt,
+			...this.props.timestamps.toJSON(),
 		};
 	}
 

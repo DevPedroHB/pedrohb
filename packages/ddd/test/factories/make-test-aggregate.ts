@@ -1,18 +1,19 @@
 import { TestAggregate } from "#test/test-aggregate.js";
 import type { TestEntityProps } from "#test/test-entity.js";
-import { TestEntityId } from "#test/test-entity-id.js";
+import type { TestEntityId } from "#test/test-entity-id.js";
 import { makeTestEntity } from "./make-test-entity.js";
 
 export function makeTestAggregate(
 	overrides: Partial<TestEntityProps> = {},
-	id: TestEntityId = TestEntityId.create(),
+	id?: TestEntityId,
 ) {
 	const { props } = makeTestEntity(overrides, id);
+	const aggregate = TestAggregate.create(props, id);
 
 	return {
-		id,
+		id: aggregate.id,
 		props,
-		aggregate: TestAggregate.create(props, id),
+		aggregate,
 	};
 }
 

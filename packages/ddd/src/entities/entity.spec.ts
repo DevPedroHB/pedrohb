@@ -34,8 +34,8 @@ describe("Entity", () => {
 				id: id.id,
 				name: props.name,
 				age: props.age,
-				createdAt: props.timestamps.createdAt,
-				updatedAt: props.timestamps.updatedAt,
+				createdAt: props.timestamps.createdAt.toISOString(),
+				updatedAt: props.timestamps.updatedAt.toISOString(),
 			}),
 		);
 	});

@@ -1,13 +1,8 @@
-import { ValueObject } from "#/value-objects/value-object.js";
 import { isPlainObject } from "./is-plain-object.js";
 
 export function valuesAreEqual(a: unknown, b: unknown): boolean {
 	if (Object.is(a, b)) {
 		return true;
-	}
-
-	if (a instanceof ValueObject && b instanceof ValueObject) {
-		return a.equals(b);
 	}
 
 	if (a instanceof Date && b instanceof Date) {

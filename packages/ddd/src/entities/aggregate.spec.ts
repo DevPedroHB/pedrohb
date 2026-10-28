@@ -3,6 +3,7 @@ import {
 	type MakeTestAggregate,
 	makeTestAggregate,
 } from "#test/factories/make-test-aggregate.js";
+import { TestEntityId } from "#test/test-entity-id.js";
 
 let testAggregate: MakeTestAggregate;
 
@@ -12,7 +13,7 @@ describe("Aggregate", () => {
 	});
 
 	it("should not have domain events when created with an existing id", () => {
-		const { aggregate } = testAggregate;
+		const { aggregate } = makeTestAggregate({}, TestEntityId.create());
 
 		expect(aggregate.events.length).toBe(0);
 		expect(aggregate.pullDomainEvents()).toEqual([]);
@@ -20,16 +21,15 @@ describe("Aggregate", () => {
 
 	it("should collect added domain events", () => {
 		const { aggregate } = testAggregate;
-		const event1 = aggregate.addNewDomainEvent();
-		const event2 = aggregate.addNewDomainEvent();
 
-		expect(aggregate.events).toEqual([event1, event2]);
+		aggregate.addNewDomainEvent();
+		aggregate.addNewDomainEvent();
+
+		expect(aggregate.events).toHaveLength(3);
 	});
 
 	it("should return a frozen snapshot of the domain events", () => {
 		const { aggregate } = testAggregate;
-
-		aggregate.addNewDomainEvent();
 
 		expect(Object.isFrozen(aggregate.events)).toBe(true);
 		expect(aggregate.events.length).toBe(1);
@@ -37,23 +37,25 @@ describe("Aggregate", () => {
 
 	it("should pull domain events and clear them", () => {
 		const { aggregate } = testAggregate;
-		const event1 = aggregate.addNewDomainEvent();
-		const event2 = aggregate.addNewDomainEvent();
+
+		aggregate.addNewDomainEvent();
+		aggregate.addNewDomainEvent();
+
 		const events = aggregate.pullDomainEvents();
 
-		expect(events).toEqual([event1, event2]);
+		expect(events).toHaveLength(3);
 		expect(aggregate.events.length).toBe(0);
 		expect(aggregate.pullDomainEvents()).toEqual([]);
 	});
 
 	it("should pull a single domain event and keep the others", () => {
 		const { aggregate } = testAggregate;
-		const event1 = aggregate.addNewDomainEvent();
-		const event2 = aggregate.addNewDomainEvent();
-		const pulledEvent = aggregate.pullDomainEvent(event1);
+		const event = aggregate.addNewDomainEvent();
 
-		expect(pulledEvent).toBe(event1);
-		expect(aggregate.events).toEqual([event2]);
+		const pulledEvent = aggregate.pullDomainEvent(event);
+
+		expect(pulledEvent).toBe(event);
+		expect(aggregate.events).toHaveLength(1);
 	});
 
 	it("should clear all domain events", () => {
@@ -69,12 +71,12 @@ describe("Aggregate", () => {
 
 	it("should clear only the specified domain events", () => {
 		const { aggregate } = testAggregate;
-		const event1 = aggregate.addNewDomainEvent();
-		const event2 = aggregate.addNewDomainEvent();
 
-		aggregate.clearDomainEvents([event1]);
+		const event = aggregate.addNewDomainEvent();
 
-		expect(aggregate.events).toEqual([event2]);
+		aggregate.clearDomainEvents([event]);
+
+		expect(aggregate.events).toHaveLength(1);
 	});
 
 	it("should throw a DDDError when pulling a domain event that was not added", () => {

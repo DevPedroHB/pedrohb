@@ -26,7 +26,7 @@ export abstract class Aggregate<
 			});
 		}
 
-		this.domainEvents.delete(domainEvent);
+		this.clearDomainEvents([domainEvent]);
 
 		return domainEvent;
 	}

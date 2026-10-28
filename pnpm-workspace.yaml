@@ -3,6 +3,7 @@ packages:
   - "configs/*"
   - "packages/*"
 allowBuilds:
+  argon2: true
   esbuild: true
 minimumReleaseAgeExclude:
   - "@types/node@26.6.4"

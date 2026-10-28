@@ -1,6 +1,6 @@
 import { err, ok, type Result } from "@pedrohb/errors";
-import { UseCase } from "#/index.js";
-import { TestEntity } from "./test-entity.js";
+import type { InMemoryRepository, UseCase } from "#/index.js";
+import { TestAggregate } from "./test-aggregate.js";
 import { TestError } from "./test-error.js";
 
 export type TestUseCaseRequest = {
@@ -10,15 +10,21 @@ export type TestUseCaseRequest = {
 
 export type TestUseCaseResponse = Result<
 	{
-		testEntity: TestEntity;
+		testAggregate: TestAggregate;
 	},
 	TestError
 >;
 
-export class TestUseCase extends UseCase<
-	TestUseCaseRequest,
-	TestUseCaseResponse
-> {
+export class TestUseCase
+	implements UseCase<TestUseCaseRequest, TestUseCaseResponse>
+{
+	public constructor(
+		private readonly inMemoryRepository: InMemoryRepository<
+			TestAggregate,
+			"id"
+		>,
+	) {}
+
 	public async execute({
 		name,
 		age,
@@ -33,13 +39,15 @@ export class TestUseCase extends UseCase<
 			);
 		}
 
-		const testEntity = TestEntity.create({
+		const testAggregate = TestAggregate.create({
 			name,
 			age,
 		});
 
+		await this.inMemoryRepository.create(testAggregate);
+
 		return ok({
-			testEntity,
+			testAggregate,
 		});
 	}
 }

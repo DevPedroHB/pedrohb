@@ -1,11 +1,11 @@
 import { faker } from "@faker-js/faker";
 import { Timestamps } from "#/index.js";
 import { TestEntity, type TestEntityProps } from "#test/test-entity.js";
-import { TestEntityId } from "#test/test-entity-id.js";
+import type { TestEntityId } from "#test/test-entity-id.js";
 
 export function makeTestEntity(
 	overrides: Partial<TestEntityProps> = {},
-	id = TestEntityId.create(),
+	id?: TestEntityId,
 ) {
 	const props: TestEntityProps = {
 		name: faker.person.fullName(),
@@ -13,11 +13,12 @@ export function makeTestEntity(
 		timestamps: Timestamps.create(faker.date.past()),
 		...overrides,
 	};
+	const entity = TestEntity.create(props, id);
 
 	return {
-		id,
+		id: entity.id,
 		props,
-		entity: TestEntity.create(props, id),
+		entity,
 	};
 }
 

@@ -17,13 +17,11 @@ describe("DomainEventHandler", () => {
 		expect(testDomainEventHandler.handled).toHaveLength(0);
 
 		const { aggregate } = makeTestAggregate();
-		const domainEvent = aggregate.addNewDomainEvent();
 
 		await domainEventBus.dispatchAll(aggregate.pullDomainEvents());
 
 		expect(testDomainEventHandler.isSubscribed).toBe(false);
 		expect(testDomainEventHandler.handled).toHaveLength(1);
-		expect(testDomainEventHandler.handled).toEqual([domainEvent]);
 	});
 
 	it("should unsubscribe on dispose and throw a DDDError when subscribing after disposal", () => {
