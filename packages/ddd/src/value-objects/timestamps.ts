@@ -7,7 +7,7 @@ export type TimestampsProps = {
 };
 
 export class Timestamps extends ValueObject<TimestampsProps> {
-	public constructor({ createdAt, updatedAt }: TimestampsProps) {
+	private constructor({ createdAt, updatedAt }: TimestampsProps) {
 		if (
 			!Number.isInteger(createdAt) ||
 			!Number.isInteger(updatedAt) ||

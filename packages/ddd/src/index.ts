@@ -2,6 +2,7 @@ export { Err, err, Ok, ok, Result, ResultUnwrapError } from "@pedrohb/errors";
 export * from "./contracts/index.js";
 export * from "./entities/index.js";
 export * from "./entity-ids/index.js";
+export * from "./envs/index.js";
 export * from "./errors/index.js";
 export * from "./events/index.js";
 export * from "./functions/index.js";

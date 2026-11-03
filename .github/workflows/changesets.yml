@@ -6,8 +6,6 @@ on:
       - main
     paths:
       - ".changeset/**"
-      - "packages/ddd/**"
-      - "packages/errors/**"
 
   workflow_dispatch:
 

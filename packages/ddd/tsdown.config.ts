@@ -7,6 +7,7 @@ export default mergeConfig(config, {
 		"contracts/index": "./src/contracts/index.ts",
 		"entities/index": "./src/entities/index.ts",
 		"entity-ids/index": "./src/entity-ids/index.ts",
+		"envs/index": "./src/envs/index.ts",
 		"errors/index": "./src/errors/index.ts",
 		"events/index": "./src/events/index.ts",
 		"functions/index": "./src/functions/index.ts",

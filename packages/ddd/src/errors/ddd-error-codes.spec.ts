@@ -46,6 +46,13 @@ describe("inferred types", () => {
 			| "INTERNAL_SERVER_ERROR"
 			| "METHOD_NOT_IMPLEMENTED"
 			| "INVALID_ENTITY_ID"
+			| "INVALID_CNPJ"
+			| "INVALID_CPF"
+			| "INVALID_EMAIL"
+			| "INVALID_PHONE"
+			| "INVALID_COORDINATES"
+			| "INVALID_PASSWORD_SIZE"
+			| "INVALID_PASSWORD_STRENGTH"
 			| "INVALID_TIMESTAMPS"
 			| "DOMAIN_EVENT_DISPATCH_FAILED"
 			| "DOMAIN_EVENTS_DISPATCH_FAILED"
@@ -54,6 +61,8 @@ describe("inferred types", () => {
 			| "ITEM_ALREADY_EXISTS"
 			| "ITEM_NOT_FOUND"
 			| "INVALID_TTL"
+			| "ENV_VALIDATION_FAILED"
+			| "ENV_INVALID_ACCESS"
 		>();
 		expectTypeOf<DDDErrorLocale>().toEqualTypeOf<"en">();
 	});

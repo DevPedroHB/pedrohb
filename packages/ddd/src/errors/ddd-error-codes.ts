@@ -9,6 +9,16 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 	INTERNAL_SERVER_ERROR: "Ocorreu um erro interno no servidor.",
 	METHOD_NOT_IMPLEMENTED: "O método '{method}' não está implementado.",
 	INVALID_ENTITY_ID: "O identificador '{id}' é inválido.",
+	INVALID_CNPJ: "O CNPJ '{cnpj}' é inválido.",
+	INVALID_CPF: "O CPF '{cpf}' é inválido.",
+	INVALID_EMAIL: "O email '{email}' é inválido.",
+	INVALID_PHONE: "O telefone '{phone}' é inválido.",
+	INVALID_COORDINATES:
+		"As coordenadas latitude '{latitude}' e longitude '{longitude}' são inválidas.",
+	INVALID_PASSWORD_SIZE:
+		"O tamanho da senha '{size}' é inválido. Deve ser um inteiro entre {min} e {max}.",
+	INVALID_PASSWORD_STRENGTH:
+		"A senha deve ter entre 12 e 128 caracteres, não conter espaços em branco e incluir pelo menos uma letra minúscula, uma letra maiúscula, um número e um caractere especial.",
 	INVALID_TIMESTAMPS:
 		"Timestamps inválidos: createdAt '{createdAt}' e updatedAt '{updatedAt}'. Ambos devem ser datas válidas, e updatedAt não pode ser anterior a createdAt.",
 	DOMAIN_EVENT_DISPATCH_FAILED:
@@ -21,6 +31,10 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 	ITEM_NOT_FOUND: "Nenhum item encontrado com {field} '{value}'.",
 	INVALID_TTL:
 		"O TTL '{ttl}' é inválido. Deve ser um número positivo de segundos.",
+	ENV_VALIDATION_FAILED:
+		"Falha na validação das variáveis de ambiente: {issues}",
+	ENV_INVALID_ACCESS:
+		"A variável de ambiente '{variable}' não pode ser acessada neste contexto.",
 });
 
 export type DDDErrorCodes = typeof DDD_ERROR_CODES;
@@ -32,6 +46,16 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 		INTERNAL_SERVER_ERROR: "An internal server error has occurred.",
 		METHOD_NOT_IMPLEMENTED: "The method '{method}' is not implemented.",
 		INVALID_ENTITY_ID: "The identifier '{id}' is invalid.",
+		INVALID_CNPJ: "The CNPJ '{cnpj}' is invalid.",
+		INVALID_CPF: "The CPF '{cpf}' is invalid.",
+		INVALID_EMAIL: "The email '{email}' is invalid.",
+		INVALID_PHONE: "The phone number '{phone}' is invalid.",
+		INVALID_COORDINATES:
+			"The coordinates latitude '{latitude}' and longitude '{longitude}' are invalid.",
+		INVALID_PASSWORD_SIZE:
+			"The password size '{size}' is invalid. It must be an integer between {min} and {max}.",
+		INVALID_PASSWORD_STRENGTH:
+			"The password must be 12 to 128 characters long, contain no whitespace, and include at least one lowercase letter, one uppercase letter, one number, and one special character.",
 		INVALID_TIMESTAMPS:
 			"Invalid timestamps: createdAt '{createdAt}' and updatedAt '{updatedAt}'. Both must be valid dates, and updatedAt cannot be earlier than createdAt.",
 		DOMAIN_EVENT_DISPATCH_FAILED:
@@ -44,6 +68,9 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 		ITEM_NOT_FOUND: "No item found with {field} '{value}'.",
 		INVALID_TTL:
 			"The TTL '{ttl}' is invalid. It must be a positive number of seconds.",
+		ENV_VALIDATION_FAILED: "Environment variable validation failed: {issues}",
+		ENV_INVALID_ACCESS:
+			"The environment variable '{variable}' cannot be accessed in this context.",
 	},
 });
 
