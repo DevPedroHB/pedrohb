@@ -14,7 +14,7 @@ describe("InMemoryCacheRepository", () => {
 	beforeEach(() => {
 		inMemoryCacheRepository = new InMemoryCacheRepository<TestAggregate>();
 		testAggregate = makeTestAggregate();
-		key = `test_aggregate:${testAggregate.id.id}`;
+		key = `${testAggregate.constructor.name}:${testAggregate.id.id}`;
 	});
 
 	it("stores, retrieves, checks, and deletes values", async () => {

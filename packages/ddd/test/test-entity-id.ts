@@ -12,7 +12,7 @@ export class TestEntityId extends EntityId {
 		};
 	}
 
-	public isValid(testEntityId: unknown) {
+	public static isValid(testEntityId: unknown) {
 		return validate(testEntityId);
 	}
 

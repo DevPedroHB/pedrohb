@@ -26,7 +26,7 @@ export class Snowflake extends EntityId<bigint> {
 		};
 	}
 
-	public isValid(id: bigint) {
+	public static isValid(id: bigint) {
 		if (id < 0n || id > (1n << 63n) - 1n) {
 			return false;
 		}

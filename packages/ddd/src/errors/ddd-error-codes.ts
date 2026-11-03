@@ -35,6 +35,9 @@ export const DDD_ERROR_CODES = defineErrorCatalog({
 		"Falha na validação das variáveis de ambiente: {issues}",
 	ENV_INVALID_ACCESS:
 		"A variável de ambiente '{variable}' não pode ser acessada neste contexto.",
+	DOMAIN_EVENT_TYPE_MISSING: "O tipo do evento '{event}' não foi definido.",
+	INVALID_PAGINATION:
+		"A paginação é inválida: page '{page}' e perPage '{perPage}'. Ambos devem ser inteiros maiores ou iguais a 1.",
 });
 
 export type DDDErrorCodes = typeof DDD_ERROR_CODES;
@@ -71,6 +74,9 @@ export const DDD_ERROR_TRANSLATIONS = defineErrorTranslations(DDD_ERROR_CODES, {
 		ENV_VALIDATION_FAILED: "Environment variable validation failed: {issues}",
 		ENV_INVALID_ACCESS:
 			"The environment variable '{variable}' cannot be accessed in this context.",
+		DOMAIN_EVENT_TYPE_MISSING: "The event type '{event}' has not been defined.",
+		INVALID_PAGINATION:
+			"Invalid pagination: page '{page}' and perPage '{perPage}'. Both must be integers greater than or equal to 1.",
 	},
 });
 

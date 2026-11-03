@@ -1,12 +1,25 @@
-export abstract class Repository<
-	Value extends object = object,
-	Key extends keyof Value & PropertyKey = keyof Value & PropertyKey,
-> {
-	public abstract readonly key: Key;
+import type { Aggregate } from "#/entities/aggregate.js";
+import type { Entity } from "#/entities/entity.js";
+import type { OrderBy } from "#/types/order-by.js";
 
-	public abstract findAll(): Promise<Value[]>;
-	public abstract findByKey(key: Value[Key]): Promise<Value | null>;
-	public abstract create(value: Value): Promise<void>;
-	public abstract update(value: Value): Promise<void>;
-	public abstract delete(value: Value): Promise<void>;
+export type FindAllOptions<E> = {
+	page?: number;
+	perPage?: number;
+	orderBy?: OrderBy<E>;
+};
+
+export type Page<T> = {
+	items: T[];
+	total: number;
+	page: number;
+	perPage: number;
+	totalPages: number;
+};
+
+export abstract class Repository<E extends Entity | Aggregate = Entity> {
+	public abstract findAll(options?: FindAllOptions<E>): Promise<Page<E>>;
+	public abstract findById(key: E["id"]): Promise<E | null>;
+	public abstract create(entity: E): Promise<void>;
+	public abstract update(entity: E): Promise<void>;
+	public abstract delete(entity: E): Promise<void>;
 }

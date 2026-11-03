@@ -20,7 +20,7 @@ export class NanoID extends EntityId {
 		};
 	}
 
-	public isValid(id: string) {
+	public static isValid(id: string) {
 		return (
 			id.length > 0 &&
 			[...id].every((character) => urlAlphabet.includes(character))

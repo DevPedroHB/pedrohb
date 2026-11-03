@@ -14,9 +14,14 @@ export abstract class DomainEvent<
 	Data extends object = object,
 	Id extends EntityId = EntityId,
 > {
+	public static readonly type: string;
 	public readonly id: Id;
 	public readonly data: Readonly<Data>;
 	public readonly occurredAt: Date;
+
+	public get type(): string {
+		return (this.constructor as unknown as { type: string }).type;
+	}
 
 	public constructor({
 		data,

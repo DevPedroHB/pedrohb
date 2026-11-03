@@ -63,6 +63,7 @@ describe("inferred types", () => {
 			| "INVALID_TTL"
 			| "ENV_VALIDATION_FAILED"
 			| "ENV_INVALID_ACCESS"
+			| "DOMAIN_EVENT_TYPE_MISSING"
 		>();
 		expectTypeOf<DDDErrorLocale>().toEqualTypeOf<"en">();
 	});

@@ -11,12 +11,22 @@ export class DomainEventHandlerGroup {
 		}
 	}
 
+	public get size() {
+		return this.handlers.size;
+	}
+
 	public add<DEH extends DomainEventHandler<any>>(handler: DEH) {
 		handler.subscribe();
 
 		this.handlers.add(handler);
 
 		return handler;
+	}
+
+	public remove(handler: DomainEventHandler<any>) {
+		handler.unsubscribe();
+
+		this.handlers.delete(handler);
 	}
 
 	public subscribeAll() {
@@ -43,12 +53,11 @@ export class DomainEventHandlerGroup {
 
 	public disposeAll() {
 		for (const handler of this.handlers) {
-			if (handler.isDisposed) {
-				this.handlers.delete(handler);
-				continue;
+			if (!handler.isDisposed) {
+				handler.dispose();
 			}
-
-			handler.dispose();
 		}
+
+		this.handlers.clear();
 	}
 }

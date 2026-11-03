@@ -6,7 +6,7 @@ describe("CUID2", () => {
 		const cuid2 = CUID2.create();
 
 		expect(cuid2.id).toHaveLength(CUID2_DEFAULT_LENGTH);
-		expect(CUID2.isCuid(cuid2.id)).toBe(true);
+		expect(CUID2.isValid(cuid2.id)).toBe(true);
 		expect(cuid2.toJSON()).toEqual({ id: cuid2.id });
 	});
 
@@ -19,10 +19,8 @@ describe("CUID2", () => {
 	it("should validates CUID2s on the class and instance", () => {
 		const cuid2 = CUID2.create();
 
-		expect(CUID2.isCuid(cuid2.id)).toBe(true);
-		expect(CUID2.isCuid("invalid-id")).toBe(false);
-		expect(cuid2.isValid(cuid2.id)).toBe(true);
-		expect(cuid2.isValid("invalid-id")).toBe(false);
+		expect(CUID2.isValid(cuid2.id)).toBe(true);
+		expect(CUID2.isValid("invalid-id")).toBe(false);
 	});
 
 	it("should throws a DDDError for an invalid CUID2", () => {

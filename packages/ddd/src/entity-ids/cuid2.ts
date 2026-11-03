@@ -17,8 +17,14 @@ export class CUID2 extends EntityId {
 		};
 	}
 
-	public isValid(id: string) {
-		return CUID2.isCuid(id);
+	public static isValid(
+		id: string,
+		options?: {
+			minLength?: number;
+			maxLength?: number;
+		},
+	) {
+		return isCuid(id, options);
 	}
 
 	public static generate() {
@@ -32,16 +38,6 @@ export class CUID2 extends EntityId {
 		fingerprint?: string;
 	}) {
 		return init(options);
-	}
-
-	public static isCuid(
-		id: string,
-		options?: {
-			minLength?: number;
-			maxLength?: number;
-		},
-	) {
-		return isCuid(id, options);
 	}
 
 	public static create(cuid2 = CUID2.generate()) {

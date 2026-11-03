@@ -32,8 +32,8 @@ export class ULID extends EntityId {
 		};
 	}
 
-	public isValid(id: string) {
-		return ULID.isValid(id);
+	public static isValid(id: string) {
+		return isValid(id);
 	}
 
 	public static decodeTime(id: string) {
@@ -50,10 +50,6 @@ export class ULID extends EntityId {
 
 	public static incrementBase32(str: string) {
 		return incrementBase32(str);
-	}
-
-	public static isValid(id: string) {
-		return isValid(id);
 	}
 
 	public static monotonicFactory(prng?: PRNG) {

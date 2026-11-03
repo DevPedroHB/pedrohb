@@ -10,11 +10,9 @@ describe("NanoID", () => {
 	});
 
 	it("should validate non-empty IDs containing only URL alphabet characters", () => {
-		const nanoid = NanoID.create();
-
-		expect(nanoid.isValid("abc_123-XYZ")).toBe(true);
-		expect(nanoid.isValid("")).toBe(false);
-		expect(nanoid.isValid("invalid+id")).toBe(false);
+		expect(NanoID.isValid("abc_123-XYZ")).toBe(true);
+		expect(NanoID.isValid("")).toBe(false);
+		expect(NanoID.isValid("invalid+id")).toBe(false);
 	});
 
 	it("should throw a DDDError when created with an invalid ID", () => {

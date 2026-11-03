@@ -121,6 +121,16 @@
 				"types": "./dist/functions/index.d.cts"
 			}
 		},
+		"./repositories": {
+			"import": {
+				"default": "./dist/repositories/index.mjs",
+				"types": "./dist/repositories/index.d.mts"
+			},
+			"require": {
+				"default": "./dist/repositories/index.cjs",
+				"types": "./dist/repositories/index.d.cts"
+			}
+		},
 		"./types": {
 			"import": {
 				"default": "./dist/types/index.mjs",

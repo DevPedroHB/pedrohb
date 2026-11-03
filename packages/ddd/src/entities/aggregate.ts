@@ -21,7 +21,7 @@ export abstract class Aggregate<
 		if (!this.domainEvents.has(domainEvent)) {
 			throw new DDDError("DOMAIN_EVENT_NOT_FOUND", {
 				params: {
-					event: domainEvent.constructor.name,
+					event: domainEvent.type,
 				},
 				cause: domainEvent,
 			});

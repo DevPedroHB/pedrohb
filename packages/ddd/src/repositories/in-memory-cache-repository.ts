@@ -1,18 +1,20 @@
+import type { Aggregate } from "#/entities/aggregate.js";
+import type { Entity } from "#/entities/entity.js";
 import { DDDError } from "#/errors/ddd-error.js";
 import type { CacheRepository } from "./cache-repository.js";
 
-export type InMemoryCacheEntry<T = unknown> = {
-	value: T;
+export type InMemoryCacheEntry<E extends Entity | Aggregate = Entity> = {
+	value: E;
 	expiresAt: number;
 };
 
-export class InMemoryCacheRepository<T = unknown>
-	implements CacheRepository<T>
+export class InMemoryCacheRepository<E extends Entity | Aggregate = Entity>
+	implements CacheRepository<E>
 {
-	protected readonly items = new Map<string, InMemoryCacheEntry<T>>();
+	public readonly items = new Map<string, InMemoryCacheEntry<E>>();
 	public readonly ttl: number = 60 * 15; // 15 minutes
 
-	public async get(key: string): Promise<T | null> {
+	public async get(key: string): Promise<E | null> {
 		this.purgeExpired();
 
 		const entry = this.items.get(key);
@@ -28,7 +30,7 @@ export class InMemoryCacheRepository<T = unknown>
 		return (await this.get(key)) !== null;
 	}
 
-	public async set(key: string, value: T, ttl?: number): Promise<void> {
+	public async set(key: string, value: E, ttl?: number): Promise<void> {
 		this.purgeExpired();
 
 		const seconds = this.resolveTtl(ttl);
@@ -45,7 +47,7 @@ export class InMemoryCacheRepository<T = unknown>
 		this.items.delete(key);
 	}
 
-	public isExpired(entry: InMemoryCacheEntry<T>) {
+	public isExpired(entry: InMemoryCacheEntry<E>) {
 		return Date.now() >= entry.expiresAt;
 	}
 

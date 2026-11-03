@@ -3,6 +3,8 @@ import type { TestAggregate } from "./test-aggregate.js";
 import { TestEntityId } from "./test-entity-id.js";
 
 export class TestDomainEvent extends DomainEvent<TestAggregate, TestEntityId> {
+	public static readonly type = "test.domain-event";
+
 	public constructor(
 		data: TestAggregate,
 		occurredAt = new Date(),

@@ -27,8 +27,8 @@ describe("ULID", () => {
 
 		expect(ULID.isValid(ulid.id)).toBe(true);
 		expect(ULID.isValid("invalid-ulid")).toBe(false);
-		expect(ulid.isValid(ulid.id)).toBe(true);
-		expect(ulid.isValid("invalid-ulid")).toBe(false);
+		expect(ULID.isValid(ulid.id)).toBe(true);
+		expect(ULID.isValid("invalid-ulid")).toBe(false);
 	});
 
 	it("should generates a ULID for the provided timestamp", () => {

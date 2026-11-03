@@ -24,8 +24,8 @@ export class UUID extends EntityId {
 		};
 	}
 
-	public isValid(uuid: string) {
-		return UUID.validate(uuid);
+	public static isValid(uuid: unknown) {
+		return validate(uuid);
 	}
 
 	public static parse(uuid: string) {
@@ -42,10 +42,6 @@ export class UUID extends EntityId {
 		offset?: number,
 	) {
 		return v7(options, buf, offset);
-	}
-
-	public static validate(uuid: unknown) {
-		return validate(uuid);
 	}
 
 	public static version(uuid: string) {

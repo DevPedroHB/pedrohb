@@ -23,6 +23,8 @@ describe("DomainEventBus", () => {
 		ReturnType<TestAggregate["toJSON"]>,
 		TestEntityId
 	> {
+		public static readonly type = "other.domain-event";
+
 		public toJSON() {
 			return {
 				id: this.id.toJSON().id,
@@ -84,7 +86,7 @@ describe("DomainEventBus", () => {
 		busParallel.register(TestDomainEvent, listener);
 	});
 
-	it("should not dispatch subclass events to a base-class handler", async () => {
+	it("should dispatch subclass events to handlers registered for the same event type", async () => {
 		class DerivedDomainEvent extends TestDomainEvent {}
 
 		const listener = vi.fn();
@@ -95,7 +97,7 @@ describe("DomainEventBus", () => {
 
 		await busParallel.dispatch(new DerivedDomainEvent(aggregate));
 
-		expect(listener).not.toHaveBeenCalled();
+		expect(listener).toHaveBeenCalledOnce();
 	});
 
 	it("should not throw when dispatching a domain event without listeners", async () => {
