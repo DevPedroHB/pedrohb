@@ -32,6 +32,7 @@ export class InMemoryRepository<
 					field: String(this.key),
 					value: String(key),
 				},
+				cause: this.items.get(key),
 			});
 		}
 
@@ -70,6 +71,7 @@ export class InMemoryRepository<
 				field: String(this.key),
 				value: String(key),
 			},
+			cause: key,
 		});
 	}
 

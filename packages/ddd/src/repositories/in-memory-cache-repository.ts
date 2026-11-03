@@ -71,6 +71,7 @@ export class InMemoryCacheRepository<T = unknown>
 				params: {
 					ttl: String(seconds),
 				},
+				cause: seconds,
 			});
 		}
 

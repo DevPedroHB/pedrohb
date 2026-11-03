@@ -6,4 +6,11 @@ allowBuilds:
   argon2: true
   esbuild: true
 minimumReleaseAgeExclude:
-  - "@types/node@26.6.4"
+  - "@vitest/coverage-v8@5.1.0"
+  - "@vitest/mocker@5.1.0"
+  - "@vitest/pretty-format@5.1.0"
+  - "@vitest/spy@5.1.0"
+  - "@vitest/ui@5.1.0"
+  - "@vitest/utils@5.1.0"
+  - argon2@0.45.2
+  - vitest@5.1.0

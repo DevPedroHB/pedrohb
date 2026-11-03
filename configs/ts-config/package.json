@@ -2,9 +2,9 @@
 	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
 	"description": "Shared TypeScript configurations for different scenarios.",
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.15",
+		"@biomejs/biome": "^2.6.4",
 		"@tsconfig/bases": "^1.0.28",
-		"@types/node": "^26.6.4",
+		"@types/node": "^26.6.6",
 		"typescript": "^7.0.2"
 	},
 	"exports": {

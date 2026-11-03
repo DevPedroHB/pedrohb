@@ -2,10 +2,10 @@
 	"author": "Pedro Henrique Bergamo <email@pedrohb.dev>",
 	"description": "Shared tsdown configurations for different scenarios.",
 	"devDependencies": {
-		"@biomejs/biome": "^2.5.15",
+		"@biomejs/biome": "^2.6.4",
 		"@pedrohb/ts-config": "workspace:*",
-		"@types/node": "^26.6.4",
-		"tsdown": "^0.23.0",
+		"@types/node": "^26.6.6",
+		"tsdown": "^0.23.4",
 		"typescript": "^7.0.2"
 	},
 	"exports": {

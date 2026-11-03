@@ -23,6 +23,7 @@ export abstract class Aggregate<
 				params: {
 					event: domainEvent.constructor.name,
 				},
+				cause: domainEvent,
 			});
 		}
 

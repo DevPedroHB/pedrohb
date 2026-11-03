@@ -19,6 +19,7 @@ export const dddEnv = createEnv({
 	onInvalidAccess(variable) {
 		throw new DDDError("ENV_INVALID_ACCESS", {
 			params: { variable },
+			cause: variable,
 		});
 	},
 	onValidationError(issues) {

@@ -27,6 +27,7 @@ export abstract class DomainEventHandler<D extends DomainEvent = DomainEvent> {
 				params: {
 					handler: this.constructor.name,
 				},
+				cause: this,
 			});
 		}
 

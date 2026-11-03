@@ -114,7 +114,9 @@ export class Password extends ValueObject<PasswordProps> {
 		},
 	) {
 		if (!PASSWORD_STRENGTH_REGEX.test(password.toString())) {
-			throw new DDDError("INVALID_PASSWORD_STRENGTH");
+			throw new DDDError("INVALID_PASSWORD_STRENGTH", {
+				cause: password,
+			});
 		}
 
 		const passwordHash = await Password.hash(password, options);

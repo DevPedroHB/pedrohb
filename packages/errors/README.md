@@ -47,10 +47,10 @@ Defina os códigos e as mensagens padrão com `defineErrorCatalog`. O catálogo 
 import { BaseError, defineErrorCatalog } from "@pedrohb/errors";
 
 const ERROR_CODES = defineErrorCatalog({
-  USER_NOT_FOUND: "Usuário '{userId}' não foi encontrado.",
-  INVALID_CREDENTIALS: "Credenciais inválidas.",
-  METHOD_NOT_IMPLEMENTED: "O método '{method}' não está implementado.",
-  INTERNAL_SERVER_ERROR: "Ocorreu um erro interno no servidor.",
+	USER_NOT_FOUND: "Usuário '{userId}' não foi encontrado.",
+	INVALID_CREDENTIALS: "Credenciais inválidas.",
+	METHOD_NOT_IMPLEMENTED: "O método '{method}' não está implementado.",
+	INTERNAL_SERVER_ERROR: "Ocorreu um erro interno no servidor.",
 });
 
 ERROR_CODES.USER_NOT_FOUND.code; // "USER_NOT_FOUND"
@@ -63,15 +63,15 @@ Para um caso simples, crie uma classe para cada código:
 
 ```ts
 class UserNotFoundError extends BaseError<
-  typeof ERROR_CODES,
-  "USER_NOT_FOUND"
+	typeof ERROR_CODES,
+	"USER_NOT_FOUND"
 > {
-  public constructor(userId: string, options?: ErrorOptions) {
-    super(ERROR_CODES.USER_NOT_FOUND, {
-      params: { userId },
-      ...options,
-    });
-  }
+	public constructor(userId: string, options?: ErrorOptions) {
+		super(ERROR_CODES.USER_NOT_FOUND, {
+			params: { userId },
+			...options,
+		});
+	}
 }
 
 const error = new UserNotFoundError("user-123");
@@ -87,28 +87,28 @@ Para evitar uma classe por código, use uma classe genérica que receba o códig
 
 ```ts
 import {
-  BaseError,
-  type BaseErrorOptionsArgs,
-  type CatalogCode,
+	BaseError,
+	type BaseErrorOptionsArgs,
+	type CatalogCode,
 } from "@pedrohb/errors";
 
 type ErrorCodes = typeof ERROR_CODES;
 type ErrorCode = CatalogCode<ErrorCodes>;
 
 class AppError<Code extends ErrorCode = ErrorCode> extends BaseError<
-  ErrorCodes,
-  Code
+	ErrorCodes,
+	Code
 > {
-  public constructor(
-    code: Code,
-    ...args: BaseErrorOptionsArgs<ErrorCodes, Code>
-  ) {
-    super(ERROR_CODES[code], ...args);
-  }
+	public constructor(
+		code: Code,
+		...args: BaseErrorOptionsArgs<ErrorCodes, Code>
+	) {
+		super(ERROR_CODES[code], ...args);
+	}
 }
 
 const notFound = new AppError("USER_NOT_FOUND", {
-  params: { userId: "user-123" },
+	params: { userId: "user-123" },
 });
 
 const invalidCredentials = new AppError("INVALID_CREDENTIALS");
@@ -135,18 +135,18 @@ Por padrão, placeholders usam chaves: `{nomeDoParametro}`. O pacote extrai seus
 
 ```ts
 const ERROR_CODES = defineErrorCatalog({
-  VALIDATION_FAILED: "O campo '{field}' recebeu o valor '{value}'.",
+	VALIDATION_FAILED: "O campo '{field}' recebeu o valor '{value}'.",
 });
 
 class ValidationError extends BaseError<
-  typeof ERROR_CODES,
-  "VALIDATION_FAILED"
+	typeof ERROR_CODES,
+	"VALIDATION_FAILED"
 > {
-  public constructor(field: string, value: unknown) {
-    super(ERROR_CODES.VALIDATION_FAILED, {
-      params: { field, value },
-    });
-  }
+	public constructor(field: string, value: unknown) {
+		super(ERROR_CODES.VALIDATION_FAILED, {
+			params: { field, value },
+		});
+	}
 }
 
 const error = new ValidationError("email", "inválido");
@@ -161,17 +161,17 @@ Um mesmo nome de placeholder pode aparecer mais de uma vez; o parâmetro corresp
 
 ```ts
 import {
-  type BaseErrorOptions,
-  type BaseErrorOptionsArgs,
+	type BaseErrorOptions,
+	type BaseErrorOptionsArgs,
 } from "@pedrohb/errors";
 
 type UserNotFoundOptions = BaseErrorOptions<
-  typeof ERROR_CODES,
-  "USER_NOT_FOUND"
+	typeof ERROR_CODES,
+	"USER_NOT_FOUND"
 >;
 type UserNotFoundArgs = BaseErrorOptionsArgs<
-  typeof ERROR_CODES,
-  "USER_NOT_FOUND"
+	typeof ERROR_CODES,
+	"USER_NOT_FOUND"
 >;
 ```
 
@@ -179,24 +179,24 @@ type UserNotFoundArgs = BaseErrorOptionsArgs<
 
 ```ts
 class MethodNotImplementedError extends BaseError<
-  typeof ERROR_CODES,
-  "METHOD_NOT_IMPLEMENTED"
+	typeof ERROR_CODES,
+	"METHOD_NOT_IMPLEMENTED"
 > {
-  public constructor(method: string, options?: ErrorOptions) {
-    super(ERROR_CODES.METHOD_NOT_IMPLEMENTED, {
-      params: { method },
-      ...options,
-    });
-  }
+	public constructor(method: string, options?: ErrorOptions) {
+		super(ERROR_CODES.METHOD_NOT_IMPLEMENTED, {
+			params: { method },
+			...options,
+		});
+	}
 }
 
 class InternalServerError extends BaseError<
-  typeof ERROR_CODES,
-  "INTERNAL_SERVER_ERROR"
+	typeof ERROR_CODES,
+	"INTERNAL_SERVER_ERROR"
 > {
-  public constructor(options?: ErrorOptions) {
-    super(ERROR_CODES.INTERNAL_SERVER_ERROR, options);
-  }
+	public constructor(options?: ErrorOptions) {
+		super(ERROR_CODES.INTERNAL_SERVER_ERROR, options);
+	}
 }
 ```
 
@@ -210,8 +210,8 @@ As opções estendem `ErrorOptions` da plataforma, incluindo `cause`. Assim, err
 const databaseError = new Error("Conexão recusada");
 
 const error = new AppError("USER_NOT_FOUND", {
-  params: { userId: "user-123" },
-  cause: databaseError,
+	params: { userId: "user-123" },
+	cause: databaseError,
 });
 
 error.cause === databaseError; // true
@@ -225,29 +225,29 @@ As mensagens do catálogo são o idioma padrão. `defineErrorTranslations` receb
 
 ```ts
 import {
-  BaseError,
-  type BaseErrorOptionsArgs,
-  type CatalogCode,
-  type DefaultParamDelimiters,
-  defineErrorCatalog,
-  defineErrorTranslations,
-  type ErrorTranslationLocale,
+	BaseError,
+	type BaseErrorOptionsArgs,
+	type CatalogCode,
+	type DefaultParamDelimiters,
+	defineErrorCatalog,
+	defineErrorTranslations,
+	type ErrorTranslationLocale,
 } from "@pedrohb/errors";
 
 const ERROR_CODES = defineErrorCatalog({
-  USER_NOT_FOUND: "Usuário '{userId}' não encontrado.",
-  INVALID_CREDENTIALS: "Credenciais inválidas.",
+	USER_NOT_FOUND: "Usuário '{userId}' não encontrado.",
+	INVALID_CREDENTIALS: "Credenciais inválidas.",
 });
 
 const ERROR_TRANSLATIONS = defineErrorTranslations(ERROR_CODES, {
-  en: {
-    USER_NOT_FOUND: "User '{userId}' not found.",
-    INVALID_CREDENTIALS: "Invalid credentials.",
-  },
-  es: {
-    USER_NOT_FOUND: "Usuario '{userId}' no encontrado.",
-    INVALID_CREDENTIALS: "Credenciales inválidas.",
-  },
+	en: {
+		USER_NOT_FOUND: "User '{userId}' not found.",
+		INVALID_CREDENTIALS: "Invalid credentials.",
+	},
+	es: {
+		USER_NOT_FOUND: "Usuario '{userId}' no encontrado.",
+		INVALID_CREDENTIALS: "Credenciales inválidas.",
+	},
 });
 
 type ErrorCodes = typeof ERROR_CODES;
@@ -255,25 +255,25 @@ type ErrorCode = CatalogCode<ErrorCodes>;
 type Locale = ErrorTranslationLocale<typeof ERROR_TRANSLATIONS>;
 
 class LocalizedError<Code extends ErrorCode = ErrorCode> extends BaseError<
-  ErrorCodes,
-  Code,
-  DefaultParamDelimiters,
-  Locale
+	ErrorCodes,
+	Code,
+	DefaultParamDelimiters,
+	Locale
 > {
-  public constructor(
-    code: Code,
-    ...args: BaseErrorOptionsArgs<ErrorCodes, Code>
-  ) {
-    super(ERROR_CODES[code], ...args);
-  }
+	public constructor(
+		code: Code,
+		...args: BaseErrorOptionsArgs<ErrorCodes, Code>
+	) {
+		super(ERROR_CODES[code], ...args);
+	}
 
-  protected override get translations() {
-    return ERROR_TRANSLATIONS;
-  }
+	protected override get translations() {
+		return ERROR_TRANSLATIONS;
+	}
 }
 
 const error = new LocalizedError("USER_NOT_FOUND", {
-  params: { userId: "user-123" },
+	params: { userId: "user-123" },
 });
 
 error.message; // "Usuário 'user-123' não encontrado."
@@ -294,35 +294,35 @@ As traduções também são cópias imutáveis. Em runtime, definições com tra
 
 ```ts
 import {
-  BaseError,
-  type BaseErrorOptionsArgs,
-  type CatalogCode,
-  defineErrorCatalog,
-  defineErrorTranslations,
-  type ErrorParamDelimiters,
-  type ErrorTranslationLocale,
+	BaseError,
+	type BaseErrorOptionsArgs,
+	type CatalogCode,
+	defineErrorCatalog,
+	defineErrorTranslations,
+	type ErrorParamDelimiters,
+	type ErrorTranslationLocale,
 } from "@pedrohb/errors";
 
 const delimiters = {
-  open: "<",
-  close: ">",
+	open: "<",
+	close: ">",
 } as const satisfies ErrorParamDelimiters;
 
 const CODES = defineErrorCatalog({
-  RESOURCE_NOT_FOUND: "Recurso <resource> não encontrado no tenant <tenant>.",
-  OPERATION_FAILED: "A operação falhou.",
+	RESOURCE_NOT_FOUND: "Recurso <resource> não encontrado no tenant <tenant>.",
+	OPERATION_FAILED: "A operação falhou.",
 });
 
 const TRANSLATIONS = defineErrorTranslations(
-  CODES,
-  {
-    en: {
-      RESOURCE_NOT_FOUND:
-        "Resource <resource> was not found in tenant <tenant>.",
-      OPERATION_FAILED: "The operation failed.",
-    },
-  },
-  delimiters,
+	CODES,
+	{
+		en: {
+			RESOURCE_NOT_FOUND:
+				"Resource <resource> was not found in tenant <tenant>.",
+			OPERATION_FAILED: "The operation failed.",
+		},
+	},
+	delimiters,
 );
 
 type Codes = typeof CODES;
@@ -330,25 +330,25 @@ type Code = CatalogCode<Codes>;
 type Locale = ErrorTranslationLocale<typeof TRANSLATIONS>;
 
 class ResourceError<ErrorCode extends Code = Code> extends BaseError<
-  Codes,
-  ErrorCode,
-  typeof delimiters,
-  Locale
+	Codes,
+	ErrorCode,
+	typeof delimiters,
+	Locale
 > {
-  public constructor(
-    code: ErrorCode,
-    ...args: BaseErrorOptionsArgs<Codes, ErrorCode, typeof delimiters>
-  ) {
-    super(CODES[code], ...args);
-  }
+	public constructor(
+		code: ErrorCode,
+		...args: BaseErrorOptionsArgs<Codes, ErrorCode, typeof delimiters>
+	) {
+		super(CODES[code], ...args);
+	}
 
-  protected override get translations() {
-    return TRANSLATIONS;
-  }
+	protected override get translations() {
+		return TRANSLATIONS;
+	}
 }
 
 const error = new ResourceError("RESOURCE_NOT_FOUND", {
-  params: { resource: "invoice-8", tenant: "acme" },
+	params: { resource: "invoice-8", tenant: "acme" },
 });
 
 error.message; // "Recurso invoice-8 não encontrado no tenant acme."
@@ -363,15 +363,15 @@ error.translate("en"); // "Resource invoice-8 was not found in tenant acme."
 
 ```ts
 function inspectError(value: unknown) {
-  if (BaseError.is(value)) {
-    return {
-      code: value.code,
-      message: value.message,
-      serialized: value.serialize(),
-    };
-  }
+	if (BaseError.is(value)) {
+		return {
+			code: value.code,
+			message: value.message,
+			serialized: value.serialize(),
+		};
+	}
 
-  return undefined;
+	return undefined;
 }
 ```
 
@@ -379,14 +379,14 @@ Uma classe própria também pode oferecer um guard mais restrito:
 
 ```ts
 class AppError<Code extends ErrorCode = ErrorCode> extends BaseError<
-  ErrorCodes,
-  Code
+	ErrorCodes,
+	Code
 > {
-  // ...construtor
+	// ...construtor
 
-  public static is(error: unknown): error is AppError {
-    return error instanceof AppError;
-  }
+	public static is(error: unknown): error is AppError {
+		return error instanceof AppError;
+	}
 }
 ```
 
@@ -396,8 +396,8 @@ class AppError<Code extends ErrorCode = ErrorCode> extends BaseError<
 
 ```ts
 const error = new AppError("USER_NOT_FOUND", {
-  params: { userId: "user-123" },
-  cause: new Error("Registro ausente no banco de dados"),
+	params: { userId: "user-123" },
+	cause: new Error("Registro ausente no banco de dados"),
 });
 
 const plainObject = error.serialize();
@@ -415,15 +415,15 @@ As causas e os parâmetros passam por uma serialização segura que trata erros 
 import { type Result, err, ok } from "@pedrohb/errors";
 
 function divide(a: number, b: number): Result<number, string> {
-  return b === 0 ? err("Divisão por zero") : ok(a / b);
+	return b === 0 ? err("Divisão por zero") : ok(a / b);
 }
 
 const message = divide(10, 2)
-  .map((result) => result * 3)
-  .match({
-    onOk: (value) => `Resultado: ${value}`,
-    onErr: (error) => `Falha: ${error}`,
-  });
+	.map((result) => result * 3)
+	.match({
+		onOk: (value) => `Resultado: ${value}`,
+		onErr: (error) => `Falha: ${error}`,
+	});
 
 message; // "Resultado: 15"
 ```
@@ -434,9 +434,9 @@ message; // "Resultado: 15"
 
 ```ts
 function parseCount(input: string): Result<number, string> {
-  const value = Number(input);
+	const value = Number(input);
 
-  return Number.isNaN(value) ? err("Valor inválido") : ok(value);
+	return Number.isNaN(value) ? err("Valor inválido") : ok(value);
 }
 
 const success = ok<number, string>(42);
@@ -454,16 +454,16 @@ failure.unwrapErr(); // "Não encontrado"
 
 ```ts
 function describe(result: Result<number, string>): string {
-  if (result.isOk()) {
-    return `Sucesso: ${result.unwrap()}`;
-  }
+	if (result.isOk()) {
+		return `Sucesso: ${result.unwrap()}`;
+	}
 
-  return `Falha: ${result.unwrapErr()}`;
+	return `Falha: ${result.unwrapErr()}`;
 }
 
 const text = failure.match({
-  onOk: (value) => `Sucesso: ${value}`,
-  onErr: (error) => `Falha: ${error}`,
+	onOk: (value) => `Sucesso: ${value}`,
+	onErr: (error) => `Falha: ${error}`,
 });
 ```
 
@@ -479,23 +479,23 @@ const text = failure.match({
 
 ```ts
 const doubled = ok<number, string>(2)
-  .map((value) => value * 2)
-  .unwrap(); // 4
+	.map((value) => value * 2)
+	.unwrap(); // 4
 
 const errorLength = err<number, string>("falhou")
-  .mapErr((error) => error.length)
-  .unwrapErr(); // 7
+	.mapErr((error) => error.length)
+	.unwrapErr(); // 7
 
 function toNumber(input: string): Result<number, string> {
-  const value = Number(input);
-  return Number.isNaN(value) ? err("Não é número") : ok(value);
+	const value = Number(input);
+	return Number.isNaN(value) ? err("Não é número") : ok(value);
 }
 
 const parsed = ok<string, string>("42").flatMap(toNumber).unwrap(); // 42
 
 const recovered = err<number, string>("cache miss")
-  .orElse(() => ok(0))
-  .unwrap(); // 0
+	.orElse(() => ok(0))
+	.unwrap(); // 0
 ```
 
 `flatMap` une os tipos de erro dos passos encadeados (`E | E2`); `orElse` une os tipos de sucesso (`O | O2`). Exceções lançadas pelas funções passadas a `map`, `mapErr`, `flatMap` ou `orElse` não são capturadas pelo `Result`.
@@ -508,12 +508,12 @@ const recovered = err<number, string>("cache miss")
 import { ResultUnwrapError } from "@pedrohb/errors";
 
 try {
-  err<number, string>("falhou").unwrap();
+	err<number, string>("falhou").unwrap();
 } catch (error) {
-  if (error instanceof ResultUnwrapError) {
-    error.message; // "Chamado unwrap() em Err."
-    error.cause; // "falhou"
-  }
+	if (error instanceof ResultUnwrapError) {
+		error.message; // "Chamado unwrap() em Err."
+		error.cause; // "falhou"
+	}
 }
 ```
 
